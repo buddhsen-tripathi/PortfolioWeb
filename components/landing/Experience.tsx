@@ -1,7 +1,6 @@
 'use client'
 
-import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
+import { LinkText } from '@/components/common'
 
 const experiences = [
 	{
@@ -41,23 +40,6 @@ const experiences = [
 		tech: ['Java', 'Spring Boot', 'Angular', 'MySQL', 'REST APIs'],
 	},
 ]
-
-interface LinkTextProps {
-	href: string
-	children: React.ReactNode
-	className?: string
-}
-
-const LinkText = ({ href, children, className = "" }: LinkTextProps) => (
-	<Link
-		href={href}
-		target="_blank"
-		className={`relative inline-flex items-center gap-0.5 text-sm font-normal transition-all after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:gap-1 hover:text-primary hover:after:w-full ${className}`}
-	>
-		<span>{children}</span>
-		<ArrowUpRight className="h-3.5 w-3.5" />
-	</Link>
-)
 
 export default function Experience() {
 	return (

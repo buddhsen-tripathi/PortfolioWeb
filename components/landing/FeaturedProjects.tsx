@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowUpRight, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-import ViewCounter from '@/components/common/ViewCounter'
+import { ViewCounter, LinkText } from '@/components/common'
 
 const parseProjectStatus = (status: 'live' | 'building' | 'completed'): string => {
   switch (status) {
@@ -88,23 +88,6 @@ const funProjects = [
   }
 ]
 
-interface LinkTextProps {
-  href: string
-  children: React.ReactNode
-  className?: string
-}
-
-const LinkText = ({ href, children, className = "" }: LinkTextProps) => (
-  <Link
-    href={href}
-    target="_blank"
-    className={`relative inline-flex items-center gap-0.5 text-sm font-normal text-muted-foreground transition-all after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:gap-1 hover:text-primary hover:after:w-full ${className}`}
-  >
-    <span>{children}</span>
-    <ArrowUpRight className="h-3 w-3" />
-  </Link>
-)
-
 export default function FeaturedProjects() {
   const pathname = usePathname()
   const isHomePage = pathname === '/'
@@ -137,12 +120,12 @@ export default function FeaturedProjects() {
               </div>
               <div className="flex flex-row items-center justify-start gap-3 text-sm">
                 {project.demo && (
-                  <LinkText href={project.demo}>
+                  <LinkText href={project.demo} className="text-muted-foreground">
                     live
                   </LinkText>
                 )}
                 {project.github && (
-                  <LinkText href={project.github}>
+                  <LinkText href={project.github} className="text-muted-foreground">
                     github
                   </LinkText>
                 )}
@@ -212,7 +195,7 @@ export default function FeaturedProjects() {
                   <h3 className="font-normal capitalize text-primary">
                     {project.title}
                   </h3>
-                  <LinkText href={`/${project.path}`}>
+                  <LinkText href={`/${project.path}`} className="text-muted-foreground">
                     try it
                   </LinkText>
                 </div>
