@@ -2,7 +2,14 @@ import { ThemeProvider } from 'next-themes'
 import { Navbar, Footer } from '@/components/layout'
 import { ViewsProvider } from '@/components/common/ViewsContext'
 import Script from 'next/script'
+import { Inter } from 'next/font/google'
 import './globals.css'
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 
 export const metadata = {
@@ -45,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
         {/* Preload critical resources */}
         <link rel="preload" href="/profpic.webp" as="image" />
