@@ -36,20 +36,20 @@ const projects = [
     status: "live" as const,
   },
   {
+    title: "Clonvo",
+    description: "Developer-centric SEO platform that evaluates site health across critical metrics and provides actionable fixes for optimization.",
+    github: null,
+    demo: "https://clonvo.com",
+    technologies: ["Next.Js", "TypeScript", "Tailwind CSS"],
+    status: "live" as const,
+  },
+  {
     title: "OpenVScan",
     description: "OpenVScan is a web-based vulnerability scanner that integrates open-source tools with AI to deliver smarter, faster and more reliable pre-production security testing.",
     github: "https://github.com/Buddhsen-tripathi/openvscan",
     demo: "https://www.openvscan.com",
     technologies: ["Next.Js", "NestJs", "TypeScript", "Tailwind CSS"],
     status: "building" as const,
-  },
-  {
-    title: "Clonvo",
-    description: "Developed the website for Clonvo, an organisation which offers business solutions for AI and web development.",
-    github: null,
-    demo: "https://clonvo.com",
-    technologies: ["Next.Js", "TypeScript", "Tailwind CSS"],
-    status: "live" as const,
   },
   {
     title: "openai-api-helper",
