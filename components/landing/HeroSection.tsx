@@ -3,8 +3,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import Socials from './Socials'
-import Connect from './Connect'
 
 interface LinkTextProps {
   href: string
@@ -74,11 +72,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Social Links Section */}
-      <Socials />
-
-      {/* Connect Section */}
-      <Connect />
     </section>
   )
 }

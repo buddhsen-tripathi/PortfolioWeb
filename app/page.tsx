@@ -1,4 +1,4 @@
-import { HeroSection, Experience, FeaturedProjects, FeaturedPosts } from '@/components/landing'
+import { HeroSection, Experience, FeaturedProjects, FeaturedPosts, SocialsConnect } from '@/components/landing'
 import { NewsletterSubscription } from '@/components/common'
 
 export default function Home() {
@@ -8,6 +8,7 @@ export default function Home() {
         <HeroSection />
         <Experience />
         <FeaturedProjects />
+        <SocialsConnect />
         <FeaturedPosts />
         <NewsletterSubscription />
       </section>
