@@ -27,7 +27,7 @@ export default function ViewCounter({ slug, readOnly = false, type = 'views' }: 
   }, [effectiveSlug, readOnly, incrementViews])
 
   if (count === null) {
-    return <span>{type === 'visitors' ? '...' : '...'}</span>
+    return <span>...</span>
   }
 
   if (type === 'visitors') {

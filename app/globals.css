@@ -108,6 +108,7 @@
   --shadow-xl: 0px 2px 0px 0px hsl(0 0% 20% / 0.15), 0px 8px 10px -1px hsl(0 0% 20% / 0.15);
   --shadow-2xl: 0px 2px 0px 0px hsl(0 0% 20% / 0.38);
 }
+}
 
 @theme inline {
   --color-background: var(--background);
@@ -164,11 +165,6 @@
 
 body {
   letter-spacing: var(--tracking-normal);
-}
-
-  body {
-    letter-spacing: var(--tracking-normal);
-  }
 }
 
 @layer base {
@@ -242,25 +238,6 @@ body {
     display: flex;
     white-space: nowrap;
     will-change: transform;
-    /* Optimize for animations */
-  }
-}
-
-@layer utilities {
-  @keyframes scroll-left {
-    from {
-      transform: translateX(0);
-    }
-
-    to {
-      transform: translateX(-100%);
-    }
-  }
-
-  .animate-scroll-left {
-    animation: scroll-left 10s linear infinite;
-    display: flex;
-    white-space: nowrap;
   }
 
   /* Shimmer animation for progress bar */
@@ -276,19 +253,6 @@ body {
 
   .animate-shimmer {
     animation: shimmer 1.5s infinite;
-  }
-
-  /* Custom gradient animation utilities */
-  .bg-size-200 {
-    background-size: 200% 100%;
-  }
-
-  .bg-pos-0 {
-    background-position: 0% 0%;
-  }
-
-  .bg-pos-100 {
-    background-position: 100% 0%;
   }
 }
 

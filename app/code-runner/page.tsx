@@ -234,46 +234,34 @@ export default function CodeRunner() {
 
   const storeScore = async (name: string, score: number) => {
     try {
-      console.log('Checking score before POST:', { name, score });
       if (score === 0) {
-        console.log('Score is 0, skipping leaderboard entry');
         fetchLeaderboard();
         return;
       }
 
-      console.log('POST /api/leaderboard:', { name, score });
       const response = await fetch('/api/leaderboard', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, score }),
       });
 
-      const text = await response.text();
-      if (!response.ok) {
-        console.error('Store score failed:', { status: response.status, text });
-        return;
-      }
+      if (!response.ok) return;
 
-      console.log('Score stored:', text);
       fetchLeaderboard();
-    } catch (err) {
-      console.error('Store score network error:', err);
+    } catch {
+      // network error — silently ignore
     }
   };
 
   const fetchLeaderboard = async () => {
     try {
-      console.log('GET /api/leaderboard');
       const response = await fetch('/api/leaderboard', { method: 'GET' });
       const text = await response.text();
-      if (!response.ok) {
-        throw new Error(`Fetch leaderboard failed: ${text || 'No body'} (Status: ${response.status})`);
-      }
+      if (!response.ok) return;
       const data = JSON.parse(text);
-      console.log('Leaderboard data:', data);
       setLeaderboard(data);
-    } catch (err) {
-      console.error('Fetch leaderboard error:', err);
+    } catch {
+      // network error — silently ignore
     }
   };
 
