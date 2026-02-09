@@ -3,6 +3,7 @@ import { Navbar, Footer } from '@/components/layout'
 import { ViewsProvider } from '@/components/common/ViewsContext'
 import Script from 'next/script'
 import { Inter } from 'next/font/google'
+import { getPersonSchema, getWebsiteSchema } from '@/lib/jsonLd'
 import './globals.css'
 
 const inter = Inter({
@@ -19,6 +20,10 @@ export const metadata = {
   authors: [{ name: 'Buddhsen Tripathi' }],
   creator: 'Buddhsen Tripathi',
   metadataBase: new URL('https://buddhsentripathi.com'),
+  alternates: {
+    canonical: 'https://buddhsentripathi.com',
+  },
+  manifest: '/manifest.json',
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -46,6 +51,11 @@ export const metadata = {
   },
 }
 
+const jsonLd = [
+  { '@context': 'https://schema.org', ...getPersonSchema() },
+  getWebsiteSchema(),
+]
+
 export default function RootLayout({
   children,
 }: {
@@ -56,6 +66,10 @@ export default function RootLayout({
       <head>
         {/* Preload critical resources */}
         <link rel="preload" href="/profpic.webp" as="image" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
           strategy="afterInteractive"

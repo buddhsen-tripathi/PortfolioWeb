@@ -1,13 +1,7 @@
 import RSS from 'rss';
 import { BlogPost } from '@/app/blogs/BlogList';
 import { getAllBlogPosts } from '@/app/blogs/utils';
-
-const parseDate = (dateStr: string | undefined): string => {
-    if (!dateStr) return new Date().toISOString();
-    const [dd, mm, yyyy] = dateStr.split("-").map(Number);
-    const formattedDate = new Date(`${yyyy}-${mm}-${dd}`);
-    return isNaN(formattedDate.getTime()) ? new Date().toISOString() : formattedDate.toISOString();
-}; 
+import { parseDate } from '@/lib/utils';
 
 export async function GET() {
     const feed = new RSS({
@@ -31,6 +25,8 @@ export async function GET() {
                 url: `https://buddhsentripathi.com/blogs/${post.slug}`,
                 date: parseDate(post.date),
                 guid: post.slug,
+                author: 'Buddhsen Tripathi',
+                categories: post.type ? [post.type] : [],
             });
         });
 

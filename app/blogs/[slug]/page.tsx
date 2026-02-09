@@ -8,6 +8,7 @@ import { mdxComponents, TableOfContents, SocialShare } from '@/components/blog'
 import { BackToTopButton, ViewCounter, NewsletterSubscription } from '@/components/common'
 import { getReadingTime } from '@/lib/utils'
 import { getBlogPostFromS3, getBlogSlugsFromS3 } from '@/lib/r2Client'
+import { getBlogPostingSchema, getBreadcrumbSchema } from '@/lib/jsonLd'
 import { Metadata } from 'next'
 
 // Fetch the list of slugs (paths to blog posts) from S3
@@ -25,6 +26,9 @@ export async function generateMetadata({ params }: { params: paramsType }): Prom
   return {
     title: `${data.title} - Buddhsen Tripathi`,
     description: data.excerpt,
+    alternates: {
+      canonical: `https://buddhsentripathi.com/blogs/${data.slug}`,
+    },
     openGraph: {
       title: `${data.title} - Buddhsen Tripathi`,
       description: data.excerpt,
@@ -55,8 +59,29 @@ export default async function BlogPost({ params }: { params: paramsType }) {
   // Fetch the blog content and data from S3
   const { content, data } = await getBlogPostFromS3((await params).slug)
 
+  const blogPostJsonLd = getBlogPostingSchema({
+    title: data.title,
+    excerpt: data.excerpt,
+    date: data.date,
+    slug: data.slug,
+  })
+
+  const breadcrumbJsonLd = getBreadcrumbSchema([
+    { name: 'Home', url: 'https://buddhsentripathi.com' },
+    { name: 'Blogs', url: 'https://buddhsentripathi.com/blogs' },
+    { name: data.title, url: `https://buddhsentripathi.com/blogs/${data.slug}` },
+  ])
+
   return (
     <div className="space-y-6 duration-1000 animate-in fade-in fill-mode-both">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="flex justify-between items-center">
         <Link href="/blogs" className="group inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors">
           <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />

@@ -10,3 +10,10 @@ export function getReadingTime(content: string): number {
   const words = content.trim().split(/\s+/).length;
   return Math.ceil(words / wordsPerMinute);
 }
+
+export function parseDate(dateStr: string | undefined): string {
+  if (!dateStr) return new Date().toISOString();
+  const [dd, mm, yyyy] = dateStr.split("-").map(Number);
+  const formattedDate = new Date(`${yyyy}-${mm}-${dd}`);
+  return isNaN(formattedDate.getTime()) ? new Date().toISOString() : formattedDate.toISOString();
+}

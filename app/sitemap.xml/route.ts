@@ -1,21 +1,18 @@
 import { getAllBlogPosts } from "../blogs/utils";
+import { parseDate } from "@/lib/utils";
 
 export async function GET(): Promise<Response> {
   const baseUrl = "https://buddhsentripathi.com";
 
   const posts = getAllBlogPosts();
 
-  const parseDate = (dateStr: string | undefined): string => {
-    if (!dateStr) return new Date().toISOString(); 
-    const [dd, mm, yyyy] = dateStr.split("-").map(Number);
-    const formattedDate = new Date(`${yyyy}-${mm}-${dd}`);
-    return isNaN(formattedDate.getTime()) ? new Date().toISOString() : formattedDate.toISOString();
-  };
-
   const pages = [
     { path: "", priority: "1.0", changefreq: "weekly" },
     { path: "/blogs", priority: "0.9", changefreq: "daily" },
     { path: "/projects", priority: "0.8", changefreq: "weekly" },
+    { path: "/newsletter", priority: "0.5", changefreq: "monthly" },
+    { path: "/spam-or-not", priority: "0.5", changefreq: "monthly" },
+    { path: "/code-runner", priority: "0.5", changefreq: "monthly" },
   ].map(({ path, priority, changefreq }) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date().toISOString(),

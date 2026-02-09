@@ -2,11 +2,15 @@ import { getAllBlogPosts, type BlogPost } from './utils'
 import BlogList from './BlogList'
 import { BackToTopButton, NewsletterSubscription } from '@/components/common'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { getBreadcrumbSchema } from '@/lib/jsonLd'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Blogs - Buddhsen Tripathi',
   description: 'Read the latest articles, tutorials, and personal thoughts on technology, programming, and more.',
+  alternates: {
+    canonical: 'https://buddhsentripathi.com/blogs',
+  },
   openGraph: {
     title: 'Blogs - Buddhsen Tripathi',
     description: 'Read the latest articles, tutorials, and personal thoughts on technology, programming, and more.',
@@ -38,8 +42,17 @@ export default async function BlogPage() {
   const technicalPosts = allPosts.filter(post => post.type !== 'personal');
   const personalPosts = allPosts.filter(post => post.type === 'personal');
 
+  const breadcrumbJsonLd = getBreadcrumbSchema([
+    { name: 'Home', url: 'https://buddhsentripathi.com' },
+    { name: 'Blogs', url: 'https://buddhsentripathi.com/blogs' },
+  ])
+
   return (
     <div className="space-y-8 duration-1000 animate-in fade-in fill-mode-both">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <header className="space-y-2">
         <h1 className="font-serif text-xl font-medium italic text-foreground">blogs.</h1>
         <p className="text-sm text-muted-foreground">Latest articles and tutorials</p>

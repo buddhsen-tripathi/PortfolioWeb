@@ -136,7 +136,7 @@ export default function FeaturedProjects() {
                 </p>
 
                 {project.path && (
-                  <div className="pt-1">
+                  <div className="text-xs text-muted-foreground opacity-60">
                     <ViewCounter slug={project.path} readOnly={true} />
                   </div>
                 )}
