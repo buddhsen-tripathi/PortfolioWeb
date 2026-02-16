@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Moon, Sun, Menu, X } from 'lucide-react'
 import { useLanguage } from '@/components/common'
+import { navbarContent } from '@/data/layoutContent'
 
 const Navbar = memo(() => {
   const [mounted, setMounted] = useState(false)
@@ -13,6 +14,7 @@ const Navbar = memo(() => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { theme, setTheme } = useTheme()
   const { language, toggleLanguage } = useLanguage()
+  const content = navbarContent[language]
   const pathname = usePathname()
 
   useEffect(() => {
@@ -103,7 +105,7 @@ const Navbar = memo(() => {
                 : 'text-muted-foreground hover:text-primary after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full'
             }`}
           >
-            home
+            {content.home}
           </Link>
 
           {/* Home Button - Left (Mobile) */}
@@ -111,7 +113,7 @@ const Navbar = memo(() => {
             href="/"
             className="md:hidden flex items-center text-muted-foreground hover:text-primary transition-colors text-sm font-medium"
           >
-            home
+            {content.home}
           </Link>
 
           {/* Desktop Navigation - Right */}
@@ -124,7 +126,7 @@ const Navbar = memo(() => {
                   : 'text-muted-foreground hover:text-primary after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full'
               }`}
             >
-              projects
+              {content.projects}
             </Link>
             
             <Link
@@ -135,7 +137,7 @@ const Navbar = memo(() => {
                   : 'text-muted-foreground hover:text-primary after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full'
               }`}
             >
-              blogs
+              {content.blogs}
             </Link>
 
             <button
@@ -143,7 +145,7 @@ const Navbar = memo(() => {
               aria-label="Toggle language between English and Chinese"
               className="px-2 py-1 text-xs font-medium rounded-sm border border-border text-muted-foreground hover:text-primary hover:border-primary/40 transition-all duration-300 focus-ring"
             >
-              {language === 'en' ? '中文' : 'EN'}
+              {content.languageToggle}
             </button>
           
             {/* Theme Toggle */}
@@ -178,7 +180,7 @@ const Navbar = memo(() => {
               aria-label="Toggle language between English and Chinese"
               className="px-2 py-1 text-xs font-medium rounded-sm border border-border text-muted-foreground hover:text-primary hover:border-primary/40 transition-all duration-300 focus-ring"
             >
-              {language === 'en' ? '中文' : 'EN'}
+              {content.languageToggle}
             </button>
 
             <button
@@ -226,7 +228,7 @@ const Navbar = memo(() => {
                   : 'text-muted-foreground hover:text-primary'
               }`}
             >
-              projects
+              {content.projects}
             </Link>
             
             <Link
@@ -238,7 +240,7 @@ const Navbar = memo(() => {
                   : 'text-muted-foreground hover:text-primary'
               }`}
             >
-              blogs
+              {content.blogs}
             </Link>
           </div>
         )}

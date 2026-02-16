@@ -27,6 +27,17 @@ const parseProjectStatus = (
   }
 }
 
+const getDisplayTitle = (
+  language: 'en' | 'zh',
+  title: string,
+  titleZh?: string,
+) => {
+  if (language === 'zh' && titleZh) {
+    return `${title} (${titleZh})`
+  }
+  return title
+}
+
 export default function FeaturedProjects() {
   const pathname = usePathname()
   const { language } = useLanguage()
@@ -51,7 +62,7 @@ export default function FeaturedProjects() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <h3 className="font-normal capitalize text-primary">
-                  {project.title}
+                  {getDisplayTitle(language, project.title, project.titleZh)}
                 </h3>
                 {project.status && (
                   <span className="text-xs text-muted-foreground opacity-70 hidden sm:inline">
@@ -134,7 +145,7 @@ export default function FeaturedProjects() {
               >
                 <div className="flex items-center justify-between">
                   <h3 className="font-normal capitalize text-primary">
-                    {project.title}
+                    {getDisplayTitle(language, project.title, project.titleZh)}
                   </h3>
                   <LinkText href={`/${project.path}`} className="text-muted-foreground">
                     {content.tryIt}

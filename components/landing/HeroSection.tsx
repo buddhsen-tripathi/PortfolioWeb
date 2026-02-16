@@ -1,14 +1,12 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
-import { LinkText } from '@/components/common'
-import { Language } from '@/lib/i18n'
+import { LinkText, useLanguage } from '@/components/common'
 import { heroContent } from '@/data/landingContent'
 
-type HeroSectionProps = {
-  language: Language
-}
-
-export default function Hero({ language }: HeroSectionProps) {
+export default function Hero() {
+  const { language } = useLanguage()
   const content = heroContent[language]
 
   return (
@@ -27,7 +25,7 @@ export default function Hero({ language }: HeroSectionProps) {
         </div>
         <div>
           <h1 className="text-2xl font-semibold leading-snug tracking-tighter text-primary">
-            Buddhsen Tripathi
+            {content.displayName}
           </h1>
           <p className="mt-1 text-base font-normal leading-snug text-muted-foreground">
             {content.role}

@@ -1,16 +1,18 @@
+'use client';
+
 import Link from 'next/link';
-import { getAllBlogPosts } from '@/app/blogs/utils';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import ViewCounter from '@/components/common/ViewCounter';
 import { featuredPostsContent } from '@/data/landingContent';
-import { Language } from '@/lib/i18n';
+import { BlogPost } from '@/app/blogs/utils';
+import { useLanguage } from '@/components/common';
 
 type FeaturedPostsProps = {
-  language: Language
+  posts: BlogPost[]
 }
 
-export default async function FeaturedPosts({ language }: FeaturedPostsProps) {
-  const blogPosts = await getAllBlogPosts();
+export default function FeaturedPosts({ posts }: FeaturedPostsProps) {
+  const { language } = useLanguage();
   const content = featuredPostsContent[language];
 
   return (
@@ -20,7 +22,7 @@ export default async function FeaturedPosts({ language }: FeaturedPostsProps) {
       </h2>
 
       <div className="space-y-4">
-        {blogPosts.slice(0, 3).map((post) => {
+        {posts.slice(0, 3).map((post) => {
           return (
             <Link
               key={post.slug}

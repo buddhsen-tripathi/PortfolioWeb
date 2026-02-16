@@ -1,13 +1,23 @@
+'use client'
+
 import { LinkText } from '@/components/common'
+import { useLanguage } from '@/components/common'
 import { experiences } from '@/data/experiences'
 import { experienceContent } from '@/data/landingContent'
-import { Language } from '@/lib/i18n'
 
-type ExperienceProps = {
-	language: Language
+const getDisplayOrgName = (
+	language: 'en' | 'zh',
+	company: string,
+	companyZh?: string,
+) => {
+	if (language === 'zh' && companyZh) {
+		return `${company} (${companyZh})`
+	}
+	return company
 }
 
-export default function Experience({ language }: ExperienceProps) {
+export default function Experience() {
+	const { language } = useLanguage()
 	const content = experienceContent[language]
 
 	return (
@@ -30,7 +40,7 @@ export default function Experience({ language }: ExperienceProps) {
 								<div className="flex items-center justify-start gap-1.5 text-sm text-muted-foreground">
 									{content.companyPrefix}
 									<LinkText href={exp.companyUrl}>
-										{exp.company}
+										{getDisplayOrgName(language, exp.company, exp.companyZh)}
 									</LinkText>
 								</div>
 							</div>

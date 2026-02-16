@@ -3,6 +3,7 @@ import { Language } from '@/lib/i18n'
 type Localized<T> = Record<Language, T>
 
 export const heroContent: Localized<{
+  displayName: string
   role: string
   aboutTitle: string
   intro: string
@@ -13,6 +14,7 @@ export const heroContent: Localized<{
   closing: string
 }> = {
   en: {
+    displayName: 'Buddhsen Tripathi',
     role: 'Full-Stack Developer • MS CS @ NYU',
     aboutTitle: 'about me.',
     intro: "Hey there! I'm a software professional passionate about building scalable, user-centric applications with expertise in cloud infrastructure and microservices architecture.",
@@ -23,11 +25,12 @@ export const heroContent: Localized<{
     closing: ', exploring cybersecurity and contributing to open-source.',
   },
   zh: {
+    displayName: '布德森·特里帕蒂',
     role: '全栈开发者 • 纽约大学计算机科学硕士',
     aboutTitle: '关于我。',
     intro: '你好！我是一名软件工程师，专注于构建可扩展、以用户为中心的应用，在云基础设施和微服务架构方面有丰富经验。',
     educationPrefix: '目前正在攻读',
-    educationLinkText: '纽约大学计算机科学硕士',
+    educationLinkText: 'NYU MS in Computer Science（纽约大学计算机科学硕士）',
     educationSuffix: '，并拥有 2 年以上全栈开发经验。业余时间我喜欢',
     projectsLinkText: '做项目',
     closing: '、研究网络安全并参与开源社区。',

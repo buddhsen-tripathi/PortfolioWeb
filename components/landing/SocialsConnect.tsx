@@ -1,14 +1,13 @@
+'use client'
+
 import Link from 'next/link'
 import { ArrowUpRight, Calendar } from 'lucide-react'
 import { socialLinks } from '@/data/socials'
 import { socialsConnectContent } from '@/data/landingContent'
-import { Language } from '@/lib/i18n'
+import { useLanguage } from '@/components/common'
 
-type SocialsConnectProps = {
-  language: Language
-}
-
-export default function SocialsConnect({ language }: SocialsConnectProps) {
+export default function SocialsConnect() {
+  const { language } = useLanguage()
   const content = socialsConnectContent[language]
 
   return (
