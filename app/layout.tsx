@@ -1,9 +1,11 @@
 import { ThemeProvider } from 'next-themes'
 import { Navbar, Footer } from '@/components/layout'
-import { ViewsProvider } from '@/components/common/ViewsContext'
+import { LanguageProvider, ViewsProvider } from '@/components/common'
 import Script from 'next/script'
 import { Inter } from 'next/font/google'
 import { getPersonSchema, getWebsiteSchema } from '@/lib/jsonLd'
+import { LANGUAGE_COOKIE, resolveLanguage } from '@/lib/i18n'
+import { cookies } from 'next/headers'
 import './globals.css'
 
 const inter = Inter({
@@ -56,13 +58,16 @@ const jsonLd = [
   getWebsiteSchema(),
 ]
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const cookieStore = await cookies()
+  const initialLanguage = resolveLanguage(cookieStore.get(LANGUAGE_COOKIE)?.value)
+
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html lang={initialLanguage === 'zh' ? 'zh-CN' : 'en'} suppressHydrationWarning className={inter.variable}>
       <head>
         {/* Preload critical resources */}
         <link rel="preload" href="/profpic.webp" as="image" />
@@ -88,15 +93,17 @@ export default function RootLayout({
           enableSystem={true}
           storageKey="theme"
         >
-          <ViewsProvider>
-            <Navbar />
-            <main className="flex-grow">
-              <div className="px-8 py-12">
-                {children}
-              </div>
-            </main>
-            <Footer />
-          </ViewsProvider>
+          <LanguageProvider initialLanguage={initialLanguage}>
+            <ViewsProvider>
+              <Navbar />
+              <main className="flex-grow">
+                <div className="px-8 py-12">
+                  {children}
+                </div>
+              </main>
+              <Footer />
+            </ViewsProvider>
+          </LanguageProvider>
         </ThemeProvider>
         <div className='mb-32 md:mb-16'></div>
       </body>

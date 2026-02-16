@@ -5,12 +5,14 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Moon, Sun, Menu, X } from 'lucide-react'
+import { useLanguage } from '@/components/common'
 
 const Navbar = memo(() => {
   const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { theme, setTheme } = useTheme()
+  const { language, toggleLanguage } = useLanguage()
   const pathname = usePathname()
 
   useEffect(() => {
@@ -135,6 +137,14 @@ const Navbar = memo(() => {
             >
               blogs
             </Link>
+
+            <button
+              onClick={toggleLanguage}
+              aria-label="Toggle language between English and Chinese"
+              className="px-2 py-1 text-xs font-medium rounded-sm border border-border text-muted-foreground hover:text-primary hover:border-primary/40 transition-all duration-300 focus-ring"
+            >
+              {language === 'en' ? '中文' : 'EN'}
+            </button>
           
             {/* Theme Toggle */}
             <button
@@ -163,6 +173,14 @@ const Navbar = memo(() => {
 
           {/* Mobile Controls - Right */}
           <div className="md:hidden flex items-center gap-4">
+            <button
+              onClick={toggleLanguage}
+              aria-label="Toggle language between English and Chinese"
+              className="px-2 py-1 text-xs font-medium rounded-sm border border-border text-muted-foreground hover:text-primary hover:border-primary/40 transition-all duration-300 focus-ring"
+            >
+              {language === 'en' ? '中文' : 'EN'}
+            </button>
+
             <button
               onClick={toggleTheme}
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}

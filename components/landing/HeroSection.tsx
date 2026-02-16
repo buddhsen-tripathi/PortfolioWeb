@@ -1,8 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { LinkText } from '@/components/common'
+import { Language } from '@/lib/i18n'
+import { heroContent } from '@/data/landingContent'
 
-export default function Hero() {
+type HeroSectionProps = {
+  language: Language
+}
+
+export default function Hero({ language }: HeroSectionProps) {
+  const content = heroContent[language]
+
   return (
     <section className="space-y-8 duration-1000 animate-in fade-in fill-mode-both">
       {/* Header Section */}
@@ -22,7 +30,7 @@ export default function Hero() {
             Buddhsen Tripathi
           </h1>
           <p className="mt-1 text-base font-normal leading-snug text-muted-foreground">
-            Full-Stack Developer • MS CS @ NYU
+            {content.role}
           </p>
         </div>
       </div>
@@ -30,24 +38,22 @@ export default function Hero() {
       {/* About Section */}
       <div className="space-y-4 animation-delay-300">
         <h2 className="font-serif text-xl font-medium italic leading-snug text-primary">
-          about me.
+          {content.aboutTitle}
         </h2>
         <div className="prose max-w-full text-sm font-normal leading-6 text-muted-foreground dark:prose-invert">
           <p>
-            Hey there! I&apos;m a software professional passionate about building
-            scalable, user-centric applications with expertise in cloud infrastructure
-            and microservices architecture.
+            {content.intro}
           </p>
           <p>
-            Currently pursuing my{" "}
+            {content.educationPrefix}
             <LinkText href="https://engineering.nyu.edu/academics/programs/computer-science-ms" className="font-medium">
-              MS in Computer Science at NYU
+              {content.educationLinkText}
             </LinkText>
-            {" "}with 2+ years of experience in full-stack development. In my free time, I enjoy{" "}
+            {content.educationSuffix}
             <Link href="#projects" className="text-primary hover:underline">
-              building projects
+              {content.projectsLinkText}
             </Link>
-            , exploring cybersecurity and contributing to open-source.
+            {content.closing}
           </p>
         </div>
       </div>

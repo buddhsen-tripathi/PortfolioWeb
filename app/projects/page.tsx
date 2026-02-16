@@ -1,6 +1,8 @@
 import { FeaturedProjects } from '@/components/landing'
 import { getBreadcrumbSchema } from '@/lib/jsonLd'
+import { LANGUAGE_COOKIE, pickByLanguage, resolveLanguage } from '@/lib/i18n'
 import { Metadata } from 'next'
+import { cookies } from 'next/headers'
 
 export const metadata: Metadata = {
   title: 'Projects - Buddhsen Tripathi',
@@ -37,7 +39,10 @@ const breadcrumbJsonLd = getBreadcrumbSchema([
   { name: 'Projects', url: 'https://buddhsentripathi.com/projects' },
 ])
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const cookieStore = await cookies()
+  const language = resolveLanguage(cookieStore.get(LANGUAGE_COOKIE)?.value)
+
   return (
     <div className="space-y-8">
       <script
@@ -45,8 +50,15 @@ export default function ProjectsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <header className="space-y-2">
-        <h1 className="font-serif text-xl font-medium italic text-foreground">projects.</h1>
-        <p className="text-sm text-muted-foreground">Things I've built and worked on</p>
+        <h1 className="font-serif text-xl font-medium italic text-foreground">
+          {pickByLanguage(language, { en: 'projects.', zh: '项目。' })}
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          {pickByLanguage(language, {
+            en: "Things I've built and worked on",
+            zh: '我构建和参与过的项目',
+          })}
+        </p>
       </header>
       <FeaturedProjects />
     </div>

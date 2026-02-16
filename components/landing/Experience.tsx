@@ -1,11 +1,19 @@
 import { LinkText } from '@/components/common'
 import { experiences } from '@/data/experiences'
+import { experienceContent } from '@/data/landingContent'
+import { Language } from '@/lib/i18n'
 
-export default function Experience() {
+type ExperienceProps = {
+	language: Language
+}
+
+export default function Experience({ language }: ExperienceProps) {
+	const content = experienceContent[language]
+
 	return (
 		<section className="space-y-6 duration-1000 animate-in fade-in fill-mode-both animation-delay-700">
 			<h2 className="font-serif text-xl font-medium italic leading-snug text-primary">
-				experience.
+				{content.sectionTitle}
 			</h2>
 
 			<div className="space-y-6">
@@ -17,10 +25,10 @@ export default function Experience() {
 						<div className="flex flex-wrap items-start justify-between gap-2">
 							<div>
 								<h3 className="font-normal text-primary">
-									{exp.title}
+									{language === 'zh' ? (exp.titleZh ?? exp.title) : exp.title}
 								</h3>
 								<div className="flex items-center justify-start gap-1.5 text-sm text-muted-foreground">
-									at{" "}
+									{content.companyPrefix}
 									<LinkText href={exp.companyUrl}>
 										{exp.company}
 									</LinkText>
