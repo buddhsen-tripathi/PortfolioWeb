@@ -1,4 +1,5 @@
 import { getAllBlogPosts } from "../blogs/utils";
+import { twitterArticles } from "../blogs/articles";
 import { parseDate } from "@/lib/utils";
 
 export async function GET(): Promise<Response> {
@@ -20,7 +21,8 @@ export async function GET(): Promise<Response> {
     changefreq,
   }));
 
-  const blogPosts = (await posts).map((post) => ({
+  const externalSlugs = new Set(twitterArticles.map(a => a.slug));
+  const blogPosts = (await posts).filter(post => !externalSlugs.has(post.slug)).map((post) => ({
     url: `${baseUrl}/blogs/${post.slug}`,
     lastModified: parseDate(post.date),
     priority: "0.8",

@@ -70,6 +70,7 @@ export default async function RootLayout({
       <head>
         {/* Preload critical resources */}
         <link rel="preload" href="/profpic.jpg" as="image" />
+        <link rel="alternate" type="application/rss+xml" title="Buddhsen Tripathi's Blog" href="https://buddhsentripathi.com/feed.xml" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

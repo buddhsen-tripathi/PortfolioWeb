@@ -1,6 +1,7 @@
 import RSS from 'rss';
 import { BlogPost } from '@/app/blogs/BlogList';
 import { getAllBlogPosts } from '@/app/blogs/utils';
+import { twitterArticles } from '@/app/blogs/articles';
 import { parseDate } from '@/lib/utils';
 
 export async function GET() {
@@ -16,7 +17,9 @@ export async function GET() {
 
     try {
         // Get the same blog posts that are used in BlogList
-        const blogPosts: BlogPost[] = await getAllBlogPosts();
+        const allPosts: BlogPost[] = await getAllBlogPosts();
+        const externalSlugs = new Set(twitterArticles.map(a => a.slug));
+        const blogPosts = allPosts.filter(post => !externalSlugs.has(post.slug));
 
         blogPosts.forEach((post) => {
             feed.item({

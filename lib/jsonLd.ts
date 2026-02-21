@@ -6,9 +6,21 @@ export function getPersonSchema() {
     name: 'Buddhsen Tripathi',
     url: SITE_URL,
     jobTitle: 'Full Stack Developer',
+    description: 'Full Stack Developer specializing in Next.js, React, TypeScript, and cloud-native applications. Building open-source tools and writing about software engineering.',
+    image: `${SITE_URL}/profpic.jpg`,
+    knowsAbout: [
+      'Full Stack Development',
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Node.js',
+      'Web Security',
+      'Cloud Infrastructure',
+      'Artificial Intelligence',
+    ],
     sameAs: [
-      'https://github.com/buddhsentripathi',
-      'https://linkedin.com/in/buddhsentripathi',
+      'https://github.com/buddhsen-tripathi',
+      'https://www.linkedin.com/in/buddhsen-tripathi',
       'https://x.com/btr1pathi',
     ],
   };
@@ -23,6 +35,14 @@ export function getWebsiteSchema() {
     description:
       'Full Stack Web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs',
     author: getPersonSchema(),
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/blogs?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
   };
 }
 
