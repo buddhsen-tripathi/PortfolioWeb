@@ -6,6 +6,7 @@ export type BlogPost = {
   date: string
   excerpt: string
   type?: string
+  url?: string
 }
 
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
@@ -16,6 +17,7 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
     title: post.title,
     date: post.date,
     excerpt: post.excerpt,
-    type: (post as any).type, // Add type casting for type field if it exists
+    type: (post as any).type,
+    url: (post as any).url,
   }))
 }

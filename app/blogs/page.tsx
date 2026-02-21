@@ -4,6 +4,7 @@ import { BackToTopButton, NewsletterSubscription } from '@/components/common'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getBreadcrumbSchema } from '@/lib/jsonLd'
 import { Metadata } from 'next'
+import { twitterArticles } from './articles'
 
 export const metadata: Metadata = {
   title: 'Blogs - Buddhsen Tripathi',
@@ -39,7 +40,10 @@ export default async function BlogPage() {
   const allPosts: BlogPost[] = await getAllBlogPosts()
 
   // Filter posts based on the 'type' property directly
-  const technicalPosts = allPosts.filter(post => post.type !== 'personal');
+  const technicalPosts = [
+    ...allPosts.filter(post => post.type !== 'personal'),
+    ...twitterArticles,
+  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   const personalPosts = allPosts.filter(post => post.type === 'personal');
 
   const breadcrumbJsonLd = getBreadcrumbSchema([

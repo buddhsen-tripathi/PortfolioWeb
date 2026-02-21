@@ -13,6 +13,7 @@ export interface BlogPost {
   slug: string;
   date: string;
   type?: string;
+  url?: string;
 }
 
 export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
@@ -208,26 +209,40 @@ export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
                   whileTap={{ scale: 0.99 }}
                   className="h-full"
                 >
-                  <Link href={`/blogs/${post.slug}`} className="group block">
+                  <Link
+                    href={post.url ?? `/blogs/${post.slug}`}
+                    target={post.url ? '_blank' : undefined}
+                    rel={post.url ? 'noopener noreferrer' : undefined}
+                    className="group block"
+                  >
                     <motion.article 
                       className="space-y-1"
                       transition={{ duration: 0.2 }}
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <motion.h2 
-                          className="font-normal text-primary group-hover:underline transition-colors"
-                          initial={{ opacity: 0.8 }}
-                          whileHover={{ opacity: 1 }}
-                        >
-                          {post.title}
-                        </motion.h2>
+                        <div className="flex items-center gap-2">
+                          <motion.h2 
+                            className="font-normal text-primary group-hover:underline transition-colors"
+                            initial={{ opacity: 0.8 }}
+                            whileHover={{ opacity: 1 }}
+                          >
+                            {post.title}
+                          </motion.h2>
+                          {post.url && (
+                            <span className="text-xs text-muted-foreground border border-border rounded-sm px-1 py-0.5 leading-none">𝕏 article</span>
+                          )}
+                        </div>
                         <ArrowUpRight className="h-4 w-4 flex-shrink-0 text-muted-foreground opacity-0 transition-all group-hover:opacity-100" />
                       </div>
                       
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <time>{post.date}</time>
-                        <span>•</span>
-                        <ViewCounter slug={post.slug} readOnly={true} />
+                        {!post.url && (
+                          <>
+                            <span>•</span>
+                            <ViewCounter slug={post.slug} readOnly={true} />
+                          </>
+                        )}
                       </div>
                       
                       <motion.p 

@@ -14,7 +14,6 @@ const inter = Inter({
   display: 'swap',
 })
 
-
 export const metadata = {
   title: 'Buddhsen Tripathi',
   description: 'Full Stack Web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs',
@@ -70,7 +69,7 @@ export default async function RootLayout({
     <html lang={initialLanguage === 'zh' ? 'zh-CN' : 'en'} suppressHydrationWarning className={inter.variable}>
       <head>
         {/* Preload critical resources */}
-        <link rel="preload" href="/profpic.webp" as="image" />
+        <link rel="preload" href="/profpic.jpg" as="image" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
