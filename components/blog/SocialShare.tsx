@@ -1,5 +1,5 @@
 import React from 'react';
-import { SiX, SiLinkedin } from "react-icons/si";
+import { BsLinkedin, BsTwitterX } from "react-icons/bs";
 
 interface SocialShareProps {
   url: string;
@@ -17,7 +17,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ url, title }) => {
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-primary bg-primary/20 hover:bg-primary/30 transition-colors"
         >
-          <SiX className="w-5 h-5 mr-2" />
+          <BsTwitterX className="w-5 h-5 mr-2" />
           Share on Twitter
         </a>
         <a
@@ -26,7 +26,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ url, title }) => {
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-primary bg-primary/20 hover:bg-primary/40 transition-colors"
         >
-          <SiLinkedin className="w-5 h-5 mr-2" />
+          <BsLinkedin className="w-5 h-5 mr-2" />
           Share on LinkedIn
         </a>
       </div>
