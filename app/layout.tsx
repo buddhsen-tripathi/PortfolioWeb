@@ -3,7 +3,7 @@ import { Navbar, Footer } from '@/components/layout'
 import { LanguageProvider, ViewsProvider } from '@/components/common'
 import Script from 'next/script'
 import { Inter } from 'next/font/google'
-import { getPersonSchema, getWebsiteSchema } from '@/lib/jsonLd'
+import { getPersonSchema, getWebsiteSchema, getProfilePageSchema } from '@/lib/jsonLd'
 import { LANGUAGE_COOKIE, resolveLanguage } from '@/lib/i18n'
 import { cookies } from 'next/headers'
 import './globals.css'
@@ -55,6 +55,7 @@ export const metadata = {
 const jsonLd = [
   { '@context': 'https://schema.org', ...getPersonSchema() },
   getWebsiteSchema(),
+  getProfilePageSchema(),
 ]
 
 export default async function RootLayout({
@@ -105,7 +106,7 @@ export default async function RootLayout({
             </ViewsProvider>
           </LanguageProvider>
         </ThemeProvider>
-        <div className='mb-32 md:mb-16'></div>
+        <div className='mb-24 md:mb-16'></div>
       </body>
     </html>
   )

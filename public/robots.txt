@@ -84,8 +84,6 @@ Allow: /
 
 # Block only sensitive areas
 Disallow: /api/
-Disallow: /_next/
-Disallow: /admin/
 
 # Sitemap
 Sitemap: https://buddhsentripathi.com/sitemap.xml

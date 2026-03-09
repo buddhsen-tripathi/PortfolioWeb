@@ -49,7 +49,7 @@ export default async function Home() {
 
   return (
     <main className="flex-1">
-      <section className="space-y-16">
+      <section className="space-y-12">
         <HeroSection />
         <Experience />
         <FeaturedProjects />

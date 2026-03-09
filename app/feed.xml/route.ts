@@ -13,6 +13,9 @@ export async function GET() {
         language: 'en',
         generator: 'Next.js using RSS',
         pubDate: new Date(),
+        copyright: `© ${new Date().getFullYear()} Buddhsen Tripathi. All rights reserved.`,
+        image_url: 'https://buddhsentripathi.com/default-image.webp',
+        webMaster: 'Buddhsen Tripathi',
     });
 
     try {

@@ -65,6 +65,31 @@ export function getBlogPostingSchema(post: {
   };
 }
 
+export function getProfilePageSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    mainEntity: getPersonSchema(),
+    dateCreated: '2024-01-01',
+    dateModified: new Date().toISOString().split('T')[0],
+    name: 'Buddhsen Tripathi - Full Stack Developer',
+    description:
+      'Portfolio and blog of Buddhsen Tripathi, a Full Stack Developer specializing in Next.js, React, TypeScript, and cloud-native applications.',
+    url: SITE_URL,
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: SITE_URL,
+        },
+      ],
+    },
+  };
+}
+
 export function getBreadcrumbSchema(
   items: { name: string; url: string }[]
 ) {
