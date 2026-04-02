@@ -55,7 +55,7 @@ export function ViewsProvider({ children }: { children: ReactNode }) {
 
   // Batch fetch views for multiple slugs
   const fetchBatch = useCallback(async (slugs: string[]) => {
-    if (slugs.length === 0) return
+    if (slugs.length === 0 || typeof window === 'undefined') return
 
     // Mark as fetching to prevent duplicate requests
     slugs.forEach(slug => fetchingRef.current.add(slug))
@@ -110,14 +110,10 @@ export function ViewsProvider({ children }: { children: ReactNode }) {
 
   // Get views for a single slug
   const getViews = useCallback((slug: string): number | null => {
-    setViewsMap(current => {
-      if (!(slug in current) && !pendingSlugsRef.current.has(slug) && !fetchingRef.current.has(slug)) {
-        pendingSlugsRef.current.add(slug)
-        scheduleBatchFetch()
-      }
-      return current
-    })
-    
+    if (!(slug in viewsMap) && !pendingSlugsRef.current.has(slug) && !fetchingRef.current.has(slug)) {
+      pendingSlugsRef.current.add(slug)
+      scheduleBatchFetch()
+    }
     return viewsMap[slug] ?? null
   }, [viewsMap, scheduleBatchFetch])
 
