@@ -1,11 +1,9 @@
 import { ThemeProvider } from 'next-themes'
 import { Navbar, Footer } from '@/components/layout'
-import { LanguageProvider, ViewsProvider } from '@/components/common'
+import { ViewsProvider } from '@/components/common'
 import Script from 'next/script'
 import { Inter } from 'next/font/google'
 import { getPersonSchema, getWebsiteSchema, getProfilePageSchema } from '@/lib/jsonLd'
-import { LANGUAGE_COOKIE, resolveLanguage } from '@/lib/i18n'
-import { cookies } from 'next/headers'
 import './globals.css'
 
 const inter = Inter({
@@ -58,16 +56,13 @@ const jsonLd = [
   getProfilePageSchema(),
 ]
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const cookieStore = await cookies()
-  const initialLanguage = resolveLanguage(cookieStore.get(LANGUAGE_COOKIE)?.value)
-
   return (
-    <html lang={initialLanguage === 'zh' ? 'zh-CN' : 'en'} suppressHydrationWarning className={inter.variable}>
+    <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
         {/* Preload critical resources */}
         <link rel="preload" href="/profpic.jpg" as="image" />
@@ -94,17 +89,15 @@ export default async function RootLayout({
           enableSystem={true}
           storageKey="theme"
         >
-          <LanguageProvider initialLanguage={initialLanguage}>
-            <ViewsProvider>
-              <Navbar />
-              <main className="flex-grow">
-                <div className="px-8 py-12">
-                  {children}
-                </div>
-              </main>
-              <Footer />
-            </ViewsProvider>
-          </LanguageProvider>
+          <ViewsProvider>
+            <Navbar />
+            <main className="flex-grow">
+              <div className="px-8 py-12">
+                {children}
+              </div>
+            </main>
+            <Footer />
+          </ViewsProvider>
         </ThemeProvider>
         <div className='mb-24 md:mb-16'></div>
       </body>

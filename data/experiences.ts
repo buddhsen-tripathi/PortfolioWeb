@@ -1,9 +1,7 @@
 export const experiences = [
 	{
 		title: 'Software Development Engineer 1',
-		titleZh: '软件开发工程师 1',
 		company: 'Amadeus',
-		companyZh: '阿马德乌斯',
 		companyUrl: 'https://amadeus.com/en',
 		period: {
 			start: 'Jul 2023',
@@ -26,9 +24,7 @@ export const experiences = [
 	},
 	{
 		title: 'Software Development Engineer Intern',
-		titleZh: '软件开发工程师实习生',
 		company: 'Amadeus',
-		companyZh: '阿马德乌斯',
 		companyUrl: 'https://amadeus.com/en',
 		period: {
 			start: 'Jan 2023',

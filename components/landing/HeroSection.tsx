@@ -2,13 +2,10 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { LinkText, useLanguage } from '@/components/common'
+import { LinkText } from '@/components/common'
 import { heroContent } from '@/data/landingContent'
 
 export default function Hero() {
-  const { language } = useLanguage()
-  const content = heroContent[language]
-
   return (
     <section className="space-y-8 duration-1000 animate-in fade-in fill-mode-both">
       {/* Header Section */}
@@ -25,10 +22,10 @@ export default function Hero() {
         </div>
         <div>
           <h1 className="text-2xl font-semibold leading-snug tracking-tighter text-primary">
-            {content.displayName}
+            {heroContent.displayName}
           </h1>
           <p className="mt-1 text-base font-normal leading-snug text-muted-foreground">
-            {content.role}
+            {heroContent.role}
           </p>
         </div>
       </div>
@@ -36,22 +33,22 @@ export default function Hero() {
       {/* About Section */}
       <div className="space-y-4 animation-delay-300">
         <h2 className="font-serif text-xl font-medium italic leading-snug text-primary">
-          {content.aboutTitle}
+          {heroContent.aboutTitle}
         </h2>
         <div className="prose max-w-full text-sm font-normal leading-6 text-muted-foreground dark:prose-invert">
           <p>
-            {content.intro}
+            {heroContent.intro}
           </p>
           <p>
-            {content.educationPrefix}
+            {heroContent.educationPrefix}
             <LinkText href="https://engineering.nyu.edu/academics/programs/computer-science-ms" className="font-medium">
-              {content.educationLinkText}
+              {heroContent.educationLinkText}
             </LinkText>
-            {content.educationSuffix}
+            {heroContent.educationSuffix}
             <Link href="#projects" className="text-primary hover:underline">
-              {content.projectsLinkText}
+              {heroContent.projectsLinkText}
             </Link>
-            {content.closing}
+            {heroContent.closing}
           </p>
         </div>
       </div>

@@ -1,29 +1,14 @@
 'use client'
 
 import { LinkText } from '@/components/common'
-import { useLanguage } from '@/components/common'
 import { experiences } from '@/data/experiences'
 import { experienceContent } from '@/data/landingContent'
 
-const getDisplayOrgName = (
-	language: 'en' | 'zh',
-	company: string,
-	companyZh?: string,
-) => {
-	if (language === 'zh' && companyZh) {
-		return `${company} (${companyZh})`
-	}
-	return company
-}
-
 export default function Experience() {
-	const { language } = useLanguage()
-	const content = experienceContent[language]
-
 	return (
 		<section className="space-y-6 duration-1000 animate-in fade-in fill-mode-both animation-delay-700">
 			<h2 className="font-serif text-xl font-medium italic leading-snug text-primary">
-				{content.sectionTitle}
+				{experienceContent.sectionTitle}
 			</h2>
 
 			<div className="space-y-6">
@@ -35,12 +20,12 @@ export default function Experience() {
 						<div className="flex flex-wrap items-start justify-between gap-2">
 							<div>
 								<h3 className="font-normal text-primary">
-									{language === 'zh' ? (exp.titleZh ?? exp.title) : exp.title}
+									{exp.title}
 								</h3>
 								<div className="flex items-center justify-start gap-1.5 text-sm text-muted-foreground">
-									{content.companyPrefix}
+									{experienceContent.companyPrefix}
 									<LinkText href={exp.companyUrl}>
-										{getDisplayOrgName(language, exp.company, exp.companyZh)}
+										{exp.company}
 									</LinkText>
 								</div>
 							</div>

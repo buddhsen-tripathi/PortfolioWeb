@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Moon, Sun, Menu, X } from 'lucide-react'
-import { useLanguage } from '@/components/common'
 import { navbarContent } from '@/data/layoutContent'
 
 const Navbar = memo(() => {
@@ -13,8 +12,6 @@ const Navbar = memo(() => {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { theme, setTheme } = useTheme()
-  const { language, toggleLanguage } = useLanguage()
-  const content = navbarContent[language]
   const pathname = usePathname()
 
   useEffect(() => {
@@ -105,7 +102,7 @@ const Navbar = memo(() => {
                 : 'text-muted-foreground hover:text-primary after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full'
             }`}
           >
-            {content.home}
+            {navbarContent.home}
           </Link>
 
           {/* Home Button - Left (Mobile) */}
@@ -113,7 +110,7 @@ const Navbar = memo(() => {
             href="/"
             className="md:hidden flex items-center text-muted-foreground hover:text-primary transition-colors text-sm font-medium"
           >
-            {content.home}
+            {navbarContent.home}
           </Link>
 
           {/* Desktop Navigation - Right */}
@@ -126,9 +123,9 @@ const Navbar = memo(() => {
                   : 'text-muted-foreground hover:text-primary after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full'
               }`}
             >
-              {content.projects}
+              {navbarContent.projects}
             </Link>
-            
+
             <Link
               href="/blogs"
               className={`relative text-sm font-medium transition-all duration-300 ${
@@ -137,17 +134,9 @@ const Navbar = memo(() => {
                   : 'text-muted-foreground hover:text-primary after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full'
               }`}
             >
-              {content.blogs}
+              {navbarContent.blogs}
             </Link>
 
-            <button
-              onClick={toggleLanguage}
-              aria-label="Toggle language between English and Chinese"
-              className="px-2 py-1 text-xs font-medium rounded-sm border border-border text-muted-foreground hover:text-primary hover:border-primary/40 transition-all duration-300 focus-ring"
-            >
-              {content.languageToggle}
-            </button>
-          
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
@@ -175,14 +164,6 @@ const Navbar = memo(() => {
 
           {/* Mobile Controls - Right */}
           <div className="md:hidden flex items-center gap-4">
-            <button
-              onClick={toggleLanguage}
-              aria-label="Toggle language between English and Chinese"
-              className="px-2 py-1 text-xs font-medium rounded-sm border border-border text-muted-foreground hover:text-primary hover:border-primary/40 transition-all duration-300 focus-ring"
-            >
-              {content.languageToggle}
-            </button>
-
             <button
               onClick={toggleTheme}
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
@@ -228,9 +209,9 @@ const Navbar = memo(() => {
                   : 'text-muted-foreground hover:text-primary'
               }`}
             >
-              {content.projects}
+              {navbarContent.projects}
             </Link>
-            
+
             <Link
               href="/blogs"
               onClick={closeMobileMenu}
@@ -240,7 +221,7 @@ const Navbar = memo(() => {
                   : 'text-muted-foreground hover:text-primary'
               }`}
             >
-              {content.blogs}
+              {navbarContent.blogs}
             </Link>
           </div>
         )}
