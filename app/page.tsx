@@ -1,4 +1,4 @@
-import { HeroSection, Experience, FeaturedProjects, FeaturedPosts, SocialsConnect } from '@/components/landing'
+import { HeroSection, Experience, FeaturedProjects, Hackathons, FeaturedPosts, SocialsConnect } from '@/components/landing'
 import { NewsletterSubscription } from '@/components/common'
 import { getAllBlogPosts } from '@/app/blogs/utils'
 import { Metadata } from 'next'
@@ -44,6 +44,7 @@ export default async function Home() {
         <HeroSection />
         <Experience />
         <FeaturedProjects />
+        <Hackathons />
         <SocialsConnect />
         <FeaturedPosts posts={blogPosts} />
         <NewsletterSubscription />

@@ -22,6 +22,17 @@ const parseProjectStatus = (
   }
 }
 
+function statusColor(status: 'live' | 'building' | 'completed'): string {
+  switch (status) {
+    case 'live':
+      return 'text-green-500'
+    case 'building':
+      return 'text-amber-500'
+    case 'completed':
+      return 'text-muted-foreground opacity-70'
+  }
+}
+
 export default function FeaturedProjects() {
   const pathname = usePathname()
   const isHomePage = pathname === '/'
@@ -47,7 +58,7 @@ export default function FeaturedProjects() {
                   {project.title}
                 </h3>
                 {project.status && (
-                  <span className="text-xs text-muted-foreground opacity-70 hidden sm:inline">
+                  <span className={`text-xs hidden sm:inline ${statusColor(project.status)}`}>
                     [{parseProjectStatus(project.status)}]
                   </span>
                 )}
