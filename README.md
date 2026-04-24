@@ -1,150 +1,166 @@
 <img width="1440" height="1080" alt="image" src="https://github.com/user-attachments/assets/333e2c99-830a-4b59-88c3-431f360a756f" />
 
-## Installation
+## Project Overview
 
-### Prerequisites
+Personal portfolio and blog, live at [buddhsentripathi.com](https://buddhsentripathi.com). Built with Next.js 16 (App Router), TypeScript, Tailwind v4, and an MDX-powered blog backed by Cloudflare R2 and Supabase. The focus is on performance, SEO, and a clean developer experience.
 
-- Node.js 18+
-- Bun (recommended) or npm/yarn
+> The previous iteration of the portfolio lives on the [`ver/04-26`](https://github.com/buddhsen-tripathi/PortfolioWeb/tree/ver/04-26) branch.
 
-### 1. Clone the repository
+## Features
 
-```bash
-git clone https://github.com/ShivaBhattacharjee/portfolio-2025.git
-cd portfolio-2025
-```
+### Core Pages
+-   **Home:** Hero with bio, contribution graph, social links, hackathons feed, and CTA
+-   **Projects:** Project showcase with tech badges, GitHub stars, and live previews
+-   **Blogs:** Technical and personal articles with view counters, TOC, and tabbed navigation
+-   **Experience:** Timeline of professional work with responsibilities and stack
+-   **Hackathons, Research, Newsletter:** Dedicated pages for each
 
-### 2. Install dependencies
+### Blog System
+-   MDX posts stored on Cloudflare R2 and rendered with `next-mdx-remote`
+-   Per-post view counter backed by Supabase with batched fetches
+-   Table of contents, reading time, and syntax highlighting via `highlight.js`
+-   RSS feed (`/feed.xml`) and dynamic sitemap (`/sitemap.xml`)
 
-```bash
-# Using Bun (recommended)
-bun install
+### Additional Features
+-   **Dark/Light Mode:** Theme toggling via `next-themes`
+-   **Newsletter:** Email sign-ups backed by Supabase
+-   **Visitor Counter:** Tracks unique visitors
+-   **SEO Optimized:** Full JSON-LD (Person, Website, ProfilePage, BlogPosting, Breadcrumb) plus per-page OpenGraph, Twitter cards, and canonical URLs
+-   **Analytics:** Google Analytics integration
+-   **Animations:** Smooth transitions with Motion (ex-Framer Motion)
 
-# Or using npm
-npm install
+## Tech Stack
 
-# Or using yarn
-yarn install
-```
+| Category | Technologies |
+|----------|-------------|
+| **Framework** | [Next.js](https://nextjs.org/) 16 (App Router, Turbopack) |
+| **Language** | [TypeScript](https://www.typescriptlang.org/) 6 |
+| **Runtime / Package Manager** | [Bun](https://bun.sh) |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com/) v4, [shadcn/ui](https://ui.shadcn.com/), [Radix UI](https://radix-ui.com/) |
+| **Animation** | [Motion](https://motion.dev/) |
+| **Database** | [Supabase](https://supabase.io/) (views & subscribers) |
+| **Storage** | [Cloudflare R2](https://www.cloudflare.com/r2/) (blog content & images) |
+| **Content** | [MDX](https://mdxjs.com/) with `next-mdx-remote` |
+| **Deployment** | [Vercel](https://vercel.com/) |
 
-### 3. Environment Setup
+## Getting Started
 
-Create a `.env.local` file in the root directory and add your environment variables:
+Follow these steps to get the project running locally:
 
-```env
-DISCORD_BOT_TOKEN=
-DISCORD_RECIPIENT_ID=
-# optional
-NEXT_PUBLIC_GITHUB_TOKEN=
-```
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/buddhsen-tripathi/PortfolioWeb.git
+    cd PortfolioWeb
+    ```
 
-### 4. Run the development server
+2.  **Install dependencies:**
+    ```bash
+    bun install
+    ```
 
-```bash
-# Using Bun
-bun dev
+3.  **Set up Environment Variables:**
+    Copy `.env.example` to `.env.local` and fill in your credentials (see Environment Variables section below).
 
-# Or using npm
-npm run dev
+4.  **Run the development server:**
+    ```bash
+    bun run dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-# Or using yarn
-yarn dev
-```
+## Scripts
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+| Command | Description |
+|---------|-------------|
+| `bun run dev` | Start the development server |
+| `bun run build` | Build for production |
+| `bun run start` | Start the production server |
+| `bun run lint` | Run ESLint |
 
-## Build for Production
+## Environment Variables
 
-```bash
-# Using Bun
-bun run build
-bun start
+Create a `.env.local` file with the following variables:
 
-# Or using npm
-npm run build
-npm start
-```
+### Required
+| Variable | Description |
+|----------|-------------|
+| `SUPABASE_URL` | Supabase project URL (server-side) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key |
+| `R2_ACCESS_KEY_ID` | Cloudflare R2 access key |
+| `R2_SECRET_ACCESS_KEY` | Cloudflare R2 secret key |
+| `R2_BUCKET_NAME` | R2 bucket name for blog content |
+| `R2_ENDPOINT` | R2 endpoint URL |
+| `R2_ACCOUNT_ID` | Cloudflare account ID |
+
+### Optional
+| Variable | Description |
+|----------|-------------|
+| `GITHUB_TOKEN` | GitHub token for contribution graph / star counts |
+| `NEXT_PUBLIC_GA_ID` | Google Analytics ID |
+
+Supabase expects a `views` table (`slug text primary key`, `count int`) with an RPC `increment_view_count(post_slug text)`, plus a `newsletter_subscribers` table (`email text primary key`).
 
 ## Project Structure
 
-```text
+```
 src/
-├── app/                 # Next.js app directory
-├── components/          # Reusable components
-│   ├── ui/             # UI primitives
-│   ├── sections/       # Page sections
-│   └── layout/         # Layout components
-├── constants/          # Static data and constants
-├── lib/               # Utility functions
-└── utils/             # Additional utilities
+├── app/
+│   ├── api/                  # API routes
+│   │   ├── github/           # Contribution graph + star counts
+│   │   ├── location/         # Visitor geolocation
+│   │   ├── socials/          # Live social metrics
+│   │   ├── subscribe/        # Newsletter subscription
+│   │   ├── views/            # Blog view counter (single + batch)
+│   │   └── visitors/         # Visitor tracking
+│   ├── blogs/                # Blog list, [slug], MDX utilities
+│   ├── experience/           # Experience page
+│   ├── hackathons/           # Hackathons page
+│   ├── research/             # Research page
+│   ├── newsletter/           # Newsletter page
+│   ├── projects/             # Projects listing
+│   ├── feed.xml/             # RSS feed route
+│   ├── sitemap.xml/          # Sitemap route
+│   ├── layout.tsx            # Root layout
+│   ├── page.tsx              # Home page
+│   └── globals.css           # Tailwind v4 theme + base styles
+├── components/
+│   ├── blog/                 # MDX components, view counter, TOC
+│   ├── common/               # Shared (newsletter subscription, etc.)
+│   ├── sections/             # Page sections (hero, projects, experience, etc.)
+│   ├── layout/               # Layout wrappers and timeline
+│   ├── ui/                   # shadcn/ui primitives
+│   ├── icons/                # Icon components
+│   └── illustrations/        # Custom SVG illustrations
+├── constants/                # Projects, experiences, nav links, SEO content
+├── lib/
+│   ├── jsonLd.ts             # JSON-LD schema generators
+│   ├── r2Client.ts           # Cloudflare R2 integration
+│   ├── supabaseAdmin.ts      # Supabase server client
+│   ├── github.ts             # GitHub API helpers
+│   └── utils.ts              # Utility functions
+├── utils/                    # Fonts and misc
+└── public/                   # Static assets
 ```
 
-## Customization
+## Connect
 
-### 1. Update Personal Information
+-   **Website:** [buddhsentripathi.com](https://buddhsentripathi.com)
+-   **LinkedIn:** [buddhsen-tripathi](https://linkedin.com/in/buddhsen-tripathi)
+-   **Twitter/X:** [@senbuilds](https://twitter.com/senbuilds)
 
-Edit the constants in `src/constants/index.js`:
+## Credits
 
-- Navigation links
-- Personal introductions
-- Work experiences
-- Projects showcase
+-   Original template: [ShivaBhattacharjee/Portfolio-latest](https://github.com/ShivaBhattacharjee/Portfolio-latest)
 
-### 2. Modify Theme Colors
+## License
 
-Update the theme in `src/app/globals.css`:
+This project is open source under the [MIT License](LICENSE).
 
-- CSS custom properties for light/dark themes
-- Tailwind configuration in `tailwind.config.js`
+## Learn More
 
-### 3. Add/Remove Sections
+-   [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API
+-   [Tailwind CSS v4](https://tailwindcss.com/docs) - Utility-first CSS framework
+-   [shadcn/ui](https://ui.shadcn.com/) - Re-usable UI components
+-   [Supabase](https://supabase.com/docs) - Open source Firebase alternative
+-   [Cloudflare R2](https://developers.cloudflare.com/r2/) - Object storage
 
-Components are modular and can be easily added or removed from the main pages.
-
-## Important Warnings
-
-### Personal Data
-
-- **Remove all personal information** before deploying your own version
-- Update social media links, email addresses, and contact information
-- Replace project links and descriptions with your own
-
-### Content License
-
-- This template is free to use for personal and commercial projects
-
-
-### Customization Required
-
-- **Update the contact form** with your own email service configuration
-- **Replace placeholder content** in all sections
-- **Modify or remove** the specific project examples and experiences
-
-### Deployment Considerations
-
-- Ensure all environment variables are properly configured
-- Test the contact form functionality before going live
-- Optimize images and assets for production
-
-## Template Usage
-
-Feel free to use this template for your own portfolio! Here's what you should do:
-
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Support
-
-If you have any questions or need help customizing this template, feel free to open an issue on GitHub.
-
-## Acknowledgments
-
-- Built with [Next.js](https://nextjs.org/)
-- UI components from [Radix UI](https://radix-ui.com/)
-- Animations powered by [Framer Motion](https://framer.com/motion/)
-
----
-
-Made by [Shiva Bhattacharjee](https://github.com/ShivaBhattacharjee)
+Built by [Buddhsen Tripathi](https://buddhsentripathi.com)
