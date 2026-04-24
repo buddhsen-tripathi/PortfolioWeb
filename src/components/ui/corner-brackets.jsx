@@ -4,10 +4,10 @@ import { forwardRef, useState } from "react"
 import { motion, AnimatePresence } from "motion/react"
 
 const corners = [
-  { position: "-top-[3px] -left-[3px]", border: "border-t border-l" },
-  { position: "-top-[3px] -right-[3px]", border: "border-t border-r" },
-  { position: "-bottom-[3px] -left-[3px]", border: "border-b border-l" },
-  { position: "-bottom-[3px] -right-[3px]", border: "border-b border-r" },
+  { position: "top-[-3px] left-[-3px]", border: "border-t border-l" },
+  { position: "top-[-3px] right-[-3px]", border: "border-t border-r" },
+  { position: "bottom-[-3px] left-[-3px]", border: "border-b border-l" },
+  { position: "bottom-[-3px] right-[-3px]", border: "border-b border-r" },
 ]
 
 export const CornerBrackets = forwardRef(function CornerBrackets({ children, className = "", alwaysShow = false, ...props }, ref) {
@@ -26,7 +26,7 @@ export const CornerBrackets = forwardRef(function CornerBrackets({ children, cla
         {show && (
           <>
             <motion.span
-              className="pointer-events-none absolute -inset-[3px] border border-dashed border-black/50 dark:border-white/50"
+              className="pointer-events-none absolute inset-[-3px] border border-dashed border-black/50 dark:border-white/50"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

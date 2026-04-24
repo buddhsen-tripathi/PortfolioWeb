@@ -59,7 +59,7 @@ const GitHubContributionGraph = ({ data = [], lifetimeTotal }) => {
 
       {tooltip && (
         <div
-          className="pointer-events-none fixed z-[999] -translate-x-1/2 -translate-y-full rounded-md border border-border bg-background/95 px-3 py-1.5 text-xs shadow-lg backdrop-blur-sm"
+          className="pointer-events-none fixed z-999 -translate-x-1/2 -translate-y-full rounded-md border border-border bg-background/95 px-3 py-1.5 text-xs shadow-lg backdrop-blur-xs"
           style={{ left: tooltip.x, top: tooltip.y - 8 }}
         >
           <p className="font-semibold">{tooltip.date}</p>

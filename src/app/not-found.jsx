@@ -12,7 +12,7 @@ const AsciiCosmos = dynamic(() => import("@/components/AsciiCosmos"), {
 
 export default function NotFound() {
   return (
-    <div className="relative -mx-6 flex min-h-[80vh] items-center justify-center md:-mx-0">
+    <div className="relative -mx-6 flex min-h-[80vh] items-center justify-center md:mx-0">
       <div className="fixed inset-0 z-0">
         <AsciiCosmos />
       </div>

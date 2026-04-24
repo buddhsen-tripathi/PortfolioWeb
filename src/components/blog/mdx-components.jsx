@@ -126,7 +126,7 @@ export const mdxComponents = {
     if (isInline) {
       return (
         <code
-          className="rounded border border-black/[0.08] bg-black/[0.04] px-1.5 py-0.5 font-mono text-xs text-foreground dark:border-white/[0.08] dark:bg-white/[0.05]"
+          className="rounded-sm border border-black/8 bg-black/4 px-1.5 py-0.5 font-mono text-xs text-foreground dark:border-white/8 dark:bg-white/5"
           {...props}
         >
           {children}
@@ -141,7 +141,7 @@ export const mdxComponents = {
   },
   pre: ({ children, ...props }) => (
     <pre
-      className="my-4 overflow-x-auto rounded-md border border-black/[0.08] bg-zinc-950 p-4 font-mono text-xs text-zinc-100 dark:border-white/[0.08] md:text-sm [&_code]:bg-transparent [&_code]:text-zinc-100"
+      className="my-4 overflow-x-auto rounded-md border border-black/8 bg-zinc-950 p-4 font-mono text-xs text-zinc-100 dark:border-white/8 md:text-sm [&_code]:bg-transparent [&_code]:text-zinc-100"
       {...props}
     >
       {children}
@@ -153,30 +153,30 @@ export const mdxComponents = {
       src={src}
       alt={alt || ""}
       loading="lazy"
-      className="my-6 h-auto max-w-full rounded-md border border-black/[0.08] dark:border-white/[0.08]"
+      className="my-6 h-auto max-w-full rounded-md border border-black/8 dark:border-white/8"
       {...props}
     />
   ),
   hr: (props) => (
     <hr
-      className="my-6 border-t border-black/[0.08] dark:border-white/[0.08]"
+      className="my-6 border-t border-black/8 dark:border-white/8"
       {...props}
     />
   ),
   table: ({ children, ...props }) => (
-    <div className="my-6 overflow-x-auto rounded-md border border-black/[0.08] dark:border-white/[0.08]">
+    <div className="my-6 overflow-x-auto rounded-md border border-black/8 dark:border-white/8">
       <table className="w-full text-sm" {...props}>
         {children}
       </table>
     </div>
   ),
   thead: ({ children, ...props }) => (
-    <thead className="bg-black/[0.03] dark:bg-white/[0.04]" {...props}>
+    <thead className="bg-black/3 dark:bg-white/4" {...props}>
       {children}
     </thead>
   ),
   tbody: ({ children, ...props }) => (
-    <tbody className="divide-y divide-black/[0.06] dark:divide-white/[0.06]" {...props}>
+    <tbody className="divide-y divide-black/6 dark:divide-white/6" {...props}>
       {children}
     </tbody>
   ),

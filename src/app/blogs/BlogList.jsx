@@ -53,7 +53,7 @@ export default function BlogList({ blogPosts }) {
             placeholder="search articles..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-9 w-full rounded-sm border border-black/[0.08] bg-transparent px-3 pr-9 font-space-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground/40 dark:border-white/[0.08]"
+            className="h-9 w-full rounded-xs border border-black/8 bg-transparent px-3 pr-9 font-space-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-1 focus:ring-foreground/40 dark:border-white/8"
           />
           <Search className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         </div>
@@ -61,7 +61,7 @@ export default function BlogList({ blogPosts }) {
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setIsDropdownOpen((v) => !v)}
-            className="flex h-9 cursor-pointer items-center gap-2 rounded-sm border border-black/[0.08] bg-transparent px-3 font-space-mono text-sm text-foreground transition-colors hover:bg-black/[0.03] focus:outline-none focus:ring-1 focus:ring-foreground/40 dark:border-white/[0.08] dark:hover:bg-white/[0.04]"
+            className="flex h-9 cursor-pointer items-center gap-2 rounded-xs border border-black/8 bg-transparent px-3 font-space-mono text-sm text-foreground transition-colors hover:bg-black/3 focus:outline-hidden focus:ring-1 focus:ring-foreground/40 dark:border-white/8 dark:hover:bg-white/4"
           >
             <Check className="h-3 w-3" />
             <span>{sortType}</span>
@@ -74,7 +74,7 @@ export default function BlogList({ blogPosts }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.15 }}
-                className="absolute right-0 z-50 mt-1 w-32 overflow-hidden rounded-sm border border-black/[0.08] bg-background shadow-lg dark:border-white/[0.08]"
+                className="absolute right-0 z-50 mt-1 w-32 overflow-hidden rounded-xs border border-black/8 bg-background shadow-lg dark:border-white/8"
               >
                 {["newest", "oldest"].map((option) => (
                   <button
@@ -83,7 +83,7 @@ export default function BlogList({ blogPosts }) {
                       setSortType(option);
                       setIsDropdownOpen(false);
                     }}
-                    className={`flex w-full items-center justify-between px-3 py-2 text-left font-space-mono text-sm transition-colors hover:bg-black/[0.04] dark:hover:bg-white/[0.05] ${
+                    className={`flex w-full items-center justify-between px-3 py-2 text-left font-space-mono text-sm transition-colors hover:bg-black/4 dark:hover:bg-white/5 ${
                       sortType === option ? "text-foreground" : "text-muted-foreground"
                     }`}
                   >
@@ -129,12 +129,12 @@ export default function BlogList({ blogPosts }) {
                           {post.title}
                         </h2>
                         {post.url && (
-                          <span className="rounded-sm border border-black/[0.1] px-1.5 py-px text-[10px] leading-none text-muted-foreground dark:border-white/[0.1]">
+                          <span className="rounded-xs border border-black/10 px-1.5 py-px text-[10px] leading-none text-muted-foreground dark:border-white/10">
                             𝕏 article
                           </span>
                         )}
                       </div>
-                      <ArrowUpRight className="h-4 w-4 flex-shrink-0 text-muted-foreground opacity-0 transition-all group-hover:opacity-100" />
+                      <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground opacity-0 transition-all group-hover:opacity-100" />
                     </div>
 
                     <div className="flex items-center gap-2 font-space-mono text-xs text-muted-foreground">

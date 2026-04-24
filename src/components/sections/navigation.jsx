@@ -53,10 +53,10 @@ function NavigationBar() {
 
   return (
     <nav className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 md:bottom-auto md:top-6">
-      <div className="flex items-center rounded-full border border-black/[0.08] bg-black/[0.05] px-1 py-1 backdrop-blur-xl dark:border-white/[0.08] dark:bg-white/[0.05] md:px-2">
+      <div className="flex items-center rounded-full border border-black/8 bg-black/5 px-1 py-1 backdrop-blur-xl dark:border-white/8 dark:bg-white/5 md:px-2">
         <Tabs value={activeTab} onValueChange={handleNavigation}>
           <TabsHighlight
-            className="absolute z-0 inset-0 rounded-full bg-black/[0.08] dark:bg-white/[0.08]"
+            className="absolute z-0 inset-0 rounded-full bg-black/8 dark:bg-white/8"
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
             <TabsList className="flex items-center">
@@ -86,7 +86,7 @@ function NavigationBar() {
           </TabsHighlight>
         </Tabs>
 
-        <div className="mx-0.5 h-8 w-px bg-black/[0.1] dark:bg-white/[0.1] md:mx-1" />
+        <div className="mx-0.5 h-8 w-px bg-black/10 dark:bg-white/10 md:mx-1" />
 
         <button
           onClick={toggleMode}

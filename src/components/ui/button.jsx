@@ -8,21 +8,21 @@ import { cn } from "@/lib/utils";
 import { vibrateLight } from "@/lib/haptics";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap font-cera text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap font-cera text-sm transition-all focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "border border-black/[0.1] bg-black/[0.04] text-foreground hover:bg-black/[0.08] dark:border-white/[0.1] dark:bg-white/[0.06] dark:hover:bg-white/[0.12] button-highlighted-shadow",
+          "border border-black/10 bg-black/4 text-foreground hover:bg-black/8 dark:border-white/10 dark:bg-white/6 dark:hover:bg-white/12 button-highlighted-shadow",
         noShadow:
-          "border border-black/[0.1] bg-black/[0.04] text-foreground dark:border-white/[0.1] dark:bg-white/[0.06]",
+          "border border-black/10 bg-black/4 text-foreground dark:border-white/10 dark:bg-white/6",
         link: "underline-offset-4 hover:underline text-foreground",
         neutral:
           "bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 button-highlighted-shadow",
         outline:
-          "border border-black/[0.1] bg-transparent text-foreground hover:bg-black/[0.04] dark:border-white/[0.1] dark:hover:bg-white/[0.06]",
+          "border border-black/10 bg-transparent text-foreground hover:bg-black/4 dark:border-white/10 dark:hover:bg-white/6",
         ghost:
-          "hover:bg-black/[0.04] text-foreground dark:hover:bg-white/[0.06]",
+          "hover:bg-black/4 text-foreground dark:hover:bg-white/6",
       },
       size: {
         default: "h-10 px-4 py-2",

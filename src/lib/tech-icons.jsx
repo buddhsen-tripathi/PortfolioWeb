@@ -140,7 +140,7 @@ export const TechBadge = ({ name }) => {
 
   if (adaptive) {
     return (
-      <span className="inline-flex items-center gap-0.5 rounded border border-dashed border-black/[0.15] bg-black/[0.04] px-1 py-px text-[8px] text-foreground/80 dark:border-white/[0.18] dark:bg-white/[0.06] md:px-1.5 md:text-[9px]">
+      <span className="inline-flex items-center gap-0.5 rounded-sm border border-dashed border-black/15 bg-black/4 px-1 py-px text-[8px] text-foreground/80 dark:border-white/18 dark:bg-white/6 md:px-1.5 md:text-[9px]">
         <Icon className="h-2 w-2 md:h-2.5 md:w-2.5" />
         {name}
       </span>
@@ -149,7 +149,7 @@ export const TechBadge = ({ name }) => {
 
   return (
     <span
-      className="inline-flex items-center gap-0.5 rounded border border-dashed px-1 py-px text-[8px] font-medium md:px-1.5 md:text-[9px]"
+      className="inline-flex items-center gap-0.5 rounded-sm border border-dashed px-1 py-px text-[8px] font-medium md:px-1.5 md:text-[9px]"
       style={{
         backgroundColor: hexToRgba(color, 0.12),
         borderColor: hexToRgba(color, 0.35),

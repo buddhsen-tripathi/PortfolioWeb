@@ -295,7 +295,7 @@ export function TaptickitIllustration({ isCardHovered = false }) {
         <path d={tableRight} fill="url(#taptickit-table-right)" className="stroke-zinc-400/20 dark:stroke-zinc-600/15" strokeWidth={0.5} strokeLinejoin="round" />
 
         {/* ── Phone shadow on table ── */}
-        <path d={bodyPath} className="fill-black/[0.06] dark:fill-black/[0.35]" style={{ filter: "blur(8px)", transform: "translate(4px, 5px)" }} />
+        <path d={bodyPath} className="fill-black/6 dark:fill-black/35" style={{ filter: "blur(8px)", transform: "translate(4px, 5px)" }} />
 
         {/* ── Haptic vibration waves on table (on hover) ── */}
         {[28, 44, 60].map((r, i) => (

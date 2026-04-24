@@ -7,19 +7,19 @@ import { TechBadge } from "@/lib/tech-icons";
 const Timeline = ({ role, company, year, type, location, logo, logoPadding, invertLogo, responsibility, techstacks, index = 0 }) => {
   return (
     <motion.ol
-      className="relative border-s border-black/[0.1] dark:border-white/[0.1]"
+      className="relative border-s border-black/10 dark:border-white/10"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
     >
       <li className="ms-4 p-3 md:ms-6 md:p-5">
-        <span className="absolute mt-1.5 -start-[5px] rounded-full w-2.5 h-2.5 bg-black/20 dark:bg-white/30" />
+        <span className="absolute mt-1.5 inset-s-[-5px] rounded-full w-2.5 h-2.5 bg-black/20 dark:bg-white/30" />
 
         <div className="mb-3 flex items-start justify-between gap-2 md:mb-4 md:gap-4">
           <div className="flex min-w-0 items-center gap-2 md:gap-3">
             <div
               className={`flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg md:h-10 md:w-10 md:rounded-xl ${
-                logo ? "bg-white" : "bg-black/[0.03] dark:bg-white/[0.05]"
+                logo ? "bg-white" : "bg-black/3 dark:bg-white/5"
               }`}
             >
               {logo ? (
@@ -41,7 +41,7 @@ const Timeline = ({ role, company, year, type, location, logo, logoPadding, inve
               <div className="flex items-center gap-2">
                 <span className="truncate text-xs font-semibold md:text-sm">{company}</span>
                 {type && (
-                  <span className="shrink-0 rounded-full  px-1.5 py-px text-[8px] bg-black/[0.08] font-medium text-muted-foreground dark:bg-white/[0.08] md:text-[9px]">
+                  <span className="shrink-0 rounded-full  px-1.5 py-px text-[8px] bg-black/8 font-medium text-muted-foreground dark:bg-white/8 md:text-[9px]">
                     {type}
                   </span>
                 )}
@@ -62,7 +62,7 @@ const Timeline = ({ role, company, year, type, location, logo, logoPadding, inve
           <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground md:mb-2 md:text-sm">Key Responsibilities</p>
           <ul className="list-disc space-y-1.5 pl-4 marker:text-muted-foreground/40 md:space-y-2">
             {responsibility.map((bullet, i) => (
-              <li key={i} className="font-space-mono text-xs leading-relaxed break-words text-muted-foreground md:text-sm">
+              <li key={i} className="font-space-mono text-xs leading-relaxed wrap-break-word text-muted-foreground md:text-sm">
                 {Array.isArray(bullet)
                   ? bullet.map((seg, j) =>
                       seg.bold ? (

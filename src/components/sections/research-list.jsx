@@ -109,7 +109,7 @@ const ResearchList = ({ research }) => {
                       {item.status !== 'under-review' && (
                         <Badge
                           variant="outline"
-                          className="flex-shrink-0 md:ml-5"
+                          className="shrink-0 md:ml-5"
                         >
                           {item.status === 'active' ? 'Active' : 'Discontinued'}
                         </Badge>
@@ -124,7 +124,7 @@ const ResearchList = ({ research }) => {
 
                   <div className="flex flex-wrap items-center gap-3 text-[10px] text-muted-foreground md:gap-4 md:text-sm">
                     <div className="flex items-center gap-1 min-w-0">
-                      <FaBook size={10} className="flex-shrink-0" />
+                      <FaBook size={10} className="shrink-0" />
                       <span className="truncate w-48 md:w-72" title={item.journal}>{item.journal}</span>
                     </div>
                     <div className="flex items-center gap-1">
@@ -152,7 +152,7 @@ const ResearchList = ({ research }) => {
                   </div>
                 </div>
 
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   {item.status === 'under-review' ? (
                     <Tooltip>
                       <TooltipTrigger asChild>

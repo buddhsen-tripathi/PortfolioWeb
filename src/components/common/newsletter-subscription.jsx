@@ -56,13 +56,13 @@ export default function NewsletterSubscription() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your@email.com"
-          className="flex-1 rounded-sm border border-border bg-background px-3 py-2 text-sm transition-colors focus:outline-none focus:ring-1 focus:ring-primary"
+          className="flex-1 rounded-xs border border-border bg-background px-3 py-2 text-sm transition-colors focus:outline-hidden focus:ring-1 focus:ring-primary"
           required
         />
         <button
           type="submit"
           disabled={loading}
-          className={`inline-flex items-center justify-center gap-1.5 rounded-sm px-4 py-2 text-sm font-medium transition-all duration-300 ${
+          className={`inline-flex items-center justify-center gap-1.5 rounded-xs px-4 py-2 text-sm font-medium transition-all duration-300 ${
             success
               ? "bg-green-50 text-green-600 dark:bg-green-950/30"
               : "bg-primary text-primary-foreground hover:bg-primary/90"

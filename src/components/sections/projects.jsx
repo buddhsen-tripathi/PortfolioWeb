@@ -14,10 +14,10 @@ const projectIllustrations = {
 };
 
 const corners = [
-  { position: "-top-[3px] -left-[3px]", border: "border-t border-l" },
-  { position: "-top-[3px] -right-[3px]", border: "border-t border-r" },
-  { position: "-bottom-[3px] -left-[3px]", border: "border-b border-l" },
-  { position: "-bottom-[3px] -right-[3px]", border: "border-b border-r" },
+  { position: "top-[-3px] left-[-3px]", border: "border-t border-l" },
+  { position: "top-[-3px] right-[-3px]", border: "border-t border-r" },
+  { position: "bottom-[-3px] left-[-3px]", border: "border-b border-l" },
+  { position: "bottom-[-3px] right-[-3px]", border: "border-b border-r" },
 ];
 
 const flickerKeyframes = {
@@ -51,7 +51,7 @@ const Projects = ({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative block min-w-0 border border-black/[0.06] bg-black/[0.02] transition-colors hover:bg-black/[0.04] dark:border-white/[0.06] dark:bg-white/[0.03] dark:hover:bg-white/[0.05]"
+      className="group relative block min-w-0 border border-black/6 bg-black/2 transition-colors hover:bg-black/4 dark:border-white/6 dark:bg-white/3 dark:hover:bg-white/5"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       initial={{ opacity: 0, y: 16 }}
@@ -66,7 +66,7 @@ const Projects = ({
         {isHovered && (
           <>
             <motion.span
-              className="pointer-events-none absolute -inset-[3px] border border-dashed border-black/50 dark:border-white/50"
+              className="pointer-events-none absolute inset-[-3px] border border-dashed border-black/50 dark:border-white/50"
               initial={{ opacity: 0 }}
               animate={flickerKeyframes}
               exit={{ opacity: 0 }}
@@ -89,7 +89,7 @@ const Projects = ({
       {(preview || Illustration) && (
         <div>
           <div
-            className={`border-b border-black/[0.06] dark:border-white/[0.06] ${Illustration ? "relative aspect-[8/5] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-950" : "relative aspect-[8/5] w-full overflow-hidden bg-white dark:bg-black"}`}
+            className={`border-b border-black/6 dark:border-white/6 ${Illustration ? "relative aspect-8/5 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-950" : "relative aspect-8/5 w-full overflow-hidden bg-white dark:bg-black"}`}
           >
             {Illustration ? (
               <div

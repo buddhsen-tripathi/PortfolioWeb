@@ -26,7 +26,7 @@ function Tabs({ className, ...props }) {
 
 function TabsList({ className, ...props }) {
   return (
-    <TabsHighlightPrimitive className="absolute z-0 inset-0 border border-transparent rounded-md bg-background dark:border-input dark:bg-input/30 shadow-sm">
+    <TabsHighlightPrimitive className="absolute z-0 inset-0 border border-transparent rounded-md bg-background dark:border-input dark:bg-input/30 shadow-xs">
       <TabsListPrimitive
         className={cn(
           'bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]',
@@ -64,7 +64,7 @@ function TabsContents(props) {
 function TabsContent({ className, ...props }) {
   return (
     <TabsContentPrimitive
-      className={cn('outline-none', className)}
+      className={cn('outline-hidden', className)}
       {...props}
     />
   );

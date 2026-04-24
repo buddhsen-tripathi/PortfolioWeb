@@ -76,7 +76,7 @@ export default function TableOfContents({ content }) {
   if (tocItems.length === 0) return null;
 
   return (
-    <div className="sticky top-20 z-10 rounded-sm border border-black/[0.08] bg-background/60 p-4 backdrop-blur-sm dark:border-white/[0.08]">
+    <div className="sticky top-20 z-10 rounded-xs border border-black/8 bg-background/60 p-4 backdrop-blur-xs dark:border-white/8">
       <button
         type="button"
         onClick={() => setIsCollapsed((v) => !v)}
@@ -119,10 +119,10 @@ export default function TableOfContents({ content }) {
                     transition={{ delay: index * 0.03 }}
                     onClick={() => scrollToHeading(item.id)}
                     style={{ paddingLeft: `${depth * 14 + 10}px` }}
-                    className={`block w-full rounded-sm py-1.5 pr-2 text-left font-space-mono text-xs transition-colors ${
+                    className={`block w-full rounded-xs py-1.5 pr-2 text-left font-space-mono text-xs transition-colors ${
                       isActive
-                        ? "border-l-2 border-foreground bg-black/[0.04] text-foreground dark:bg-white/[0.05]"
-                        : `border-l-2 border-transparent hover:bg-black/[0.03] hover:text-foreground dark:hover:bg-white/[0.04] ${
+                        ? "border-l-2 border-foreground bg-black/4 text-foreground dark:bg-white/5"
+                        : `border-l-2 border-transparent hover:bg-black/3 hover:text-foreground dark:hover:bg-white/4 ${
                             depth === 0
                               ? "text-muted-foreground"
                               : "text-muted-foreground/70"

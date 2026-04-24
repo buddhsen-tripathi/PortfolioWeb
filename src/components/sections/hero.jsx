@@ -115,15 +115,15 @@ function SocialPreviewCard({ loading, data, platform, username }) {
         <div className="flex items-center gap-3">
           <div className="h-14 w-14 rounded-full bg-muted"></div>
           <div className="flex flex-col gap-2">
-            <div className="h-4 w-32 rounded bg-muted"></div>
-            <div className="h-3 w-20 rounded bg-muted"></div>
+            <div className="h-4 w-32 rounded-sm bg-muted"></div>
+            <div className="h-3 w-20 rounded-sm bg-muted"></div>
           </div>
         </div>
-        <div className="h-10 w-full rounded bg-muted"></div>
-        <div className="h-4 w-24 rounded bg-muted"></div>
+        <div className="h-10 w-full rounded-sm bg-muted"></div>
+        <div className="h-4 w-24 rounded-sm bg-muted"></div>
         <div className="mt-2 flex gap-4">
-          <div className="h-4 w-16 rounded bg-muted"></div>
-          <div className="h-4 w-16 rounded bg-muted"></div>
+          <div className="h-4 w-16 rounded-sm bg-muted"></div>
+          <div className="h-4 w-16 rounded-sm bg-muted"></div>
         </div>
       </div>
     );
@@ -356,7 +356,7 @@ const Hero = ({ contributionData = [], lifetimeTotal = 0 }) => {
             width={128}
             height={128}
             priority
-            className="h-20 w-20 shrink-0 rounded-full border border-black/[0.08] object-cover dark:border-white/[0.08] md:h-28 md:w-28"
+            className="h-20 w-20 shrink-0 rounded-full border border-black/8 object-cover dark:border-white/8 md:h-28 md:w-28"
           />
         </div>
       </motion.div>
@@ -414,7 +414,7 @@ const Hero = ({ contributionData = [], lifetimeTotal = 0 }) => {
               {hackathons.map((hack) => (
                 <article
                   key={hack.title}
-                  className="border-l-2 border-black/[0.08] pl-4 dark:border-white/[0.08]"
+                  className="border-l-2 border-black/8 pl-4 dark:border-white/8"
                 >
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                     <h3 className="font-doto text-base font-medium text-foreground md:text-lg">
