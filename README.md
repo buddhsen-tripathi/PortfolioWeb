@@ -1,155 +1,150 @@
-## Project Overview
+<img width="1440" height="1080" alt="screenshot_1 5x_postspark_2026-04-10_03-11-15" src="https://github.com/user-attachments/assets/04da7cb1-87b3-47f4-b72a-454568df7d52" />
 
-This is my personal portfolio website built with Next.js (App Router), Tailwind CSS, and TypeScript. It showcases projects and experience, hosts a technical blog (MDX), and includes a couple of interactive tools. The focus is performance, SEO, and a clean developer experience.
+## Installation
 
-## Features
+### Prerequisites
 
-### Core Pages
--   **Home:** Hero section with bio, social links, work experience, featured projects, and newsletter subscription
--   **Projects:** Showcases active projects and inactive projects.
--   **Blog:** Technical and personal articles with tabbed navigation, view counters, and social sharing
+- Node.js 18+
+- Bun (recommended) or npm/yarn
 
-### Blog System
--   Self-hosted blog with posts written in MDX stored on Cloudflare R2
--   Basic view counters for blog posts
--   Table of contents, related posts, and social sharing
--   RSS feed and sitemap generation
+### 1. Clone the repository
 
-### Interactive Tools
--   **Code Runner:** A fast-paced browser game where you dodge bugs and climb the leaderboard
--   **Twitter/X Spam Check:** Analyzes a Twitter/X account for spam-like behavior using AI (Gemini + Exa)
+```bash
+git clone https://github.com/ShivaBhattacharjee/portfolio-2025.git
+cd portfolio-2025
+```
 
-### Additional Features
--   **Dark/Light Mode:** Theme toggling via `next-themes`
--   **Newsletter Subscription:** Email sign-ups backed by Supabase
--   **Visitor Counter:** Track unique site visitors
--   **SEO Optimized:** Open Graph tags, Twitter cards, RSS feed, and sitemap
--   **Analytics:** Google Analytics integration
--   **Animations:** Smooth transitions with Framer Motion
+### 2. Install dependencies
 
-## Tech Stack
+```bash
+# Using Bun (recommended)
+bun install
 
-| Category | Technologies |
-|----------|-------------|
-| **Framework** | [Next.js](https://nextjs.org/) v16+ (App Router) |
-| **Language** | [TypeScript](https://www.typescriptlang.org/) |
-| **Styling** | [Tailwind CSS](https://tailwindcss.com/), [shadcn/ui](https://ui.shadcn.com/) |
-| **Animation** | [Framer Motion](https://www.framer.com/motion/) |
-| **Database** | [Supabase](https://supabase.io/) (views & subscribers) |
-| **Storage** | [Cloudflare R2](https://www.cloudflare.com/r2/) (blog content & images) |
-| **Content** | [MDX](https://mdxjs.com/) with next-mdx-remote |
-| **AI APIs** | [Google Gemini](https://ai.google.dev/), [Exa](https://exa.ai/) |
-| **Deployment** | [Vercel](https://vercel.com/) |
+# Or using npm
+npm install
 
-## Getting Started
+# Or using yarn
+yarn install
+```
 
-Follow these steps to get the project running locally:
+### 3. Environment Setup
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/buddhsen-tripathi/PortfolioWeb.git
-    cd PortfolioWeb
-    ```
+Create a `.env.local` file in the root directory and add your environment variables:
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    # or: yarn install / pnpm install / bun install
-    ```
+```env
+DISCORD_BOT_TOKEN=
+DISCORD_RECIPIENT_ID=
+# optional
+NEXT_PUBLIC_GITHUB_TOKEN=
+```
 
-3.  **Set up Environment Variables:**
-    Create a `.env.local` file in the root directory with your credentials (see Environment Variables section below).
+### 4. Run the development server
 
-4.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
-    Open [http://localhost:3000](http://localhost:3000) to view the site.
+```bash
+# Using Bun
+bun dev
 
-## Scripts
+# Or using npm
+npm run dev
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run migrate-blogs` | Migrate blog posts to R2 |
+# Or using yarn
+yarn dev
+```
 
-## Environment Variables
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-Create a `.env.local` file with the following variables:
+## Build for Production
 
-### Required
-| Variable | Description |
-|----------|-------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous key |
-| `SUPABASE_URL` | Supabase URL (server-side) |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key |
+```bash
+# Using Bun
+bun run build
+bun start
 
-### Optional (for full functionality)
-| Variable | Description |
-|----------|-------------|
-| `GEMINI_API_KEY` | Google Gemini API key (Spam Check) |
-| `EXA_API_KEY` | Exa API key (Spam Check) |
-| `NEXT_PUBLIC_GA_ID` | Google Analytics ID |
-| `NEXT_PUBLIC_BASE_URL` | Allowed origins (comma-separated) |
-| `R2_ACCESS_KEY_ID` | Cloudflare R2 access key |
-| `R2_SECRET_ACCESS_KEY` | Cloudflare R2 secret key |
-| `R2_BUCKET_NAME` | R2 bucket name for blog content |
-| `R2_ACCOUNT_ID` | Cloudflare account ID |
+# Or using npm
+npm run build
+npm start
+```
 
 ## Project Structure
 
-```
-├── app/
-│   ├── api/                  # API routes
-│   │   ├── leaderboard/      # Game leaderboard
-│   │   ├── spam-or-not/      # Spam analysis API
-│   │   ├── subscribe/        # Newsletter subscription
-│   │   ├── views/            # Blog view counter
-│   │   └── visitors/         # Visitor tracking
-│   ├── blogs/                # Blog pages & MDX utilities
-│   ├── code-runner/          # Browser game
-│   ├── newsletter/           # Newsletter page
-│   ├── projects/             # Projects listing
-│   ├── spam-or-not/          # Spam checker tool
-│   ├── feed.xml/             # RSS feed route
-│   ├── sitemap.xml/          # Sitemap route
-│   ├── layout.tsx            # Root layout
-│   └── page.tsx              # Home page
-├── components/
-│   ├── blog/                 # Blog components (MDX, ToC, etc.)
-│   ├── common/               # Shared components
-│   ├── landing/              # Home page sections
-│   ├── layout/               # Navbar, Footer, ScrollProgress
-│   └── ui/                   # shadcn/ui components
-├── lib/
-│   ├── r2Client.ts           # Cloudflare R2 integration
-│   ├── supabaseClient.ts     # Supabase browser client
-│   ├── supabaseServer.ts     # Supabase server client
-│   └── utils.ts              # Utility functions
-├── public/                   # Static assets
-└── scripts/                  # Migration scripts
+```text
+src/
+├── app/                 # Next.js app directory
+├── components/          # Reusable components
+│   ├── ui/             # UI primitives
+│   ├── sections/       # Page sections
+│   └── layout/         # Layout components
+├── constants/          # Static data and constants
+├── lib/               # Utility functions
+└── utils/             # Additional utilities
 ```
 
-## Connect
+## Customization
 
--   **Website:** [buddhsentripathi.com](https://buddhsentripathi.com)
--   **GitHub:** [@buddhsen-tripathi](https://github.com/buddhsen-tripathi)
--   **LinkedIn:** [buddhsen-tripathi](https://linkedin.com/in/buddhsen-tripathi)
--   **Twitter/X:** [@btr1pathi](https://twitter.com/btr1pathi)
+### 1. Update Personal Information
 
-## License
+Edit the constants in `src/constants/index.js`:
 
-This project is open source under the [MIT License](LICENSE).
+- Navigation links
+- Personal introductions
+- Work experiences
+- Projects showcase
 
-## Learn More
+### 2. Modify Theme Colors
 
--   [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API
--   [Tailwind CSS](https://tailwindcss.com/docs) - Utility-first CSS framework
--   [shadcn/ui](https://ui.shadcn.com/) - Re-usable UI components
--   [Supabase](https://supabase.com/docs) - Open source Firebase alternative
--   [Cloudflare R2](https://developers.cloudflare.com/r2/) - Object storage
+Update the theme in `src/app/globals.css`:
 
-Built with ❤️ by [Buddhsen Tripathi](https://buddhsentripathi.com)
+- CSS custom properties for light/dark themes
+- Tailwind configuration in `tailwind.config.js`
+
+### 3. Add/Remove Sections
+
+Components are modular and can be easily added or removed from the main pages.
+
+## Important Warnings
+
+### Personal Data
+
+- **Remove all personal information** before deploying your own version
+- Update social media links, email addresses, and contact information
+- Replace project links and descriptions with your own
+
+### Content License
+
+- This template is free to use for personal and commercial projects
+
+
+### Customization Required
+
+- **Update the contact form** with your own email service configuration
+- **Replace placeholder content** in all sections
+- **Modify or remove** the specific project examples and experiences
+
+### Deployment Considerations
+
+- Ensure all environment variables are properly configured
+- Test the contact form functionality before going live
+- Optimize images and assets for production
+
+## Template Usage
+
+Feel free to use this template for your own portfolio! Here's what you should do:
+
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Support
+
+If you have any questions or need help customizing this template, feel free to open an issue on GitHub.
+
+## Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- UI components from [Radix UI](https://radix-ui.com/)
+- Animations powered by [Framer Motion](https://framer.com/motion/)
+
+---
+
+Made by [Shiva Bhattacharjee](https://github.com/ShivaBhattacharjee)
