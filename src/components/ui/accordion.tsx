@@ -7,14 +7,14 @@ import { cn } from "@/lib/utils"
 
 function Accordion({
   ...props
-}) {
+}: React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>) {
   return <AccordionPrimitive.Root data-slot="accordion" {...props} />;
 }
 
 function AccordionItem({
   className,
   ...props
-}) {
+}: React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>) {
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-item"
@@ -30,7 +30,7 @@ function AccordionTrigger({
   className,
   children,
   ...props
-}) {
+}: React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>) {
   return (
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
@@ -52,7 +52,7 @@ function AccordionContent({
   className,
   children,
   ...props
-}) {
+}: React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>) {
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import {
   ContributionGraph,
   ContributionGraphBlock,
@@ -10,10 +10,15 @@ import {
   ContributionGraphTotalCount,
 } from "@/components/kibo-ui/contribution-graph";
 
-const GitHubContributionGraph = ({ data = [], lifetimeTotal }) => {
-  const [tooltip, setTooltip] = useState(null);
+interface GitHubContributionGraphProps {
+  data?: any[];
+  lifetimeTotal?: number;
+}
 
-  const handleMouseEnter = useCallback((e, activity) => {
+const GitHubContributionGraph = ({ data = [], lifetimeTotal }: GitHubContributionGraphProps) => {
+  const [tooltip, setTooltip] = useState<{ date: string; count: number; x: number; y: number } | null>(null);
+
+  const handleMouseEnter = useCallback((e: React.MouseEvent<SVGGElement>, activity: any) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setTooltip({
       date: activity.date,

@@ -1,13 +1,19 @@
 'use client';;
 import * as React from 'react';
-import { motion } from 'motion/react';
+import { motion, type Transition } from 'motion/react';
 
 import { Highlight, HighlightItem } from '@/components/animate-ui/primitives/effects/highlight';
 import { getStrictContext } from '@/lib/get-strict-context';
 import { Slot } from '@/components/animate-ui/primitives/animate/slot';
 
+type TabsContextType = {
+  activeValue: any;
+  handleValueChange: (val: any) => void;
+  registerTrigger: (val: any, node: any) => void;
+};
+
 const [TabsProvider, useTabs] =
-  getStrictContext('TabsContext');
+  getStrictContext<TabsContextType>('TabsContext');
 
 function Tabs({
   defaultValue,
@@ -15,9 +21,9 @@ function Tabs({
   onValueChange,
   children,
   ...props
-}) {
+}: any) {
   const [activeValue, setActiveValue] = React.useState(defaultValue);
-  const triggersRef = React.useRef(new Map());
+  const triggersRef = React.useRef(new Map<any, any>());
   const initialSet = React.useRef(false);
   const isControlled = value !== undefined;
 
@@ -36,7 +42,7 @@ function Tabs({
     }
   }, [activeValue, isControlled]);
 
-  const registerTrigger = React.useCallback((val, node) => {
+  const registerTrigger = React.useCallback((val: any, node: any) => {
     if (node) {
       triggersRef.current.set(val, node);
       if (!isControlled && activeValue === undefined && !initialSet.current) {
@@ -48,7 +54,7 @@ function Tabs({
     }
   }, [activeValue, isControlled]);
 
-  const handleValueChange = React.useCallback((val) => {
+  const handleValueChange = React.useCallback((val: any) => {
     if (!isControlled) setActiveValue(val);
     else onValueChange?.(val);
   }, [isControlled, onValueChange]);
@@ -70,7 +76,7 @@ function Tabs({
 function TabsHighlight({
   transition = { type: 'spring', stiffness: 200, damping: 25 },
   ...props
-}) {
+}: any) {
   const { activeValue } = useTabs();
 
   return (
@@ -84,11 +90,11 @@ function TabsHighlight({
   );
 }
 
-function TabsList(props) {
+function TabsList(props: any) {
   return <div role="tablist" data-slot="tabs-list" {...props} />;
 }
 
-function TabsHighlightItem(props) {
+function TabsHighlightItem(props: any) {
   return <HighlightItem data-slot="tabs-highlight-item" {...props} />;
 }
 
@@ -97,10 +103,10 @@ function TabsTrigger({
   value,
   asChild = false,
   ...props
-}) {
+}: any) {
   const { activeValue, handleValueChange, registerTrigger } = useTabs();
 
-  const localRef = React.useRef(null);
+  const localRef = React.useRef<any>(null);
   React.useImperativeHandle(ref, () => localRef.current);
 
   React.useEffect(() => {
@@ -108,7 +114,7 @@ function TabsTrigger({
     return () => registerTrigger(value, null);
   }, [value, registerTrigger]);
 
-  const Component = asChild ? Slot : motion.button;
+  const Component: any = asChild ? Slot : motion.button;
 
   return (
     <Component
@@ -133,21 +139,21 @@ function TabsContents({
   },
 
   ...props
-}) {
+}: any) {
   const { activeValue } = useTabs();
   const childrenArray = React.Children.toArray(children);
   const activeIndex = childrenArray.findIndex(child => React.isValidElement(child) &&
   typeof child.props === 'object' &&
   child.props !== null &&
-  'value' in child.props &&
-  child.props.value === activeValue);
+  'value' in (child.props as any) &&
+  (child.props as any).value === activeValue);
 
-  const containerRef = React.useRef(null);
-  const itemRefs = React.useRef([]);
+  const containerRef = React.useRef<any>(null);
+  const itemRefs = React.useRef<any[]>([]);
   const [height, setHeight] = React.useState(0);
-  const roRef = React.useRef(null);
+  const roRef = React.useRef<ResizeObserver | null>(null);
 
-  const measure = React.useCallback((index) => {
+  const measure = React.useCallback((index: number) => {
     const pane = itemRefs.current[index];
     const container = containerRef.current;
     if (!pane || !container) return 0;
@@ -212,12 +218,12 @@ function TabsContents({
       data-slot="tabs-contents"
       style={{ overflow: 'hidden' }}
       animate={{ height }}
-      transition={transition}
+      transition={transition as Transition}
       {...props}>
       <motion.div
         className="flex -mx-2"
         animate={{ x: activeIndex * -100 + '%' }}
-        transition={transition}>
+        transition={transition as Transition}>
         {childrenArray.map((child, index) => (
           <div
             key={index}
@@ -238,11 +244,11 @@ function TabsContent({
   style,
   asChild = false,
   ...props
-}) {
+}: any) {
   const { activeValue } = useTabs();
   const isActive = activeValue === value;
 
-  const Component = asChild ? Slot : motion.div;
+  const Component: any = asChild ? Slot : motion.div;
 
   return (
     <Component

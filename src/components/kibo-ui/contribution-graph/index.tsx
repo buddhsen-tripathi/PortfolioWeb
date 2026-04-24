@@ -39,7 +39,7 @@ const DEFAULT_LABELS = {
 };
 
 const ContributionGraphContext =
-  createContext(null);
+  createContext<any>(null);
 
 const useContributionGraph = () => {
   const context = useContext(ContributionGraphContext);
@@ -51,7 +51,7 @@ const useContributionGraph = () => {
   return context;
 };
 
-const fillHoles = activities => {
+const fillHoles = (activities: any[]): any[] => {
   if (activities.length === 0) {
     return [];
   }
@@ -87,7 +87,7 @@ const fillHoles = activities => {
   });
 };
 
-const groupByWeeks = (activities, weekStart = 0) => {
+const groupByWeeks = (activities: any[], weekStart: any = 0) => {
   if (activities.length === 0) {
     return [];
   }
@@ -113,9 +113,9 @@ const groupByWeeks = (activities, weekStart = 0) => {
       paddedActivities.slice(weekIndex * 7, weekIndex * 7 + 7));
 };
 
-const getMonthLabels = (weeks, monthNames = DEFAULT_MONTH_LABELS) => {
+const getMonthLabels = (weeks: any[], monthNames = DEFAULT_MONTH_LABELS) => {
   return weeks
-    .reduce((labels, week, weekIndex) => {
+    .reduce((labels: any[], week: any[], weekIndex: number) => {
       const firstActivity = week.find((activity) => activity !== undefined);
 
       if (!firstActivity) {
@@ -167,7 +167,7 @@ export const ContributionGraph = ({
   weekStart = 0,
   className,
   ...props
-}) => {
+}: any) => {
   const maxLevel = Math.max(1, maxLevelProp);
   const weeks = useMemo(() => groupByWeeks(data, weekStart), [data, weekStart]);
   const LABEL_MARGIN = 8;
@@ -183,7 +183,7 @@ export const ContributionGraph = ({
   const totalCount =
     typeof totalCountProp === "number"
       ? totalCountProp
-      : data.reduce((sum, activity) => sum + activity.count, 0);
+      : data.reduce((sum: number, activity: any) => sum + activity.count, 0);
 
   const width = weeks.length * (blockSize + blockMargin) - blockMargin;
   const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin;
@@ -224,7 +224,7 @@ export const ContributionGraphBlock = ({
   weekIndex,
   className,
   ...props
-}) => {
+}: any) => {
   const { blockSize, blockMargin, blockRadius, labelHeight, maxLevel } =
     useContributionGraph();
 
@@ -262,7 +262,7 @@ export const ContributionGraphCalendar = ({
   className,
   children,
   ...props
-}) => {
+}: any) => {
   const { weeks, width, height, blockSize, blockMargin, labels } =
     useContributionGraph();
 
@@ -289,8 +289,8 @@ export const ContributionGraphCalendar = ({
             ))}
           </g>
         )}
-        {weeks.map((week, weekIndex) =>
-          week.map((activity, dayIndex) => {
+        {weeks.map((week: any[], weekIndex: number) =>
+          week.map((activity: any, dayIndex: number) => {
             if (!activity) {
               return null;
             }
@@ -309,7 +309,7 @@ export const ContributionGraphCalendar = ({
 export const ContributionGraphFooter = ({
   className,
   ...props
-}) => (
+}: any) => (
   <div
     className={cn("flex flex-wrap gap-1 whitespace-nowrap sm:gap-x-4", className)}
     {...props} />
@@ -319,7 +319,7 @@ export const ContributionGraphTotalCount = ({
   className,
   children,
   ...props
-}) => {
+}: any) => {
   const { totalCount, year, labels } = useContributionGraph();
 
   if (children) {
@@ -341,7 +341,7 @@ export const ContributionGraphLegend = ({
   className,
   children,
   ...props
-}) => {
+}: any) => {
   const { labels, maxLevel, blockSize, blockRadius } = useContributionGraph();
 
   return (

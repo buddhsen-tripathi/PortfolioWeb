@@ -1,6 +1,13 @@
 import React from "react";
 
-const Layout = ({ children, showHeader, title, subtitle }) => {
+interface LayoutProps {
+  children: React.ReactNode;
+  showHeader?: boolean;
+  title?: string;
+  subtitle?: string;
+}
+
+const Layout = ({ children, showHeader, title, subtitle }: LayoutProps) => {
   return (
     <div className="my-6">
       {showHeader && (

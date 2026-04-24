@@ -11,10 +11,10 @@ import { useViews } from "@/components/blog/views-context";
 const SITE_VISITORS_SLUG = "_site_visitors";
 
 const Footer = () => {
-  const [time, setTime] = useState(null);
-  const [battery, setBattery] = useState(null);
-  const [location, setLocation] = useState(null);
-  const [weather, setWeather] = useState(null);
+  const [time, setTime] = useState<Date | null>(null);
+  const [battery, setBattery] = useState<number | null>(null);
+  const [location, setLocation] = useState<string | null>(null);
+  const [weather, setWeather] = useState<string | null>(null);
   const { getViews, incrementViews } = useViews();
   const visitorCount = getViews(SITE_VISITORS_SLUG);
 
@@ -26,8 +26,9 @@ const Footer = () => {
   }, []);
 
   useEffect(() => {
-    if (navigator.getBattery) {
-      navigator.getBattery().then((batt) => {
+    const nav = navigator as Navigator & { getBattery?: () => Promise<any> };
+    if (nav.getBattery) {
+      nav.getBattery().then((batt: any) => {
         const update = () => setBattery(Math.round(batt.level * 100));
         update();
         batt.addEventListener("levelchange", update);

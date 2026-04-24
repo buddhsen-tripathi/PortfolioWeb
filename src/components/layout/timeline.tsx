@@ -4,7 +4,21 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import { TechBadge } from "@/lib/tech-icons";
 
-const Timeline = ({ role, company, year, type, location, logo, logoPadding, invertLogo, responsibility, techstacks, index = 0 }) => {
+interface TimelineProps {
+  role: string;
+  company: string;
+  year: string;
+  type?: string;
+  location?: string;
+  logo?: string;
+  logoPadding?: boolean;
+  invertLogo?: boolean;
+  responsibility: any[];
+  techstacks: string[];
+  index?: number;
+}
+
+const Timeline = ({ role, company, year, type, location, logo, logoPadding, invertLogo, responsibility, techstacks, index = 0 }: TimelineProps) => {
   return (
     <motion.ol
       className="relative border-s border-black/10 dark:border-white/10"

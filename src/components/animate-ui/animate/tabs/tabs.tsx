@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 
 
 
-function Tabs({ className, ...props }) {
+function Tabs({ className, ...props }: any) {
   return (
     <TabsPrimitive
       className={cn('flex flex-col gap-2', className)}
@@ -24,7 +24,7 @@ function Tabs({ className, ...props }) {
 
 
 
-function TabsList({ className, ...props }) {
+function TabsList({ className, ...props }: any) {
   return (
     <TabsHighlightPrimitive className="absolute z-0 inset-0 border border-transparent rounded-md bg-background dark:border-input dark:bg-input/30 shadow-xs">
       <TabsListPrimitive
@@ -40,7 +40,7 @@ function TabsList({ className, ...props }) {
 
 
 
-function TabsTrigger({ className, ...props }) {
+function TabsTrigger({ className, ...props }: any) {
   return (
     <TabsHighlightItemPrimitive value={props.value} className="flex-1">
       <TabsTriggerPrimitive
@@ -56,12 +56,12 @@ function TabsTrigger({ className, ...props }) {
 
 
 
-function TabsContents(props) {
+function TabsContents(props: any) {
   return <TabsContentsPrimitive {...props} />;
 }
 
 
-function TabsContent({ className, ...props }) {
+function TabsContent({ className, ...props }: any) {
   return (
     <TabsContentPrimitive
       className={cn('outline-hidden', className)}

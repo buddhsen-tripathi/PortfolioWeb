@@ -3,8 +3,8 @@ import * as React from 'react';
 import { motion, isMotionComponent } from 'motion/react';
 import { cn } from '@/lib/utils';
 
-function mergeRefs(...refs) {
-  return (node) => {
+function mergeRefs(...refs: any[]) {
+  return (node: any) => {
     refs.forEach((ref) => {
       if (!ref) return;
       if (typeof ref === 'function') {
@@ -16,7 +16,7 @@ function mergeRefs(...refs) {
   };
 }
 
-function mergeProps(childProps, slotProps) {
+function mergeProps(childProps: any, slotProps: any) {
   const merged = { ...childProps, ...slotProps };
 
   if (childProps.className || slotProps.className) {
@@ -38,7 +38,7 @@ function Slot(
     children,
     ref,
     ...props
-  }
+  }: any
 ) {
   const isAlreadyMotion =
     typeof children.type === 'object' &&
@@ -52,7 +52,7 @@ function Slot(
 
   if (!React.isValidElement(children)) return null;
 
-  const { ref: childRef, ...childProps } = children.props;
+  const { ref: childRef, ...childProps } = children.props as any;
 
   const mergedProps = mergeProps(childProps, props);
 

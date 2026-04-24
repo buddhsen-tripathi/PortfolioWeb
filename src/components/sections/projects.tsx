@@ -9,7 +9,7 @@ import { TaptickitIllustration } from "@/components/illustrations/taptickit-illu
 import { Star } from "lucide-react";
 
 
-const projectIllustrations = {
+const projectIllustrations: Record<string, React.ComponentType<{ isCardHovered?: boolean }>> = {
   taptickit: TaptickitIllustration,
 };
 
@@ -26,6 +26,21 @@ const flickerKeyframes = {
 
 const previewSizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
 
+interface ProjectsProps {
+  category?: string;
+  title?: string;
+  description?: string;
+  techstacks: string[];
+  status?: string;
+  link?: string;
+  github?: string;
+  preview?: string;
+  previewDark?: string;
+  illustration?: string;
+  stars?: number | null;
+  index?: number;
+}
+
 const Projects = ({
   category,
   title,
@@ -39,7 +54,7 @@ const Projects = ({
   illustration,
   stars,
   index = 0,
-}) => {
+}: ProjectsProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const Illustration = illustration ? projectIllustrations[illustration] : null;
   const href = stars !== null && stars !== undefined && github

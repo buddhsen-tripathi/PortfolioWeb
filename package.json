@@ -64,11 +64,16 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
     "@tailwindcss/postcss": "^4.2.4",
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@types/rss": "^0.0.32",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
     "postcss": "^8",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.0.0-insiders.f7d2598",
-    "tailwindcss": "^4.2.4"
+    "tailwindcss": "^4.2.4",
+    "typescript": "^6.0.3"
   }
 }

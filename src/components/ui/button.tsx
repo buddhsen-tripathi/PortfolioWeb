@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { cva } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 import { vibrateLight } from "@/lib/haptics";
@@ -38,10 +38,16 @@ const buttonVariants = cva(
   }
 );
 
-const Button = React.forwardRef(
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, onClick, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
-    const handleClick = (e) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       vibrateLight();
       onClick?.(e);
     };

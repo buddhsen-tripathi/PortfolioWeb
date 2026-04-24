@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-const generateId = (text) =>
+const generateId = (text: string) =>
   text
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, "")
@@ -10,11 +10,11 @@ const generateId = (text) =>
     .replace(/-+/g, "-")
     .trim();
 
-const createHeading = (level) => {
-  const Heading = ({ children, id, ...props }) => {
+const createHeading = (level: number) => {
+  const Heading = ({ children, id, ...props }: any) => {
     const text = typeof children === "string" ? children : "";
     const headingId = id || generateId(text);
-    const Tag = `h${level}`;
+    const Tag = `h${level}` as any;
 
     const sizeClass =
       level === 1
@@ -55,7 +55,7 @@ export const mdxComponents = {
   h4: createHeading(4),
   h5: createHeading(5),
   h6: createHeading(6),
-  p: ({ children, ...props }) => (
+  p: ({ children, ...props }: any) => (
     <p
       className="mb-4 font-space-mono text-sm leading-relaxed text-muted-foreground md:text-base"
       {...props}
@@ -63,7 +63,7 @@ export const mdxComponents = {
       {children}
     </p>
   ),
-  ul: ({ children, ...props }) => (
+  ul: ({ children, ...props }: any) => (
     <ul
       className="mb-4 list-disc space-y-1 pl-5 marker:text-muted-foreground/50"
       {...props}
@@ -71,7 +71,7 @@ export const mdxComponents = {
       {children}
     </ul>
   ),
-  ol: ({ children, ...props }) => (
+  ol: ({ children, ...props }: any) => (
     <ol
       className="mb-4 list-decimal space-y-1 pl-5 marker:text-muted-foreground/50"
       {...props}
@@ -79,7 +79,7 @@ export const mdxComponents = {
       {children}
     </ol>
   ),
-  li: ({ children, ...props }) => (
+  li: ({ children, ...props }: any) => (
     <li
       className="pl-1 font-space-mono text-sm leading-relaxed text-muted-foreground md:text-base"
       {...props}
@@ -87,7 +87,7 @@ export const mdxComponents = {
       {children}
     </li>
   ),
-  blockquote: ({ children, ...props }) => (
+  blockquote: ({ children, ...props }: any) => (
     <blockquote
       className="my-4 border-l-2 border-foreground/20 pl-4 font-space-mono text-sm italic text-muted-foreground md:text-base"
       {...props}
@@ -95,7 +95,7 @@ export const mdxComponents = {
       {children}
     </blockquote>
   ),
-  a: ({ href, children, ...props }) => {
+  a: ({ href, children, ...props }: any) => {
     const isExternal = href?.startsWith("http");
     if (isExternal) {
       return (
@@ -121,7 +121,7 @@ export const mdxComponents = {
       </Link>
     );
   },
-  code: ({ children, className, ...props }) => {
+  code: ({ children, className, ...props }: any) => {
     const isInline = !className;
     if (isInline) {
       return (
@@ -139,7 +139,7 @@ export const mdxComponents = {
       </code>
     );
   },
-  pre: ({ children, ...props }) => (
+  pre: ({ children, ...props }: any) => (
     <pre
       className="my-4 overflow-x-auto rounded-md border border-black/8 bg-zinc-950 p-4 font-mono text-xs text-zinc-100 dark:border-white/8 md:text-sm [&_code]:bg-transparent [&_code]:text-zinc-100"
       {...props}
@@ -147,7 +147,7 @@ export const mdxComponents = {
       {children}
     </pre>
   ),
-  img: ({ src, alt, ...props }) => (
+  img: ({ src, alt, ...props }: any) => (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
@@ -157,31 +157,31 @@ export const mdxComponents = {
       {...props}
     />
   ),
-  hr: (props) => (
+  hr: (props: any) => (
     <hr
       className="my-6 border-t border-black/8 dark:border-white/8"
       {...props}
     />
   ),
-  table: ({ children, ...props }) => (
+  table: ({ children, ...props }: any) => (
     <div className="my-6 overflow-x-auto rounded-md border border-black/8 dark:border-white/8">
       <table className="w-full text-sm" {...props}>
         {children}
       </table>
     </div>
   ),
-  thead: ({ children, ...props }) => (
+  thead: ({ children, ...props }: any) => (
     <thead className="bg-black/3 dark:bg-white/4" {...props}>
       {children}
     </thead>
   ),
-  tbody: ({ children, ...props }) => (
+  tbody: ({ children, ...props }: any) => (
     <tbody className="divide-y divide-black/6 dark:divide-white/6" {...props}>
       {children}
     </tbody>
   ),
-  tr: ({ children, ...props }) => <tr {...props}>{children}</tr>,
-  th: ({ children, ...props }) => (
+  tr: ({ children, ...props }: any) => <tr {...props}>{children}</tr>,
+  th: ({ children, ...props }: any) => (
     <th
       className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-foreground"
       {...props}
@@ -189,7 +189,7 @@ export const mdxComponents = {
       {children}
     </th>
   ),
-  td: ({ children, ...props }) => (
+  td: ({ children, ...props }: any) => (
     <td
       className="px-4 py-3 font-space-mono text-sm text-muted-foreground"
       {...props}
@@ -197,12 +197,12 @@ export const mdxComponents = {
       {children}
     </td>
   ),
-  strong: ({ children, ...props }) => (
+  strong: ({ children, ...props }: any) => (
     <strong className="font-semibold text-foreground" {...props}>
       {children}
     </strong>
   ),
-  em: ({ children, ...props }) => (
+  em: ({ children, ...props }: any) => (
     <em className="italic" {...props}>
       {children}
     </em>

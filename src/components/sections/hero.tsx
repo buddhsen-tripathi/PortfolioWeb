@@ -17,7 +17,7 @@ import { CornerBrackets } from "@/components/ui/corner-brackets";
 import { TechBadge } from "@/lib/tech-icons";
 import { hackathons } from "@/constants";
 
-const placementColor = {
+const placementColor: Record<string, string> = {
   "1st Place": "text-amber-500 dark:text-amber-400",
   "2nd Place": "text-zinc-400",
   "3rd Place": "text-amber-700",
@@ -28,7 +28,7 @@ const placementColor = {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import LocationIcon from "@/components/icons/location";
 
-const fadeUp = (delay = 0) => ({
+const fadeUp = (delay = 0): any => ({
   initial: { opacity: 0, y: 16 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] },
@@ -106,7 +106,7 @@ const connectLinks = [
   },
 ];
 
-function SocialPreviewCard({ loading, data, platform, username }) {
+function SocialPreviewCard({ loading, data, platform, username }: any) {
 
 
   if (loading) {
@@ -168,7 +168,7 @@ function SocialPreviewCard({ loading, data, platform, username }) {
       )}
       {data.stats && data.stats.length > 0 && (
         <div className="mt-2 flex gap-4 text-sm text-muted-foreground">
-          {data.stats.map((stat, i) => (
+          {data.stats.map((stat: any, i: number) => (
             <span key={i}>
               <strong className="font-doto font-semibold text-foreground">
                 {stat.value}
@@ -182,7 +182,7 @@ function SocialPreviewCard({ loading, data, platform, username }) {
   );
 }
 
-function SocialButton({ label, href, icon, endIcon, external, platform, username, data, loading, copyText }) {
+function SocialButton({ label, href, icon, endIcon, external, platform, username, data, loading, copyText }: any) {
   const [isHovered, setIsHovered] = useState(false);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -191,12 +191,12 @@ function SocialButton({ label, href, icon, endIcon, external, platform, username
   const springX = useSpring(x, springConfig);
   const springY = useSpring(y, springConfig);
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent) => {
     x.set(e.clientX - 160);
     y.set(e.clientY + 12);
   };
 
-  const handleMouseEnter = (e) => {
+  const handleMouseEnter = (e: React.MouseEvent) => {
     // Jump the spring immediately to current cursor so it doesn't fly in from top-left
     x.set(e.clientX - 160);
     y.set(e.clientY + 12);
@@ -275,7 +275,7 @@ function SocialButton({ label, href, icon, endIcon, external, platform, username
 }
 
 const WaveEmoji = () => {
-  const [phase, setPhase] = useState("idle");
+  const [phase, setPhase] = useState<string>("idle");
   const [key, setKey] = useState(0);
 
   useEffect(() => {
@@ -308,8 +308,13 @@ const WaveEmoji = () => {
   );
 };
 
-const Hero = ({ contributionData = [], lifetimeTotal = 0 }) => {
-  const [socialData, setSocialData] = useState(null);
+interface HeroProps {
+  contributionData?: any[];
+  lifetimeTotal?: number;
+}
+
+const Hero = ({ contributionData = [], lifetimeTotal = 0 }: HeroProps) => {
+  const [socialData, setSocialData] = useState<any>(null);
   const [socialsLoading, setSocialsLoading] = useState(true);
 
   useEffect(() => {
@@ -381,7 +386,7 @@ const Hero = ({ contributionData = [], lifetimeTotal = 0 }) => {
             if you wish to connect with me
           </p>
           <div className="flex flex-wrap gap-2 p-1">
-            {socialLinks.map(({ label, href, icon, external, platform, username, copyText }) => (
+            {socialLinks.map(({ label, href, icon, external, platform, username, copyText }: any) => (
               <SocialButton
                 key={label}
                 label={label}
@@ -411,7 +416,7 @@ const Hero = ({ contributionData = [], lifetimeTotal = 0 }) => {
               Hackathons
             </h5>
             <div className="space-y-6">
-              {hackathons.map((hack) => (
+              {hackathons.map((hack: any) => (
                 <article
                   key={hack.title}
                   className="border-l-2 border-black/8 pl-4 dark:border-white/8"
@@ -442,7 +447,7 @@ const Hero = ({ contributionData = [], lifetimeTotal = 0 }) => {
 
                   <p className="mt-1.5 font-space-mono text-xs leading-relaxed text-muted-foreground md:text-sm">
                     {Array.isArray(hack.body)
-                      ? hack.body.map((seg, i) =>
+                      ? hack.body.map((seg: any, i: number) =>
                           seg.bold ? (
                             <strong key={i} className="font-semibold text-foreground">
                               {seg.text}
@@ -460,7 +465,7 @@ const Hero = ({ contributionData = [], lifetimeTotal = 0 }) => {
 
                   {hack.techstacks?.length > 0 && (
                     <div className="mt-3 flex flex-wrap gap-1.5">
-                      {hack.techstacks.map((tech, i) => (
+                      {hack.techstacks.map((tech: any, i: number) => (
                         <TechBadge key={i} name={tech} />
                       ))}
                     </div>
@@ -479,7 +484,7 @@ const Hero = ({ contributionData = [], lifetimeTotal = 0 }) => {
             Interested in working together? Feel free to schedule a meet!
           </p>
           <div className="flex flex-wrap gap-2 p-1">
-            {connectLinks.map(({ label, href, icon, endIcon, external, copyText }) => (
+            {connectLinks.map(({ label, href, icon, endIcon, external, copyText }: any) => (
               <SocialButton
                 key={label}
                 label={label}

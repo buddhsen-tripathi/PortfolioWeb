@@ -1,14 +1,17 @@
 import * as React from 'react';
 
-function getStrictContext(name) {
-  const Context = React.createContext(undefined);
+function getStrictContext<T = any>(name?: string): [
+  React.FC<{ value: T; children: React.ReactNode }>,
+  () => T
+] {
+  const Context = React.createContext<T | undefined>(undefined);
 
-  const Provider = ({
+  const Provider: React.FC<{ value: T; children: React.ReactNode }> = ({
     value,
-    children
+    children,
   }) => <Context.Provider value={value}>{children}</Context.Provider>;
 
-  const useSafeContext = () => {
+  const useSafeContext = (): T => {
     const ctx = React.useContext(Context);
     if (ctx === undefined) {
       throw new Error(`useContext must be used within ${name ?? 'a Provider'}`);

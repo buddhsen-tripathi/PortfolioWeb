@@ -73,7 +73,7 @@ async function fetchLifetimeTotal(token, username, createdAt) {
   if (!json?.data?.user) return 0;
 
   return Object.values(json.data.user).reduce(
-    (sum, col) => sum + (col?.contributionCalendar?.totalContributions ?? 0),
+    (sum: number, col: any) => sum + (col?.contributionCalendar?.totalContributions ?? 0),
     0
   );
 }

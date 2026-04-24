@@ -11,7 +11,7 @@ const DEFAULT_BOUNDS_OFFSET = {
   height: 0,
 };
 
-const HighlightContext = React.createContext(
+const HighlightContext = React.createContext<any>(
 undefined);
 
 function useHighlight() {
@@ -26,7 +26,7 @@ function Highlight(
   {
     ref,
     ...props
-  }
+  }: any
 ) {
   const {
     as: Component = 'div',
@@ -234,8 +234,8 @@ function Highlight(
   );
 }
 
-function getNonOverridingDataAttributes(element, dataAttributes) {
-  return Object.keys(dataAttributes).reduce((acc, key) => {
+function getNonOverridingDataAttributes(element: any, dataAttributes: any) {
+  return Object.keys(dataAttributes).reduce((acc: any, key) => {
     if ((element.props)[key] === undefined) {
       acc[key] = dataAttributes[key];
     }
@@ -259,7 +259,7 @@ function HighlightItem(
     asChild = false,
     forceUpdateBounds,
     ...props
-  }
+  }: any
 ) {
   const itemId = React.useId();
   const {

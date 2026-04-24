@@ -36,8 +36,8 @@ export const metadata = {
 const getExperienceYears = () => {
   const earliest = experiences
     .map((e) => new Date(e.year.split(" - ")[0]))
-    .sort((a, b) => a - b)[0];
-  const years = (new Date() - earliest) / (1000 * 60 * 60 * 24 * 365.25);
+    .sort((a, b) => a.getTime() - b.getTime())[0];
+  const years = (new Date().getTime() - earliest.getTime()) / (1000 * 60 * 60 * 24 * 365.25);
   return Math.floor(years);
 };
 
