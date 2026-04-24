@@ -12,6 +12,8 @@ import ViewCounter from "@/components/blog/view-counter";
 import { getBlogPostFromS3, getBlogSlugsFromS3 } from "@/lib/r2Client";
 import { getReadingTime } from "../utils";
 import { getBlogPostingSchema, getBreadcrumbSchema } from "@/lib/jsonLd";
+import { buildMetadata } from "@/lib/metadata";
+import { siteConfig } from "@/site.config";
 
 export const revalidate = 3600;
 
@@ -24,33 +26,20 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const { data } = await getBlogPostFromS3(slug);
 
-  return {
+  const meta = buildMetadata({
     title: data.title,
     description: data.excerpt,
-    alternates: {
-      canonical: `https://buddhsentripathi.com/blogs/${data.slug}`,
-    },
+    path: `/blogs/${data.slug}`,
+    image: siteConfig.assets.blogOgImage,
+  });
+
+  return {
+    ...meta,
     openGraph: {
-      title: `${data.title} - Buddhsen Tripathi`,
-      description: data.excerpt,
-      url: `https://buddhsentripathi.com/blogs/${data.slug}`,
+      ...meta.openGraph,
       type: "article",
       publishedTime: data.date,
-      authors: ["Buddhsen Tripathi"],
-      images: [
-        {
-          url: "https://buddhsentripathi.com/default-image-blogs.webp",
-          width: 1200,
-          height: 630,
-          alt: data.title,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${data.title} - Buddhsen Tripathi`,
-      description: data.excerpt,
-      images: ["https://buddhsentripathi.com/default-image-blogs.webp"],
+      authors: [siteConfig.identity.name],
     },
   };
 }
@@ -67,11 +56,11 @@ export default async function BlogPost({ params }) {
   });
 
   const breadcrumbJsonLd = getBreadcrumbSchema([
-    { name: "Home", url: "https://buddhsentripathi.com" },
-    { name: "Blogs", url: "https://buddhsentripathi.com/blogs" },
+    { name: "Home", url: siteConfig.contact.url },
+    { name: "Blogs", url: `${siteConfig.contact.url}/blogs` },
     {
       name: data.title,
-      url: `https://buddhsentripathi.com/blogs/${data.slug}`,
+      url: `${siteConfig.contact.url}/blogs/${data.slug}`,
     },
   ]);
 

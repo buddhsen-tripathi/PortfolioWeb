@@ -14,30 +14,19 @@ import {
   getWebsiteSchema,
   getProfilePageSchema,
 } from "@/lib/jsonLd";
+import { siteConfig } from "@/site.config";
 
 export const metadata = {
   title: {
-    template: "%s | Buddhsen Tripathi",
-    default: "Buddhsen Tripathi - Full Stack Developer",
+    template: siteConfig.seo.titleTemplate,
+    default: siteConfig.seo.defaultTitle,
   },
-  description:
-    "Full stack web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs",
-  keywords: [
-    "Buddhsen Tripathi",
-    "Full Stack Developer",
-    "React",
-    "Next.js",
-    "JavaScript",
-    "TypeScript",
-    "Node.js",
-    "Web Development",
-    "Portfolio",
-    "Software Engineer",
-  ],
-  authors: [{ name: "Buddhsen Tripathi" }],
-  creator: "Buddhsen Tripathi",
-  publisher: "Buddhsen Tripathi",
-  metadataBase: new URL("https://buddhsentripathi.com"),
+  description: siteConfig.seo.defaultDescription,
+  keywords: siteConfig.seo.keywords,
+  authors: [{ name: siteConfig.identity.name }],
+  creator: siteConfig.identity.name,
+  publisher: siteConfig.identity.name,
+  metadataBase: new URL(siteConfig.contact.url),
   manifest: "/manifest.json",
   robots: {
     index: true,
@@ -51,36 +40,34 @@ export const metadata = {
     },
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: siteConfig.assets.favicon,
+    shortcut: siteConfig.assets.favicon,
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: "https://buddhsentripathi.com",
-    title: "Buddhsen Tripathi - Full Stack Developer",
-    description:
-      "Full stack web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs",
-    siteName: "Buddhsen Tripathi",
+    locale: siteConfig.seo.locale,
+    url: siteConfig.contact.url,
+    title: siteConfig.seo.defaultTitle,
+    description: siteConfig.seo.defaultDescription,
+    siteName: siteConfig.identity.name,
     images: [
       {
-        url: "/default-image.webp",
+        url: siteConfig.assets.ogImage,
         width: 1200,
         height: 630,
-        alt: "Buddhsen Tripathi",
+        alt: siteConfig.identity.name,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Buddhsen Tripathi - Full Stack Developer",
-    description:
-      "Full stack web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs",
-    images: ["/default-image.webp"],
-    creator: "@btr1pathi",
+    title: siteConfig.seo.defaultTitle,
+    description: siteConfig.seo.defaultDescription,
+    images: [siteConfig.assets.ogImage],
+    creator: siteConfig.seo.twitterHandle,
   },
   alternates: {
-    canonical: "https://buddhsentripathi.com",
+    canonical: siteConfig.contact.url,
   },
 };
 
@@ -111,7 +98,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${spaceMono.variable} ${pressStart.variable}`}>
       <head>
-        <meta name="theme-color" content="#0B0D0E" />
+        <meta name="theme-color" content={siteConfig.seo.themeColor} />
         <meta name="color-scheme" content="dark light" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -126,8 +113,8 @@ export default function RootLayout({ children }) {
         <link
           rel="alternate"
           type="application/rss+xml"
-          title="Buddhsen Tripathi's Blog"
-          href="https://buddhsentripathi.com/feed.xml"
+          title={`${siteConfig.identity.name}'s Blog`}
+          href={`${siteConfig.contact.url}/feed.xml`}
         />
         <script
           type="application/ld+json"

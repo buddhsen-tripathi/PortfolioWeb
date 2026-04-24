@@ -7,6 +7,7 @@ import CloudSunIcon from "@/components/icons/cloud-sun";
 import SeikoWatchModal from "@/components/watch-modal";
 import IconTelescopeTripod from "@/components/icons/telescope-tripod";
 import { useViews } from "@/components/blog/views-context";
+import { siteConfig } from "@/site.config";
 
 const SITE_VISITORS_SLUG = "_site_visitors";
 
@@ -121,7 +122,7 @@ const Footer = () => {
           )}
         </div>
         <p className="text-xs text-muted-foreground/60">
-          &copy; {new Date().getFullYear()} Buddhsen Tripathi. All rights
+          &copy; {new Date().getFullYear()} {siteConfig.identity.name}. All rights
           reserved.
         </p>
       </div>

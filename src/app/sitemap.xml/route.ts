@@ -1,14 +1,15 @@
 import { getAllBlogPosts } from "../blogs/utils";
 import { twitterArticles } from "../blogs/articles";
+import { siteConfig } from "@/site.config";
 
-function parseDate(dateStr) {
+function parseDate(dateStr: string | undefined) {
   if (!dateStr) return new Date().toISOString();
   const parsed = new Date(dateStr);
   return isNaN(parsed.getTime()) ? new Date().toISOString() : parsed.toISOString();
 }
 
 export async function GET() {
-  const baseUrl = "https://buddhsentripathi.com";
+  const baseUrl = siteConfig.contact.url;
 
   const posts = await getAllBlogPosts();
 

@@ -1,25 +1,27 @@
 import RSS from "rss";
 import { getAllBlogPosts } from "@/app/blogs/utils";
 import { twitterArticles } from "@/app/blogs/articles";
+import { siteConfig } from "@/site.config";
 
-function parseDate(dateStr) {
+function parseDate(dateStr: string | undefined) {
   if (!dateStr) return new Date();
   const parsed = new Date(dateStr);
   return isNaN(parsed.getTime()) ? new Date() : parsed;
 }
 
 export async function GET() {
+  const { identity, contact, assets } = siteConfig;
   const feed = new RSS({
-    title: "Buddhsen Tripathi's Blog",
+    title: `${identity.name}'s Blog`,
     description: "Web development insights and tutorials",
-    site_url: "https://buddhsentripathi.com",
-    feed_url: "https://buddhsentripathi.com/feed.xml",
+    site_url: contact.url,
+    feed_url: `${contact.url}/feed.xml`,
     language: "en",
     generator: "Next.js using RSS",
     pubDate: new Date(),
-    copyright: `\u00A9 ${new Date().getFullYear()} Buddhsen Tripathi. All rights reserved.`,
-    image_url: "https://buddhsentripathi.com/default-image.webp",
-    webMaster: "Buddhsen Tripathi",
+    copyright: `© ${new Date().getFullYear()} ${identity.name}. All rights reserved.`,
+    image_url: `${contact.url}${assets.ogImage}`,
+    webMaster: identity.name,
   });
 
   try {
@@ -31,10 +33,10 @@ export async function GET() {
       feed.item({
         title: post.title,
         description: post.excerpt,
-        url: `https://buddhsentripathi.com/blogs/${post.slug}`,
+        url: `${contact.url}/blogs/${post.slug}`,
         date: parseDate(post.date),
         guid: post.slug,
-        author: "Buddhsen Tripathi",
+        author: identity.name,
         categories: post.type ? [post.type] : [],
       });
     });

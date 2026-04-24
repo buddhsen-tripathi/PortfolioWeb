@@ -1,24 +1,14 @@
 import NewsletterSubscription from "@/components/common/newsletter-subscription";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { buildMetadata } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = buildMetadata({
   title: "Newsletter",
   description:
     "Subscribe to my newsletter for updates on web development, AI, and personal projects.",
-  openGraph: {
-    title: "Newsletter - Buddhsen Tripathi",
-    description:
-      "Subscribe to my newsletter for updates on web development, AI, and personal projects.",
-    url: "https://buddhsentripathi.com/newsletter",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Newsletter - Buddhsen Tripathi",
-    description:
-      "Subscribe to my newsletter for updates on web development, AI, and personal projects.",
-  },
-};
+  path: "/newsletter",
+});
 
 export default function NewsletterPage() {
   return (

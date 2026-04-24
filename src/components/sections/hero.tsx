@@ -16,6 +16,16 @@ import GitHubContributionGraph from "./contribution-graph";
 import { CornerBrackets } from "@/components/ui/corner-brackets";
 import { TechBadge } from "@/lib/tech-icons";
 import { hackathons } from "@/constants";
+import { siteConfig, type SocialPlatform } from "@/site.config";
+
+const socialIcons: Record<SocialPlatform, React.ReactNode> = {
+  twitter: <XTwitterIcon className="h-3.5 w-3.5" />,
+  github: <GithubIcon className="h-3.5 w-3.5" />,
+  linkedin: <LinkedinIcon className="h-3.5 w-3.5" />,
+  leetcode: <SiLeetcode className="h-3.5 w-3.5" />,
+  tryhackme: <SiTryhackme className="h-3.5 w-3.5" />,
+  codeforces: <SiCodeforces className="h-3.5 w-3.5" />,
+};
 
 const placementColor: Record<string, string> = {
   "1st Place": "text-amber-500 dark:text-amber-400",
@@ -34,61 +44,21 @@ const fadeUp = (delay = 0): any => ({
   transition: { duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] },
 });
 
-const socialLinks = [
-  {
-    label: "Twitter",
-    href: "https://x.com/btr1pathi",
-    icon: <XTwitterIcon className="h-3.5 w-3.5" />,
+const socialLinks = (Object.entries(siteConfig.socials) as [SocialPlatform, typeof siteConfig.socials[SocialPlatform]][]).map(
+  ([platform, s]) => ({
+    label: s.label,
+    href: s.url,
+    icon: socialIcons[platform],
     external: true,
-    platform: "twitter",
-    username: "btr1pathi",
-  },
-  {
-    label: "Github",
-    href: "https://github.com/buddhsen-tripathi",
-    icon: <GithubIcon className="h-3.5 w-3.5" />,
-    external: true,
-    platform: "github",
-    username: "buddhsen-tripathi",
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/buddhsen-tripathi/",
-    icon: <LinkedinIcon className="h-3.5 w-3.5" />,
-    external: true,
-    platform: "linkedin",
-    username: "buddhsen-tripathi",
-  },
-  {
-    label: "LeetCode",
-    href: "https://leetcode.com/u/buddhsen",
-    icon: <SiLeetcode className="h-3.5 w-3.5" />,
-    external: true,
-    platform: "leetcode",
-    username: "buddhsen",
-  },
-  {
-    label: "TryHackMe",
-    href: "https://tryhackme.com/p/btripathi",
-    icon: <SiTryhackme className="h-3.5 w-3.5" />,
-    external: true,
-    platform: "tryhackme",
-    username: "btripathi",
-  },
-  {
-    label: "Codeforces",
-    href: "https://codeforces.com/profile/Buddhsen",
-    icon: <SiCodeforces className="h-3.5 w-3.5" />,
-    external: true,
-    platform: "codeforces",
-    username: "Buddhsen",
-  },
-];
+    platform,
+    username: s.username,
+  })
+);
 
 const connectLinks = [
   {
     label: "schedule a meet",
-    href: "https://cal.com/buddhsen",
+    href: siteConfig.contact.calUrl,
     icon: <Calendar className="h-3.5 w-3.5" />,
     endIcon: <ArrowUpRight className="h-3 w-3" />,
     external: true,
@@ -96,11 +66,11 @@ const connectLinks = [
   {
     label: "Email",
     icon: <IoIosMail size="14px" />,
-    copyText: "bt2609@nyu.edu",
+    copyText: siteConfig.contact.email,
   },
   {
     label: "Resume",
-    href: "/Resume.pdf",
+    href: siteConfig.contact.resumeUrl,
     icon: <FileText className="h-3.5 w-3.5" />,
     external: true,
   },

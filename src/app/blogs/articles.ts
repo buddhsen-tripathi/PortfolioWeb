@@ -6,7 +6,7 @@ export const twitterArticles = [
       "Prompts do not just ask questions. They define constraints. When outputs feel misaligned, the model is not misunderstanding intent. It is resolving ambiguity through probability. The gap is often ours.",
     date: "20 Feb 2026",
     type: "technical",
-    url: "https://x.com/btr1pathi/status/2024753374772564029",
+    url: "https://x.com/senbuilds/status/2024753374772564029",
   },
   {
     slug: "honest-take-on-coding-in-2026",
@@ -15,6 +15,6 @@ export const twitterArticles = [
       "An honest reflection on AI-assisted development, the illusion of productivity, fading syntax fluency and what an interview revealed about modern coding.",
     date: "16 Feb 2026",
     type: "technical",
-    url: "https://x.com/btr1pathi/status/2023280893071179782",
+    url: "https://x.com/senbuilds/status/2023280893071179782",
   },
 ];

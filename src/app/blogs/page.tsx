@@ -2,39 +2,16 @@ import Layout from "@/components/layout/layout";
 import BlogTabs from "./BlogTabs";
 import { getAllBlogPosts } from "./utils";
 import { twitterArticles } from "./articles";
+import { buildMetadata } from "@/lib/metadata";
+import { siteConfig } from "@/site.config";
 
-export const metadata = {
+export const metadata = buildMetadata({
   title: "Blogs",
   description:
     "Read the latest articles, tutorials, and personal thoughts on technology, programming, and more.",
-  alternates: {
-    canonical: "https://buddhsentripathi.com/blogs",
-  },
-  openGraph: {
-    title: "Blogs - Buddhsen Tripathi",
-    description:
-      "Read the latest articles, tutorials, and personal thoughts on technology, programming, and more.",
-    url: "https://buddhsentripathi.com/blogs",
-    siteName: "Buddhsen Tripathi Portfolio",
-    images: [
-      {
-        url: "https://buddhsentripathi.com/default-image-blogs.webp",
-        width: 1200,
-        height: 630,
-        alt: "Blogs - Buddhsen Tripathi",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blogs - Buddhsen Tripathi",
-    description:
-      "Read the latest articles, tutorials, and personal thoughts on technology, programming, and more.",
-    images: ["https://buddhsentripathi.com/default-image-blogs.webp"],
-  },
-};
+  path: "/blogs",
+  image: siteConfig.assets.blogOgImage,
+});
 
 export const revalidate = 3600;
 

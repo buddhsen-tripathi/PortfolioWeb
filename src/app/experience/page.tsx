@@ -1,37 +1,14 @@
 import Layout from "@/components/layout/layout";
 import Timeline from "@/components/layout/timeline";
 import { experiences } from "@/constants";
+import { buildMetadata } from "@/lib/metadata";
 
-
-export const metadata = {
+export const metadata = buildMetadata({
   title: "Experience",
   description:
     "Professional experience and career journey as a full stack developer working with modern web technologies.",
-  alternates: {
-    canonical: "https://buddhsentripathi.com/experience",
-  },
-  openGraph: {
-    title: "Experience - Buddhsen Tripathi",
-    description:
-      "Professional experience and career journey as a full stack developer working with modern web technologies.",
-    url: "https://buddhsentripathi.com/experience",
-    images: [
-      {
-        url: "/default-image.webp",
-        width: 1200,
-        height: 630,
-        alt: "Experience - Buddhsen Tripathi",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Experience - Buddhsen Tripathi",
-    description:
-      "Professional experience and career journey as a full stack developer working with modern web technologies.",
-    images: ["/default-image.webp"],
-  },
-};
+  path: "/experience",
+});
 
 const getExperienceYears = () => {
   const earliest = experiences

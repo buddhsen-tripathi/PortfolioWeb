@@ -1,53 +1,48 @@
-const SITE_URL = "https://buddhsentripathi.com";
+import { siteConfig } from "@/site.config";
 
 export function getPersonSchema() {
+  const { identity, contact, assets, socials } = siteConfig;
   return {
     "@type": "Person",
-    name: "Buddhsen Tripathi",
-    url: SITE_URL,
-    jobTitle: "Full Stack Developer",
-    description:
-      "Full Stack Developer specializing in Next.js, React, TypeScript, and cloud-native applications. Building open-source tools and writing about software engineering.",
-    image: `${SITE_URL}/default-image.webp`,
-    knowsAbout: [
-      "Full Stack Development",
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Node.js",
-      "Web Security",
-      "Cloud Infrastructure",
-      "Artificial Intelligence",
-    ],
-    sameAs: [
-      "https://github.com/buddhsen-tripathi",
-      "https://www.linkedin.com/in/buddhsen-tripathi",
-      "https://x.com/btr1pathi",
-    ],
+    name: identity.name,
+    url: contact.url,
+    jobTitle: identity.title,
+    description: identity.bio,
+    image: `${contact.url}${assets.ogImage}`,
+    sameAs: Object.values(socials).map((s) => s.url),
   };
 }
 
 export function getWebsiteSchema() {
+  const { identity, contact, seo } = siteConfig;
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Buddhsen Tripathi",
-    url: SITE_URL,
-    description:
-      "Full stack web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs",
+    name: identity.name,
+    url: contact.url,
+    description: seo.defaultDescription,
     author: getPersonSchema(),
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: `${SITE_URL}/blogs?q={search_term_string}`,
+        urlTemplate: `${contact.url}/blogs?q={search_term_string}`,
       },
       "query-input": "required name=search_term_string",
     },
   };
 }
 
-export function getBlogPostingSchema(post) {
+interface BlogPostInput {
+  title: string;
+  excerpt: string;
+  date: string;
+  slug: string;
+  image?: string;
+}
+
+export function getBlogPostingSchema(post: BlogPostInput) {
+  const { contact, assets } = siteConfig;
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -55,22 +50,22 @@ export function getBlogPostingSchema(post) {
     description: post.excerpt,
     datePublished: post.date,
     author: getPersonSchema(),
-    url: `${SITE_URL}/blogs/${post.slug}`,
-    image: post.image || `${SITE_URL}/default-image-blogs.webp`,
+    url: `${contact.url}/blogs/${post.slug}`,
+    image: post.image || `${contact.url}${assets.blogOgImage}`,
   };
 }
 
 export function getProfilePageSchema() {
+  const { identity, contact } = siteConfig;
   return {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
     mainEntity: getPersonSchema(),
     dateCreated: "2024-01-01",
     dateModified: new Date().toISOString().split("T")[0],
-    name: "Buddhsen Tripathi - Full Stack Developer",
-    description:
-      "Portfolio and blog of Buddhsen Tripathi, a Full Stack Developer specializing in Next.js, React, TypeScript, and cloud-native applications.",
-    url: SITE_URL,
+    name: `${identity.name} - ${identity.title}`,
+    description: identity.bio,
+    url: contact.url,
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
@@ -78,14 +73,14 @@ export function getProfilePageSchema() {
           "@type": "ListItem",
           position: 1,
           name: "Home",
-          item: SITE_URL,
+          item: contact.url,
         },
       ],
     },
   };
 }
 
-export function getBreadcrumbSchema(items) {
+export function getBreadcrumbSchema(items: Array<{ name: string; url: string }>) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
