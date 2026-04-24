@@ -1,4 +1,5 @@
 import "./globals.css";
+import Script from "next/script";
 import { Toaster } from "@/components/ui/toaster";
 import NavigationBar from "@/components/sections/navigation";
 import Footer from "@/components/sections/footer";
@@ -8,6 +9,11 @@ import { SmoothScrollProvider } from "@/components/smooth-scroll-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ScrollToTopButton } from "@/components/scroll-to-top";
 import { ViewsProvider } from "@/components/blog/views-context";
+import {
+  getPersonSchema,
+  getWebsiteSchema,
+  getProfilePageSchema,
+} from "@/lib/jsonLd";
 
 export const metadata = {
   title: {
@@ -31,6 +37,8 @@ export const metadata = {
   authors: [{ name: "Buddhsen Tripathi" }],
   creator: "Buddhsen Tripathi",
   publisher: "Buddhsen Tripathi",
+  metadataBase: new URL("https://buddhsentripathi.com"),
+  manifest: "/manifest.json",
   robots: {
     index: true,
     follow: true,
@@ -56,7 +64,7 @@ export const metadata = {
     siteName: "Buddhsen Tripathi",
     images: [
       {
-        url: "https://buddhsentripathi.com/default-image.webp",
+        url: "/default-image.webp",
         width: 1200,
         height: 630,
         alt: "Buddhsen Tripathi",
@@ -68,7 +76,7 @@ export const metadata = {
     title: "Buddhsen Tripathi - Full Stack Developer",
     description:
       "Full stack web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs",
-    images: ["https://buddhsentripathi.com/default-image.webp"],
+    images: ["/default-image.webp"],
     creator: "@btr1pathi",
   },
   alternates: {
@@ -94,16 +102,11 @@ const pressStart = Press_Start_2P({
 });
 
 export default function RootLayout({ children }) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Buddhsen Tripathi",
-    jobTitle: "Full Stack Developer",
-    description:
-      "Full stack web developer building scalable, user-centric applications.",
-    url: "https://buddhsentripathi.com",
-    image: "https://buddhsentripathi.com/default-image.webp",
-  };
+  const jsonLd = [
+    { "@context": "https://schema.org", ...getPersonSchema() },
+    getWebsiteSchema(),
+    getProfilePageSchema(),
+  ];
 
   return (
     <html lang="en" suppressHydrationWarning className={`${spaceMono.variable} ${pressStart.variable}`}>
@@ -120,10 +123,26 @@ export default function RootLayout({ children }) {
           href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap"
           rel="stylesheet"
         />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Buddhsen Tripathi's Blog"
+          href="https://buddhsentripathi.com/feed.xml"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config','${process.env.NEXT_PUBLIC_GA_ID}');`}
+        </Script>
       </head>
       <body>
         <ThemeProvider

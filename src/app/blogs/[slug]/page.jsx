@@ -11,6 +11,7 @@ import TableOfContents from "@/components/blog/table-of-contents";
 import ViewCounter from "@/components/blog/view-counter";
 import { getBlogPostFromS3, getBlogSlugsFromS3 } from "@/lib/r2Client";
 import { getReadingTime } from "../utils";
+import { getBlogPostingSchema, getBreadcrumbSchema } from "@/lib/jsonLd";
 
 export const revalidate = 3600;
 
@@ -58,8 +59,32 @@ export default async function BlogPost({ params }) {
   const { slug } = await params;
   const { content, data } = await getBlogPostFromS3(slug);
 
+  const blogPostJsonLd = getBlogPostingSchema({
+    title: data.title,
+    excerpt: data.excerpt,
+    date: data.date,
+    slug: data.slug,
+  });
+
+  const breadcrumbJsonLd = getBreadcrumbSchema([
+    { name: "Home", url: "https://buddhsentripathi.com" },
+    { name: "Blogs", url: "https://buddhsentripathi.com/blogs" },
+    {
+      name: data.title,
+      url: `https://buddhsentripathi.com/blogs/${data.slug}`,
+    },
+  ]);
+
   return (
     <Layout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <article className="space-y-6 px-2 md:px-0">
         <Link
           href="/blogs"

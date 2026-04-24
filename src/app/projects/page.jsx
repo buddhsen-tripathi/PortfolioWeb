@@ -5,6 +5,32 @@ import { fetchGitHubStars } from "@/lib/github";
 
 export const metadata = {
   title: "Projects",
+  description:
+    "Explore my latest projects, including web applications, open-source tools, and experiments in technology and programming.",
+  alternates: {
+    canonical: "https://buddhsentripathi.com/projects",
+  },
+  openGraph: {
+    title: "Projects - Buddhsen Tripathi",
+    description:
+      "Explore my latest projects, including web applications, open-source tools, and experiments in technology and programming.",
+    url: "https://buddhsentripathi.com/projects",
+    images: [
+      {
+        url: "/default-image.webp",
+        width: 1200,
+        height: 630,
+        alt: "Projects - Buddhsen Tripathi",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Projects - Buddhsen Tripathi",
+    description:
+      "Explore my latest projects, including web applications, open-source tools, and experiments in technology and programming.",
+    images: ["/default-image.webp"],
+  },
 };
 
 const Projects = async () => {
