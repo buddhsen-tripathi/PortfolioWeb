@@ -58,14 +58,63 @@ Follow these steps to get the project running locally:
     bun install
     ```
 
-3.  **Set up Environment Variables:**
-    Copy `.env.example` to `.env.local` and fill in your credentials (see Environment Variables section below).
+3.  **Personalize the site:**
+    Open [`src/site.config.ts`](src/site.config.ts) and update identity, contact info, socials, SEO defaults, nav, and content lists. This is the single source of truth — see [Customization](#customization) below.
 
-4.  **Run the development server:**
+4.  **Set up Environment Variables:**
+    Copy `.env.example` to `.env.local` and fill in your credentials (see [Environment Variables](#environment-variables) section below).
+
+5.  **Run the development server:**
     ```bash
     bun run dev
     ```
     Open [http://localhost:3000](http://localhost:3000) to view the site.
+
+## Customization
+
+All site content and SEO flow from a single file: [`src/site.config.ts`](src/site.config.ts). Edit it once and every page, metadata tag, JSON-LD schema, RSS feed, and sitemap updates automatically.
+
+### Sections in `site.config.ts`
+
+| Section | Controls |
+|---------|----------|
+| `identity` | Name, title, tagline, bio, rotating intros |
+| `contact` | Email, production URL, Cal.com, resume path |
+| `assets` | Default OG image, blog OG image, favicon |
+| `socials` | Twitter, GitHub, LinkedIn, LeetCode, TryHackMe, Codeforces |
+| `seo` | Title template, default title/description, keywords, Twitter handle, theme color |
+| `nav` | Navigation bar entries |
+| `experiences` | Work history timeline |
+| `projects` | Project showcase cards |
+| `hackathons` | Hackathon entries |
+| `research` | Research / publications |
+
+### How it propagates
+
+| Config section | Consumed by |
+|----------------|-------------|
+| `identity`, `seo`, `contact`, `assets` | [`src/app/layout.tsx`](src/app/layout.tsx) (root metadata, JSON-LD, theme color), [`src/lib/metadata.ts`](src/lib/metadata.ts), [`src/lib/jsonLd.ts`](src/lib/jsonLd.ts) |
+| `socials` | [`src/components/sections/hero.tsx`](src/components/sections/hero.tsx) (social buttons), [`src/lib/jsonLd.ts`](src/lib/jsonLd.ts) (`sameAs`) |
+| `nav` | [`src/components/sections/navigation.tsx`](src/components/sections/navigation.tsx) via [`src/constants/index.ts`](src/constants/index.ts) |
+| `experiences`, `projects`, `hackathons`, `research` | Corresponding page components via [`src/constants/index.ts`](src/constants/index.ts) |
+| `contact.url`, `identity.name`, `assets.ogImage` | [`src/app/feed.xml/route.ts`](src/app/feed.xml/route.ts), [`src/app/sitemap.xml/route.ts`](src/app/sitemap.xml/route.ts) |
+
+### Adding a new page with SEO
+
+Use the `buildMetadata` helper in [`src/lib/metadata.ts`](src/lib/metadata.ts) — it inherits all site defaults and lets you override per page:
+
+```tsx
+// src/app/your-page/page.tsx
+import { buildMetadata } from "@/lib/metadata";
+
+export const metadata = buildMetadata({
+  title: "Your Page",
+  description: "What this page is about.",
+  path: "/your-page",
+});
+```
+
+This automatically fills in canonical URL, OpenGraph tags, Twitter card, site name, and the page-appropriate image.
 
 ## Scripts
 
@@ -103,6 +152,7 @@ Supabase expects a `views` table (`slug text primary key`, `count int`) with an 
 
 ```
 src/
+├── site.config.ts            # ⭐ Central config — edit this to customize
 ├── app/
 │   ├── api/                  # API routes
 │   │   ├── github/           # Contribution graph + star counts
@@ -119,7 +169,7 @@ src/
 │   ├── projects/             # Projects listing
 │   ├── feed.xml/             # RSS feed route
 │   ├── sitemap.xml/          # Sitemap route
-│   ├── layout.tsx            # Root layout
+│   ├── layout.tsx            # Root layout (reads siteConfig)
 │   ├── page.tsx              # Home page
 │   └── globals.css           # Tailwind v4 theme + base styles
 ├── components/
@@ -130,9 +180,10 @@ src/
 │   ├── ui/                   # shadcn/ui primitives
 │   ├── icons/                # Icon components
 │   └── illustrations/        # Custom SVG illustrations
-├── constants/                # Projects, experiences, nav links, SEO content
+├── constants/                # Re-exports content from site.config.ts
 ├── lib/
-│   ├── jsonLd.ts             # JSON-LD schema generators
+│   ├── metadata.ts           # buildMetadata() helper for per-page SEO
+│   ├── jsonLd.ts             # JSON-LD schema generators (reads siteConfig)
 │   ├── r2Client.ts           # Cloudflare R2 integration
 │   ├── supabaseAdmin.ts      # Supabase server client
 │   ├── github.ts             # GitHub API helpers
