@@ -1,4 +1,4 @@
-<img width="1440" height="1080" alt="image" src="https://github.com/user-attachments/assets/333e2c99-830a-4b59-88c3-431f360a756f" />
+<img width="1920" height="1280" alt="image" src="https://github.com/user-attachments/assets/75f5f4b8-d633-423e-b204-e037f6c95ad3" />
 
 ## Project Overview
 
@@ -163,4 +163,4 @@ This project is open source under the [MIT License](LICENSE).
 -   [Supabase](https://supabase.com/docs) - Open source Firebase alternative
 -   [Cloudflare R2](https://developers.cloudflare.com/r2/) - Object storage
 
-Built by [Buddhsen Tripathi](https://buddhsentripathi.com)
+Built by [Buddhsen Tripathi](https://buddhsentripathi.com) 💙
