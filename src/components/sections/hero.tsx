@@ -326,12 +326,20 @@ const Hero = ({ contributionData = [], lifetimeTotal = 0 }: HeroProps) => {
           </div>
 
           <Image
-            src="/profpic.jpg"
+            src={`${siteConfig.assetsUrl}/profpic2.jpg`}
             alt="Buddhsen Tripathi"
             width={128}
             height={128}
             priority
-            className="h-20 w-20 shrink-0 rounded-full border border-black/8 object-cover dark:border-white/8 md:h-28 md:w-28"
+            className="h-20 w-20 shrink-0 rounded-full border border-black/8 object-cover dark:hidden md:h-28 md:w-28"
+          />
+          <Image
+            src={`${siteConfig.assetsUrl}/profpic.jpg`}
+            alt="Buddhsen Tripathi"
+            width={128}
+            height={128}
+            priority
+            className="hidden h-20 w-20 shrink-0 rounded-full border border-white/8 object-cover dark:block md:h-28 md:w-28"
           />
         </div>
       </motion.div>

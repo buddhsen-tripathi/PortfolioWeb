@@ -8,7 +8,7 @@ export function getPersonSchema() {
     url: contact.url,
     jobTitle: identity.title,
     description: identity.bio,
-    image: `${contact.url}${assets.ogImage}`,
+    image: assets.ogImage,
     sameAs: Object.values(socials).map((s) => s.url),
   };
 }
@@ -51,7 +51,7 @@ export function getBlogPostingSchema(post: BlogPostInput) {
     datePublished: post.date,
     author: getPersonSchema(),
     url: `${contact.url}/blogs/${post.slug}`,
-    image: post.image || `${contact.url}${assets.blogOgImage}`,
+    image: post.image || assets.blogOgImage,
   };
 }
 

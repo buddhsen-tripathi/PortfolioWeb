@@ -20,7 +20,7 @@ export async function GET() {
     generator: "Next.js using RSS",
     pubDate: new Date(),
     copyright: `© ${new Date().getFullYear()} ${identity.name}. All rights reserved.`,
-    image_url: `${contact.url}${assets.ogImage}`,
+    image_url: assets.ogImage,
     webMaster: identity.name,
   });
 

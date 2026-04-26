@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { siteConfig } from "@/site.config";
 
 const generateId = (text: string) =>
   text
@@ -147,16 +148,22 @@ export const mdxComponents = {
       {children}
     </pre>
   ),
-  img: ({ src, alt, ...props }: any) => (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      alt={alt || ""}
-      loading="lazy"
-      className="my-6 h-auto max-w-full rounded-md border border-black/8 dark:border-white/8"
-      {...props}
-    />
-  ),
+  img: ({ src, alt, ...props }: any) => {
+    const resolved =
+      typeof src === "string" && src.startsWith("/blog-images/")
+        ? `${siteConfig.assetsUrl}${src}`
+        : src;
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={resolved}
+        alt={alt || ""}
+        loading="lazy"
+        className="my-6 h-auto max-w-full rounded-md border border-black/8 dark:border-white/8"
+        {...props}
+      />
+    );
+  },
   hr: (props: any) => (
     <hr
       className="my-6 border-t border-black/8 dark:border-white/8"

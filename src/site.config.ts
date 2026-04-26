@@ -43,13 +43,16 @@ export const siteConfig = {
     email: "bt2609@nyu.edu",
     url: "https://buddhsentripathi.com",
     calUrl: "https://cal.com/buddhsen",
-    resumeUrl: "/Resume.pdf",
+    resumeUrl: "https://cdn.buddhsentripathi.com/assets/Resume.pdf",
   },
 
-  // ── Assets (images in /public) ────────────────────────────────────────────
+  // ── Assets (R2-backed CDN at cdn.buddhsentripathi.com/assets) ─────────────
+  // Tiny site-chrome files (favicon, manifest, robots, oneko) stay in /public;
+  // everything else is uploaded via scripts/migrate-assets-to-r2.mjs.
+  assetsUrl: "https://cdn.buddhsentripathi.com/assets",
   assets: {
-    ogImage: "/default-image.webp",
-    blogOgImage: "/default-image-blogs.webp",
+    ogImage: "https://cdn.buddhsentripathi.com/assets/default-image.webp",
+    blogOgImage: "https://cdn.buddhsentripathi.com/assets/default-image-blogs.webp",
     favicon: "/favicon.ico",
   },
 
@@ -127,7 +130,7 @@ export const siteConfig = {
       company: "Amadeus",
       type: "Internship",
       location: "Bangalore, On-Site",
-      logo: "/company/amadeus.jpg",
+      logo: "https://cdn.buddhsentripathi.com/assets/company/amadeus.jpg",
       responsibility: [
         [
           { text: "Contributed to " },
@@ -152,7 +155,7 @@ export const siteConfig = {
       company: "Amadeus",
       type: "Full-Time",
       location: "Bangalore, On-Site",
-      logo: "/company/amadeus.jpg",
+      logo: "https://cdn.buddhsentripathi.com/assets/company/amadeus.jpg",
       responsibility: [
         [
           { text: "Built and maintained " },
@@ -213,7 +216,7 @@ export const siteConfig = {
       techstacks: ["Next.js", "NestJS", "PostgreSQL", "Docker", "AWS", "OpenAI API"],
       status: "live",
       link: "https://deepfind.me",
-      preview: "/projects/deepfindme.png",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/deepfindme.png",
     },
     {
       title: "Bucket0",
@@ -223,8 +226,8 @@ export const siteConfig = {
       techstacks: ["Next.js", "TypeScript", "PostgreSQL", "Tailwind CSS"],
       status: "live",
       link: "https://bucket0.com",
-      preview: "/projects/bucket0-light.png",
-      previewDark: "/projects/bucket0-dark.png",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/bucket0-light.png",
+      previewDark: "https://cdn.buddhsentripathi.com/assets/projects/bucket0-dark.png",
     },
     {
       title: "Nimu",
@@ -234,8 +237,8 @@ export const siteConfig = {
       techstacks: ["Next.js", "NestJS", "PostgreSQL", "Docker", "AWS", "Tailwind CSS"],
       status: "building",
       link: "https://nimu.app",
-      preview: "/projects/nimu-light.png",
-      previewDark: "/projects/nimu-dark.png",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/nimu-light.png",
+      previewDark: "https://cdn.buddhsentripathi.com/assets/projects/nimu-dark.png",
     },
     {
       title: "OpenVScan",
@@ -246,7 +249,7 @@ export const siteConfig = {
       status: "building",
       link: "https://www.openvscan.com",
       github: "Buddhsen-tripathi/openvscan",
-      preview: "/projects/openvscan.png",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/openvscan.png",
     },
     {
       title: "openai-api-helper",
@@ -257,7 +260,7 @@ export const siteConfig = {
       status: "active",
       link: "https://www.npmjs.com/package/openai-api-helper",
       github: "Buddhsen-tripathi/openai-api-helper",
-      preview: "/projects/npm.png",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/npm.png",
     },
     {
       title: "SmartText Enhancer",
@@ -267,7 +270,7 @@ export const siteConfig = {
       techstacks: ["JavaScript", "HTML", "CSS", "Express", "OpenAI API"],
       status: "active",
       link: "https://chromewebstore.google.com/detail/smarttext-enhancer/chmpfoicecijpgmgcpnfhakmeaofmipm",
-      preview: "/projects/sme.png",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/sme.png",
     },
   ],
 
