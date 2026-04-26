@@ -14,8 +14,6 @@ import Link from "next/link";
 import { GeistPixelSquare } from "geist/font/pixel";
 import GitHubContributionGraph from "./contribution-graph";
 import { CornerBrackets } from "@/components/ui/corner-brackets";
-import { TechBadge } from "@/lib/tech-icons";
-import { hackathons } from "@/constants";
 import { siteConfig, type SocialPlatform } from "@/site.config";
 
 const socialIcons: Record<SocialPlatform, React.ReactNode> = {
@@ -25,14 +23,6 @@ const socialIcons: Record<SocialPlatform, React.ReactNode> = {
   leetcode: <SiLeetcode className="h-3.5 w-3.5" />,
   tryhackme: <SiTryhackme className="h-3.5 w-3.5" />,
   codeforces: <SiCodeforces className="h-3.5 w-3.5" />,
-};
-
-const placementColor: Record<string, string> = {
-  "1st Place": "text-amber-500 dark:text-amber-400",
-  "2nd Place": "text-zinc-400",
-  "3rd Place": "text-amber-700",
-  "Bounty Winner": "text-emerald-500 dark:text-emerald-400",
-  "Qualifier": "text-sky-500 dark:text-sky-400",
 };
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -388,73 +378,7 @@ const Hero = ({ contributionData = [], lifetimeTotal = 0 }: HeroProps) => {
           />
         </motion.div>
 
-        {hackathons.length > 0 && (
-          <motion.div {...fadeUp(0.45)}>
-            <h5 className="mb-4 font-doto text-2xl font-medium md:text-3xl">
-              Hackathons
-            </h5>
-            <div className="space-y-6">
-              {hackathons.map((hack: any) => (
-                <article
-                  key={hack.title}
-                  className="border-l-2 border-black/8 pl-4 dark:border-white/8"
-                >
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <h3 className="font-doto text-base font-medium text-foreground md:text-lg">
-                      {hack.event}
-                    </h3>
-                    <span
-                      className={`font-doto text-xs md:text-sm ${
-                        placementColor[hack.placement] ?? "text-muted-foreground"
-                      }`}
-                    >
-                      [{hack.placement}]
-                    </span>
-                    {hack.link && (
-                      <Link
-                        href={hack.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ml-auto inline-flex items-center gap-0.5 font-space-mono text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm"
-                      >
-                        info
-                        <ArrowUpRight className="h-3 w-3" />
-                      </Link>
-                    )}
-                  </div>
-
-                  <p className="mt-1.5 font-space-mono text-xs leading-relaxed text-muted-foreground md:text-sm">
-                    {Array.isArray(hack.body)
-                      ? hack.body.map((seg: any, i: number) =>
-                          seg.bold ? (
-                            <strong key={i} className="font-semibold text-foreground">
-                              {seg.text}
-                            </strong>
-                          ) : (
-                            <span key={i}>{seg.text}</span>
-                          )
-                        )
-                      : hack.body}
-                  </p>
-
-                  <p className="mt-2 font-space-mono text-[10px] uppercase tracking-wider text-muted-foreground/70 md:text-xs">
-                    {hack.college} &middot; {hack.year}
-                  </p>
-
-                  {hack.techstacks?.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {hack.techstacks.map((tech: any, i: number) => (
-                        <TechBadge key={i} name={tech} />
-                      ))}
-                    </div>
-                  )}
-                </article>
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        <motion.div {...fadeUp(0.55)}>
+        <motion.div {...fadeUp(0.45)}>
           <h5 className="mb-4 font-doto text-2xl font-medium md:text-3xl">
             Let&apos;s connect
           </h5>

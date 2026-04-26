@@ -118,8 +118,9 @@ export const siteConfig = {
   nav: [
     { path: "/", name: "About" },
     { path: "/projects", name: "Projects" },
-    { path: "/blogs", name: "Blogs" },
     { path: "/experience", name: "Experience" },
+    { path: "/hackathons", name: "Hacks" },
+    { path: "/blogs", name: "Blogs" },
   ],
 
   // ── Content: Experiences ──────────────────────────────────────────────────
@@ -234,7 +235,7 @@ export const siteConfig = {
       category: "SaaS · AI Outreach",
       description:
         "Reputation-first AI outreach platform with automated domain authentication, multi-step drip campaigns, mailbox warm-up, and real-time deliverability monitoring.",
-      techstacks: ["Next.js", "NestJS", "PostgreSQL", "Docker", "AWS", "Tailwind CSS"],
+      techstacks: ["Next.js", "NestJS", "Drizzle ORM", "Neon Postgres", "BullMQ", "Better Auth", "Tailwind CSS", "Docker"],
       status: "building",
       link: "https://nimu.app",
       preview: "https://cdn.buddhsentripathi.com/assets/projects/nimu-light.png",
@@ -295,6 +296,26 @@ export const siteConfig = {
       ],
       techstacks: ["Next.js", "FastAPI", "Langchain", "Docker", "TypeScript", "Python"],
       link: "https://devpost.com/software/ai-blox",
+    },
+    {
+      title: "NYU Pal",
+      event: "LLUS NYU x Pulse NYC Hackathon",
+      year: "Apr 2026",
+      placement: "3rd Place",
+      college: "NYU Kimmel Center",
+      body: [
+        { text: "Built " },
+        { text: "NYU Pal", bold: true },
+        { text: ", an " },
+        { text: "agentic AI platform", bold: true },
+        { text: " unifying a dozen scattered NYU student tools around three primitives — " },
+        { text: "Space, Items, and Knowledge", bold: true },
+        { text: ". Ships eight features in one MVP: study-space finder, marketplace exchange, peer mentoring with resume matching, live printer tracker, activity-partner matcher, community notes, sublet listings, and an AI professor lookup — all routed through " },
+        { text: "Claude Sonnet 4.6 with tool calling", bold: true },
+        { text: "." },
+      ],
+      techstacks: ["Next.js", "TypeScript", "Tailwind CSS", "Drizzle ORM", "Neon Postgres", "Claude API", "Vercel AI SDK", "Leaflet"],
+      link: "https://github.com/buddhsen-tripathi/nyu-maxxxxing",
     },
   ],
 

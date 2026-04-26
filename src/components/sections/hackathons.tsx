@@ -3,8 +3,21 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import GithubIcon from "../icons/github";
+import { SiDevpost } from "react-icons/si";
 import { TechBadge } from "@/lib/tech-icons";
+
+const linkMeta = (url: string): { label: string; icon: React.ReactNode } => {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, "");
+    if (host === "github.com") return { label: "GitHub", icon: <GithubIcon className="h-4 w-4" /> };
+    if (host === "devpost.com") return { label: "Devpost", icon: <SiDevpost className="h-4 w-4" /> };
+    return { label: host, icon: <ArrowUpRight className="h-4 w-4" /> };
+  } catch {
+    return { label: "Link", icon: <ArrowUpRight className="h-4 w-4" /> };
+  }
+};
 
 const accentColor = {
   "1st Place":     "text-yellow-500 dark:text-yellow-400",
@@ -37,10 +50,26 @@ const HackathonEntry = ({ title, event, year, placement, college, body, techstac
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Placement — pixel font, b&w by default, colour on hover */}
-      <p className={` font-doto text-xl cursor-cell font-bold uppercase leading-none md:text-3xl transition-colors duration-300 ${hovered ? color : "text-foreground"}`}>
-        {placement}
-      </p>
+      {/* Placement (pixel font) + link — link sits in the empty space on the right */}
+      <div className="flex items-center justify-between gap-4">
+        <p className={`font-doto text-xl cursor-cell font-bold uppercase leading-none md:text-3xl transition-colors duration-300 ${hovered ? color : "text-foreground"}`}>
+          {placement}
+        </p>
+
+        {link && (() => {
+          const { label, icon } = linkMeta(link);
+          return (
+            <Link
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex shrink-0 items-center gap-1.5 text-xs text-foreground/60 underline underline-offset-[3px] decoration-foreground/20 transition-colors hover:text-foreground hover:decoration-foreground/50 md:text-sm"
+            >
+              {icon} {label}
+            </Link>
+          );
+        })()}
+      </div>
 
       {/* Accent line — neutral by default, colour on hover */}
       <div className={`mt-2.5 h-px w-12 md:w-16 transition-colors duration-300 ${hovered ? line : "bg-foreground/20"}`} />
@@ -72,18 +101,6 @@ const HackathonEntry = ({ title, event, year, placement, college, body, techstac
           <TechBadge key={i} name={tech} />
         ))}
       </div>
-
-      {/* Link */}
-      {link && (
-        <Link
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 flex gap-2 items-center inline-block text-xs text-foreground/60 underline underline-offset-[3px] decoration-foreground/20 transition-colors hover:text-foreground hover:decoration-foreground/50 md:text-sm"
-        >
-        <GithubIcon className={"w-4 h-4"} /> GitHub
-        </Link>
-      )}
     </motion.article>
   );
 };

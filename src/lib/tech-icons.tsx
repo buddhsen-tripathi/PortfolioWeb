@@ -14,6 +14,8 @@ import {
   SiThreedotjs,
   SiLangchain,
   SiDrizzle,
+  SiClaude,
+  SiLeaflet,
   SiNodedotjs,
   SiMongodb,
   SiGooglemaps,
@@ -41,7 +43,7 @@ import {
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa";
 import { VscAzure } from "react-icons/vsc";
-import { Database, Sparkles, Brain, Boxes, Network, Activity, Code2, Flame, Cpu, Eye, Cloud, Link2, Rocket, Volume2, Plug, Workflow } from "lucide-react";
+import { Database, Sparkles, Brain, Boxes, Network, Activity, Code2, Flame, Cpu, Eye, Cloud, Link2, Rocket, Volume2, Plug, Workflow, ShieldCheck } from "lucide-react";
 
 // adaptive => use currentColor (good for monochrome brands so they stay visible in dark/light)
 const TECH_META = {
@@ -76,6 +78,12 @@ const TECH_META = {
   Langfuse: { Icon: Activity, color: "#0EA5E9" },
   Unsloth: { Icon: Cpu, color: "#10B981" },
   Drizzle: { Icon: SiDrizzle, color: "#84CC16" },
+  "Drizzle ORM": { Icon: SiDrizzle, color: "#84CC16" },
+  "Neon Postgres": { Icon: Database, color: "#00E599" },
+  "Claude API": { Icon: SiClaude, color: "#D97757" },
+  Leaflet: { Icon: SiLeaflet, color: "#199900" },
+  BullMQ: { Icon: Workflow, color: "#DC382D" },
+  "Better Auth": { Icon: ShieldCheck, color: "#F59E0B" },
 
   // hackathon-era stack
   "React JS": { Icon: SiReact, color: "#61DAFB" },
