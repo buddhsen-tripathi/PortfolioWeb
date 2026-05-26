@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import Layout from "@/components/layout/layout";
 import ResearchList from "@/components/sections/research-list";
 import { research } from "@/constants";
@@ -11,6 +12,10 @@ export const metadata = buildMetadata({
 });
 
 const Research = () => {
+  // Disabled until there's research to show — re-enables automatically
+  // once `research` in site.config.ts has entries.
+  if (research.length === 0) notFound();
+
   return (
     <Layout
       showHeader

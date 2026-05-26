@@ -19,7 +19,10 @@ export async function GET() {
     { path: "/projects", priority: "0.8", changefreq: "weekly" },
     { path: "/experience", priority: "0.7", changefreq: "monthly" },
     { path: "/hackathons", priority: "0.7", changefreq: "monthly" },
-    { path: "/research", priority: "0.7", changefreq: "monthly" },
+    // /research is gated on having entries — only list it when populated
+    ...(siteConfig.research.length > 0
+      ? [{ path: "/research", priority: "0.7", changefreq: "monthly" }]
+      : []),
     { path: "/newsletter", priority: "0.5", changefreq: "monthly" },
   ].map(({ path, priority, changefreq }) => ({
     url: `${baseUrl}${path}`,
