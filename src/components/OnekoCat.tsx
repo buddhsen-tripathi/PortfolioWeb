@@ -32,8 +32,19 @@ export default function OnekoCat() {
   const [idleAnimation, setIdleAnimation] = useState(null);
   const [idleAnimationFrame, setIdleAnimationFrame] = useState(0);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [enabled, setEnabled] = useState(false);
   const lastFrameTimestamp = useRef(null);
   const animationFrameId = useRef(null);
+
+  // Cat follows the cursor, so it's pointless (and overlaps UI) on phones/touch.
+  // Disable on small screens or coarse pointers; re-evaluate on viewport change.
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px), (pointer: coarse)");
+    const update = () => setEnabled(!mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   const setSprite = (name, frame) => {
     if (!nekoRef.current) return;
@@ -47,6 +58,8 @@ export default function OnekoCat() {
   };
 
   useEffect(() => {
+    if (!enabled) return;
+
     // Initialize position based on screen size after component mounts
     if (!isInitialized && typeof window !== 'undefined') {
       const isMobile = window.innerWidth <= 768;
@@ -173,7 +186,9 @@ export default function OnekoCat() {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, [nekoPos, mousePos, frameCount, idleTime, idleAnimation, idleAnimationFrame, isInitialized]);
+  }, [enabled, nekoPos, mousePos, frameCount, idleTime, idleAnimation, idleAnimationFrame, isInitialized]);
+
+  if (!enabled) return null;
 
   return (
     <div
