@@ -278,6 +278,26 @@ export const siteConfig = {
   // ── Content: Hackathons ───────────────────────────────────────────────────
   hackathons: [
     {
+      title: "Denial Rescue: RossMD",
+      event: "Agentic Engineering Hack",
+      year: "May 2026",
+      placement: "2nd Place",
+      college: "Datadog HQ, NYC",
+      body: [
+        { text: "Built " },
+        { text: "Denial Rescue: RossMD", bold: true },
+        { text: ", a " },
+        { text: "seven-agent healthcare-regulatory legal team", bold: true },
+        { text: " in software. Feed it a payer denial, a HIPAA breach, or an OIG subpoena and it issue-spots the exposure, researches it against a " },
+        { text: "~1,900-authority corpus", bold: true },
+        { text: " of federal health law, war-games the opposing side, and drafts cited attorney work product — supervised and streamed live in " },
+        { text: "~90 seconds", bold: true },
+        { text: "." },
+      ],
+      techstacks: ["Next.js", "FastAPI", "OpenRouter", "Gemini", "ClickHouse", "Datadog"],
+      link: ["https://github.com/buddhsen-tripathi/rossMD", "https://devpost.com/software/denial-rescue-rossmd"],
+    },
+    {
       title: "AI Blox",
       event: "vibeFORWARD Hackathon",
       year: "Apr 2026",

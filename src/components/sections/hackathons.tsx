@@ -21,8 +21,7 @@ const linkMeta = (url: string): { label: string; icon: React.ReactNode } => {
 
 const accentColor = {
   "1st Place":     "text-yellow-500 dark:text-yellow-400",
-  "2nd Place":     "text-violet-500 dark:text-violet-300",
-  "2nd Position":  "text-violet-500 dark:text-violet-300",
+  "2nd Place":     "text-zinc-400 dark:text-zinc-400",
   "3rd Place":     "text-orange-500 dark:text-orange-400",
   "Bounty Winner": "text-emerald-500 dark:text-emerald-400",
   "Qualifier":     "text-sky-500 dark:text-sky-400",
@@ -30,8 +29,7 @@ const accentColor = {
 
 const accentLine = {
   "1st Place":     "bg-yellow-500 dark:bg-yellow-400",
-  "2nd Place":     "bg-violet-500 dark:bg-violet-300",
-  "2nd Position":  "bg-violet-500 dark:bg-violet-300",
+  "2nd Place":     "bg-zinc-400 dark:bg-zinc-400",
   "3rd Place":     "bg-orange-500 dark:bg-orange-400",
   "Bounty Winner": "bg-emerald-500 dark:bg-emerald-400",
   "Qualifier":     "bg-sky-500 dark:bg-sky-400",
@@ -56,19 +54,24 @@ const HackathonEntry = ({ title, event, year, placement, college, body, techstac
           {placement}
         </p>
 
-        {link && (() => {
-          const { label, icon } = linkMeta(link);
-          return (
-            <Link
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex shrink-0 items-center gap-1.5 text-xs text-foreground/60 underline underline-offset-[3px] decoration-foreground/20 transition-colors hover:text-foreground hover:decoration-foreground/50 md:text-sm"
-            >
-              {icon} {label}
-            </Link>
-          );
-        })()}
+        {link && (
+          <div className="flex shrink-0 items-center gap-3">
+            {(Array.isArray(link) ? link : [link]).map((href) => {
+              const { label, icon } = linkMeta(href);
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-xs text-foreground/60 underline underline-offset-[3px] decoration-foreground/20 transition-colors hover:text-foreground hover:decoration-foreground/50 md:text-sm"
+                >
+                  {icon} {label}
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Accent line — neutral by default, colour on hover */}

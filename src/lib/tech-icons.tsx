@@ -16,6 +16,9 @@ import {
   SiDrizzle,
   SiClaude,
   SiLeaflet,
+  SiFastapi,
+  SiDatadog,
+  SiClickhouse,
   SiNodedotjs,
   SiMongodb,
   SiGooglemaps,
@@ -43,7 +46,7 @@ import {
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa";
 import { VscAzure } from "react-icons/vsc";
-import { Database, Sparkles, Brain, Boxes, Network, Activity, Code2, Flame, Cpu, Eye, Cloud, Link2, Rocket, Volume2, Plug, Workflow, ShieldCheck } from "lucide-react";
+import { Database, Sparkles, Brain, Boxes, Network, Activity, Code2, Flame, Cpu, Eye, Cloud, Link2, Rocket, Volume2, Plug, Workflow, ShieldCheck, Route } from "lucide-react";
 
 // adaptive => use currentColor (good for monochrome brands so they stay visible in dark/light)
 const TECH_META = {
@@ -97,6 +100,11 @@ const TECH_META = {
   Solidity: { Icon: SiSolidity, adaptive: true },
   Ethereum: { Icon: SiEthereum, adaptive: true },
   "Gemini 1.5 Pro": { Icon: SiGooglegemini, color: "#8B5CF6" },
+  Gemini: { Icon: SiGooglegemini, color: "#8B5CF6" },
+  FastAPI: { Icon: SiFastapi, color: "#009688" },
+  Datadog: { Icon: SiDatadog, color: "#632CA6" },
+  ClickHouse: { Icon: SiClickhouse, color: "#FAFF69", adaptive: true },
+  OpenRouter: { Icon: Route, color: "#6467F2" },
   "NASA Open APIs": { Icon: SiNasa, color: "#E03C31" },
   Vite: { Icon: SiVite, color: "#646CFF" },
 
