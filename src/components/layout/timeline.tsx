@@ -21,13 +21,13 @@ interface TimelineProps {
 const Timeline = ({ role, company, year, type, location, logo, logoPadding, invertLogo, responsibility, techstacks, index = 0 }: TimelineProps) => {
   return (
     <motion.ol
-      className="relative border-s border-black/10 dark:border-white/10"
+      className="relative border-s border-black/15 dark:border-white/15"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
     >
       <li className="ms-4 p-3 md:ms-6 md:p-5">
-        <span className="absolute mt-1.5 inset-s-[-5px] rounded-full w-2.5 h-2.5 bg-black/20 dark:bg-white/30" />
+        <span className="absolute -start-[5px] top-7 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-foreground/40 ring-4 ring-background md:top-10" />
 
         <div className="mb-3 flex items-start justify-between gap-2 md:mb-4 md:gap-4">
           <div className="flex min-w-0 items-center gap-2 md:gap-3">

@@ -108,7 +108,7 @@ const Projects = ({
           >
             {Illustration ? (
               <div
-                className={`absolute inset-0 flex items-center justify-center transition-[filter] duration-500 ${isHovered ? "md:grayscale-0" : "md:grayscale"}`}
+                className="absolute inset-0 flex items-center justify-center"
               >
                 <Illustration isCardHovered={isHovered} />
               </div>
@@ -120,7 +120,7 @@ const Projects = ({
                   fill
                   sizes={previewSizes}
                   loading="eager"
-                  className={`object-cover transition-[filter] duration-500 dark:hidden ${isHovered ? "md:grayscale-0" : "md:grayscale"}`}
+                  className="object-cover dark:hidden"
                 />
                 <Image
                   src={previewDark}
@@ -128,7 +128,7 @@ const Projects = ({
                   fill
                   sizes={previewSizes}
                   loading="eager"
-                  className={`hidden object-cover transition-[filter] duration-500 dark:block ${isHovered ? "md:grayscale-0" : "md:grayscale"}`}
+                  className="hidden object-cover dark:block"
                 />
               </>
             ) : (
@@ -138,7 +138,7 @@ const Projects = ({
                 fill
                 sizes={previewSizes}
                 loading="eager"
-                className={`object-cover transition-[filter] duration-500 ${isHovered ? "md:grayscale-0" : "md:grayscale"}`}
+                className="object-cover"
               />
             )}
           </div>
