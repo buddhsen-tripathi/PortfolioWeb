@@ -278,6 +278,24 @@ export const siteConfig = {
   // ── Content: Hackathons ───────────────────────────────────────────────────
   hackathons: [
     {
+      title: "FRTC",
+      event: "vibeFORWARD: M2 - Agents",
+      year: "Jun 2026",
+      placement: "1st Place",
+      college: "Fordham Gabelli School of Business",
+      body: [
+        { text: "Built " },
+        { text: "FRTC", bold: true },
+        { text: ", an " },
+        { text: "autonomous fraud-ring investigator", bold: true },
+        { text: " for bank analysts. It analyzes " },
+        { text: "90 days of transactions", bold: true },
+        { text: ", coordinates six specialist agents plus a Skeptic through a shared Cognee memory graph, and streams the investigation live to a graph UI." }
+      ],
+      techstacks: ["Next.js", "FastAPI", "Gemini", "Cognee", "Kuzu", "React", "TypeScript", "Python"],
+      link: ["https://github.com/ht-epistolist/67hack", "https://devpost.com/software/frtc-g2izs8?ref_content=my-projects-tab&ref_feature=my_projects"],
+    },
+    {
       title: "Denial Rescue: RossMD",
       event: "Agentic Engineering Hack",
       year: "May 2026",

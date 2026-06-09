@@ -77,6 +77,8 @@ const TECH_META = {
   RAG: { Icon: Sparkles, color: "#A855F7" },
   Mistral: { Icon: Brain, color: "#FA520F" },
   LlamaIndex: { Icon: Boxes, color: "#6E57E0" },
+  Cognee: { Icon: Brain, color: "#7C3AED" },
+  Kuzu: { Icon: Network, color: "#0EA5E9" },
   XYFlow: { Icon: Network, color: "#FF0072" },
   Langfuse: { Icon: Activity, color: "#0EA5E9" },
   Unsloth: { Icon: Cpu, color: "#10B981" },
