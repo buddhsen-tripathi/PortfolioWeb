@@ -9,6 +9,8 @@ import Layout from "@/components/layout/layout";
 import { mdxComponents } from "@/components/blog/mdx-components";
 import TableOfContents from "@/components/blog/table-of-contents";
 import ViewCounter from "@/components/blog/view-counter";
+import ReadingProgress from "@/components/blog/reading-progress";
+import RelatedPosts from "@/components/blog/related-posts";
 import { getBlogPostFromS3, getBlogSlugsFromS3 } from "@/lib/r2Client";
 import { getReadingTime } from "../utils";
 import { getBlogPostingSchema, getBreadcrumbSchema } from "@/lib/jsonLd";
@@ -66,6 +68,7 @@ export default async function BlogPost({ params }) {
 
   return (
     <Layout>
+      <ReadingProgress />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostJsonLd) }}
@@ -114,6 +117,11 @@ export default async function BlogPost({ params }) {
             components={mdxComponents}
           />
         </div>
+
+        <RelatedPosts
+          currentSlug={data.slug}
+          currentType={(data as { type?: string }).type}
+        />
       </article>
     </Layout>
   );

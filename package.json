@@ -1,9 +1,9 @@
 {
-  "name": "my-portfolio-v2",
-  "version": "0.1.0",
+  "name": "buddhsentripathi-portfolio",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -11,7 +11,7 @@
     "migrate:blogs": "node scripts/migrate-blogs-to-r2.mjs"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1070.0",
+    "@aws-sdk/client-s3": "^3.1071.0",
     "@radix-ui/react-accordion": "^1.2.14",
     "@radix-ui/react-dialog": "^1.1.17",
     "@radix-ui/react-icons": "^1.3.2",

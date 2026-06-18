@@ -37,7 +37,7 @@ export default function NotFound() {
           <Button asChild>
             <Link href="/" className="flex gap-3 items-center">
               <HouseIcon className="size-4" />
-              Beam me home
+              Home
             </Link>
           </Button>
         </CornerBrackets>
