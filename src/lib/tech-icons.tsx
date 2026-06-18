@@ -19,6 +19,9 @@ import {
   SiFastapi,
   SiDatadog,
   SiClickhouse,
+  SiCloudflare,
+  SiHono,
+  SiExpo,
   SiNodedotjs,
   SiMongodb,
   SiGooglemaps,
@@ -46,7 +49,7 @@ import {
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa";
 import { VscAzure } from "react-icons/vsc";
-import { Database, Sparkles, Brain, Boxes, Network, Activity, Code2, Flame, Cpu, Eye, Cloud, Link2, Rocket, Volume2, Plug, Workflow, ShieldCheck, Route } from "lucide-react";
+import { Database, Sparkles, Brain, Boxes, Network, Activity, Code2, Flame, Cpu, Eye, Cloud, Link2, Rocket, Volume2, Plug, Workflow, ShieldCheck, Route, Layers, Container } from "lucide-react";
 
 // adaptive => use currentColor (good for monochrome brands so they stay visible in dark/light)
 const TECH_META = {
@@ -107,6 +110,15 @@ const TECH_META = {
   Datadog: { Icon: SiDatadog, color: "#632CA6" },
   ClickHouse: { Icon: SiClickhouse, color: "#FAFF69", adaptive: true },
   OpenRouter: { Icon: Route, color: "#6467F2" },
+  "Cloudflare Workers": { Icon: SiCloudflare, color: "#F38020" },
+  "Cloudflare D1": { Icon: SiCloudflare, color: "#F38020" },
+  "Cloudflare R2": { Icon: SiCloudflare, color: "#F38020" },
+  "Cloudflare Queues": { Icon: SiCloudflare, color: "#F38020" },
+  Hono: { Icon: SiHono, color: "#E36002" },
+  "TanStack Start": { Icon: Layers, color: "#FF4154" },
+  TanStack: { Icon: Layers, color: "#FF4154" },
+  Expo: { Icon: SiExpo, adaptive: true },
+  "S3 API": { Icon: Container, color: "#E25444" },
   "NASA Open APIs": { Icon: SiNasa, color: "#E03C31" },
   Vite: { Icon: SiVite, color: "#646CFF" },
 

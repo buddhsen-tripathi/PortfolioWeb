@@ -214,7 +214,7 @@ export const siteConfig = {
       category: "SaaS · OSINT Platform",
       description:
         "Educational OSINT platform offering tools and resources to help users understand and manage their digital footprint.",
-      techstacks: ["Next.js", "NestJS", "PostgreSQL", "Docker", "AWS", "OpenAI API"],
+      techstacks: ["Next.js", "NestJS", "FastAPI", "PostgreSQL", "Docker", "AWS", "OpenAI API"],
       status: "live",
       link: "https://deepfind.me",
       preview: "https://cdn.buddhsentripathi.com/assets/projects/deepfindme.png",
@@ -223,8 +223,8 @@ export const siteConfig = {
       title: "Bucket0",
       category: "SaaS · Storage",
       description:
-        "Platform to store files and manage all your S3-compatible buckets in a single, powerful interface.",
-      techstacks: ["Next.js", "TypeScript", "PostgreSQL", "Tailwind CSS"],
+        "Platform to store files and manage all your S3-compatible buckets in a single, powerful interface - now with a native mobile app.",
+      techstacks: ["Next.js", "TypeScript", "PostgreSQL", "S3 API", "Expo"],
       status: "live",
       link: "https://bucket0.com",
       preview: "https://cdn.buddhsentripathi.com/assets/projects/bucket0-light.png",
@@ -234,8 +234,8 @@ export const siteConfig = {
       title: "Nimu",
       category: "SaaS · AI Outreach",
       description:
-        "Reputation-first AI outreach platform with automated domain authentication, multi-step drip campaigns, mailbox warm-up, and real-time deliverability monitoring.",
-      techstacks: ["Next.js", "NestJS", "Drizzle ORM", "Neon Postgres", "BullMQ", "Better Auth", "Tailwind CSS", "Docker"],
+        "AI outreach platform with automated domain authentication, multi-step campaigns, mailbox warm-up, and real-time deliverability monitoring.",
+      techstacks: ["TanStack Start", "Hono", "Drizzle ORM", "Supabase", "Cloudflare Queues", "Better Auth", "AWS", "Docker"],
       status: "building",
       link: "https://nimu.app",
       preview: "https://cdn.buddhsentripathi.com/assets/projects/nimu-light.png",
@@ -246,7 +246,7 @@ export const siteConfig = {
       category: "Open Source · Security",
       description:
         "Web-based vulnerability scanner that integrates open-source tools with AI to deliver smarter, faster and more reliable pre-production security testing.",
-      techstacks: ["Next.js", "NestJS", "TypeScript", "Tailwind CSS"],
+      techstacks: ["TanStack Start", "Drizzle ORM", "Cloudflare Workers", "Cloudflare D1", "Cloudflare R2", "Cloudflare Queues"],
       status: "building",
       link: "https://www.openvscan.com",
       github: "Buddhsen-tripathi/openvscan",
@@ -255,7 +255,7 @@ export const siteConfig = {
     },
     {
       title: "openai-api-helper",
-      category: "Open Source · npm",
+      category: "Open Source · npm Package",
       description:
         "Straightforward npm package designed to simplify making calls to the OpenAI API for various text-based prompts and responses.",
       techstacks: ["JavaScript", "TypeScript"],
