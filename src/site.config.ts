@@ -250,7 +250,8 @@ export const siteConfig = {
       status: "building",
       link: "https://www.openvscan.com",
       github: "Buddhsen-tripathi/openvscan",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/openvscan.png",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/openvscan-light.png",
+      previewDark: "https://cdn.buddhsentripathi.com/assets/projects/openvscan-dark.png",
     },
     {
       title: "openai-api-helper",
