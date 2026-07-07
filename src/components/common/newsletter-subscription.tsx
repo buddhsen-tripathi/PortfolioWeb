@@ -4,7 +4,13 @@ import { CalendarHeart, CalendarPlus, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-export default function NewsletterSubscription() {
+type NewsletterSubscriptionProps = {
+  variant?: "compact" | "featured";
+};
+
+export default function NewsletterSubscription({
+  variant = "compact",
+}: NewsletterSubscriptionProps) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,9 +44,29 @@ export default function NewsletterSubscription() {
     }
   }
 
+  const isFeatured = variant === "featured";
+
   return (
-    <section className="space-y-4 rounded-md border border-black/8 p-4 dark:border-white/8 md:p-6">
-      <p className="font-space-mono text-sm leading-relaxed text-muted-foreground md:text-base">
+    <section
+      className={
+        isFeatured
+          ? "relative overflow-hidden rounded-md border border-black/10 bg-black/2 p-5 dark:border-white/10 dark:bg-white/3 md:p-8"
+          : "space-y-4 rounded-md border border-black/8 p-4 dark:border-white/8 md:p-6"
+      }
+    >
+      {isFeatured && (
+        <>
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-foreground/30 to-transparent" />
+        </>
+      )}
+
+      <p
+        className={
+          isFeatured
+            ? "mb-5 max-w-xl font-space-mono text-sm leading-relaxed text-muted-foreground md:text-base"
+            : "font-space-mono text-sm leading-relaxed text-muted-foreground md:text-base"
+        }
+      >
         Get notified when a new post drops. It&apos;s free, no spam.
       </p>
 
@@ -50,7 +76,7 @@ export default function NewsletterSubscription() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your@email.com"
-          className="h-9 w-full flex-1 rounded-xs border border-black/8 bg-transparent px-3 font-space-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-1 focus:ring-foreground/40 dark:border-white/8"
+          className="h-[40px] w-full flex-1 rounded-xs border border-black/8 bg-transparent px-3 py-2.5 font-space-mono text-sm leading-none text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-1 focus:ring-foreground/40 dark:border-white/8 sm:h-9 sm:py-0"
           required
         />
         <Button
@@ -58,7 +84,7 @@ export default function NewsletterSubscription() {
           disabled={loading || success}
           variant={success ? "outline" : "neutral"}
           size="sm"
-          className="h-9 shrink-0 gap-1.5"
+          className="h-10 shrink-0 gap-1.5 sm:h-9"
         >
           {success ? (
             <>

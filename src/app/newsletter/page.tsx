@@ -16,9 +16,9 @@ export default function NewsletterPage() {
       title="Newsletter"
       subtitle="Personal stories. Tech updates. No spam, just value."
     >
-      <div className="max-w-xl space-y-4 px-2 md:px-0">
-        <NewsletterSubscription />
-        <p className="font-space-mono text-xs text-muted-foreground">
+      <div className="mx-auto w-full max-w-2xl space-y-4 px-2 md:px-0">
+        <NewsletterSubscription variant="featured" />
+        <p className="text-center font-space-mono text-xs text-muted-foreground">
           You can unsubscribe at any time. Your privacy is respected.
         </p>
       </div>
