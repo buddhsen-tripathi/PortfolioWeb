@@ -11,6 +11,7 @@ import TableOfContents from "@/components/blog/table-of-contents";
 import ViewCounter from "@/components/blog/view-counter";
 import ReadingProgress from "@/components/blog/reading-progress";
 import RelatedPosts from "@/components/blog/related-posts";
+import NewsletterSubscription from "@/components/common/newsletter-subscription";
 import { getBlogPostFromS3, getBlogSlugsFromS3 } from "@/lib/r2Client";
 import { getReadingTime } from "../utils";
 import { getBlogPostingSchema, getBreadcrumbSchema } from "@/lib/jsonLd";
@@ -122,6 +123,10 @@ export default async function BlogPost({ params }) {
           currentSlug={data.slug}
           currentType={(data as { type?: string }).type}
         />
+
+        <section className="mt-12 border-b border-black/8 pb-12 dark:border-white/8">
+          <NewsletterSubscription />
+        </section>
       </article>
     </Layout>
   );

@@ -1,15 +1,16 @@
 "use client";
 
-import { CalendarHeart, CalendarPlus, ArrowUpRight } from "lucide-react";
+import { CalendarHeart, CalendarPlus, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function NewsletterSubscription() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -31,69 +32,60 @@ export default function NewsletterSubscription() {
       setSuccess(true);
       setEmail("");
     } catch (err) {
-      setError(err.message);
+      setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <section className="space-y-4">
-      <h2 className="font-serif text-xl font-medium italic leading-snug text-primary">
-        stay updated.
-      </h2>
-      <div className="prose max-w-full text-sm font-normal leading-6 text-muted-foreground dark:prose-invert">
-        <p>
-          It&apos;s{" "}
-          <span className="font-medium text-green-600">free!</span> Get
-          notified instantly whenever a new post drops. Stay updated, stay
-          ahead.
-        </p>
-      </div>
+    <section className="space-y-4 rounded-md border border-black/8 p-4 dark:border-white/8 md:p-6">
+      <p className="font-space-mono text-sm leading-relaxed text-muted-foreground md:text-base">
+        Get notified when a new post drops. It&apos;s free, no spam.
+      </p>
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-2 sm:flex-row">
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your@email.com"
-          className="flex-1 rounded-xs border border-border bg-background px-3 py-2 text-sm transition-colors focus:outline-hidden focus:ring-1 focus:ring-primary"
+          className="h-9 w-full flex-1 rounded-xs border border-black/8 bg-transparent px-3 font-space-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-1 focus:ring-foreground/40 dark:border-white/8"
           required
         />
-        <button
+        <Button
           type="submit"
-          disabled={loading}
-          className={`inline-flex items-center justify-center gap-1.5 rounded-xs px-4 py-2 text-sm font-medium transition-all duration-300 ${
-            success
-              ? "bg-green-50 text-green-600 dark:bg-green-950/30"
-              : "bg-primary text-primary-foreground hover:bg-primary/90"
-          }`}
+          disabled={loading || success}
+          variant={success ? "outline" : "neutral"}
+          size="sm"
+          className="h-9 shrink-0 gap-1.5"
         >
           {success ? (
             <>
-              <CalendarHeart size={14} />
-              subscribed!
+              <CalendarHeart className="h-3.5 w-3.5" />
+              subscribed
             </>
           ) : loading ? (
             <>
-              <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent"></div>
-              subscribing...
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              subscribing
             </>
           ) : (
             <>
-              <CalendarPlus size={14} />
+              <CalendarPlus className="h-3.5 w-3.5" />
               subscribe
-              <ArrowUpRight size={12} />
             </>
           )}
-        </button>
+        </Button>
       </form>
+
       {(error || success) && (
-        <p className="text-xs">
+        <p className="font-space-mono text-xs">
           {error ? (
             <span className="text-destructive">{error}</span>
           ) : (
-            <span className="text-green-600">
-              You&apos;re all set! Check your inbox for confirmation.
+            <span className="text-muted-foreground">
+              You&apos;re all set. Check your inbox for confirmation.
             </span>
           )}
         </p>
