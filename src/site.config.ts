@@ -279,6 +279,31 @@ export const siteConfig = {
   // ── Content: Hackathons ───────────────────────────────────────────────────
   hackathons: [
     {
+      title: "ClaimAid",
+      event: "Pulse Foundry AI NYC × ABI Frameworks",
+      year: "Jun 2026",
+      placement: "2nd Place",
+      college: "Soma Capital, NYC",
+      body: [
+        { text: "Built " },
+        { text: "ClaimAid", bold: true },
+        { text: ", an " },
+        { text: "AI-powered wound-care billing triage", bold: true },
+        { text: " tool for post-acute care facilities. Ingested " },
+        { text: "300 synthetic patients", bold: true },
+        { text: " from a rate-limited PointClickCare API, extracted wound fields from SOAP, prose, multi-wound, and narrative notes, then routed each case through a " },
+        { text: "three-gate triage engine", bold: true },
+        { text: " into auto-accept, flag-for-review, or reject, cutting the biller queue by " },
+        { text: "66%", bold: true },
+        { text: "." },
+      ],
+      techstacks: ["Next.js", "React", "TypeScript", "Tailwind CSS", "FastAPI", "Python", "PostgreSQL", "Pandas"],
+      link: [
+        "https://github.com/buddhsen-tripathi/ab1-hackathon",
+        "https://pulsefoundry.ai/hackathons/6a2622ee4bf99f7110ff33eb/projects/6a4185ef4da84c75d82607e4",
+      ],
+    },
+    {
       title: "FRTC",
       event: "vibeFORWARD: M2 - Agents",
       year: "Jun 2026",

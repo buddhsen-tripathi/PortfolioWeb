@@ -14,12 +14,14 @@ const getExperienceYears = () => {
   const earliest = experiences
     .map((e) => new Date(e.year.split(" - ")[0]))
     .sort((a, b) => a.getTime() - b.getTime())[0];
-  const years = (new Date().getTime() - earliest.getTime()) / (1000 * 60 * 60 * 24 * 365.25);
+  const years =
+    (new Date().getTime() - earliest.getTime()) / (1000 * 60 * 60 * 24 * 365.25);
   return Math.floor(years);
 };
 
 const Experience = () => {
   const totalYears = getExperienceYears();
+  const items = [...experiences].reverse();
 
   return (
     <Layout
@@ -27,11 +29,7 @@ const Experience = () => {
       title="Experiences"
       subtitle={`My journey as a software developer over ${totalYears}+ years`}
     >
-      <div>
-        {[...experiences].reverse().map((experience, index) => (
-          <Timeline {...experience} key={index} index={index} />
-        ))}
-      </div>
+      <Timeline items={items} />
     </Layout>
   );
 };
