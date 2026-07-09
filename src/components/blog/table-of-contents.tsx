@@ -14,6 +14,7 @@ const generateId = (text) =>
 
 function extractHeadings(content) {
   const items = [];
+  const contentWithoutCodeBlocks = content.replace(/```[\s\S]*?```/g, "");
 
   const htmlHeadingRegex = /<h([1-6])[^>]*id="([^"]*)"[^>]*>([\s\S]*?)<\/h[1-6]>/gi;
   let match;
@@ -26,7 +27,7 @@ function extractHeadings(content) {
 
   if (items.length === 0) {
     const markdownHeadingRegex = /^(#{1,6})\s+(.+)$/gm;
-    while ((match = markdownHeadingRegex.exec(content)) !== null) {
+    while ((match = markdownHeadingRegex.exec(contentWithoutCodeBlocks)) !== null) {
       const level = match[1].length;
       const text = match[2].trim();
       const id = generateId(text);
