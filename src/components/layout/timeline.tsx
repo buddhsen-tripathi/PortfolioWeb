@@ -229,13 +229,11 @@ const Timeline = ({ items }: { items: ExperienceRaw[] }) => {
 
               <div className="mt-5 h-px w-14 bg-foreground/15" />
 
-              <div className="mt-5 space-y-2.5 font-space-mono text-xs text-muted-foreground">
-                <p>
-                  <span className="text-foreground/80">{formatTenure(totalMonths)}</span>
+              <div className="mt-5 space-y-1 font-space-mono text-xs text-muted-foreground">
+                <p className="text-foreground/80">{formatTenure(totalMonths)}</p>
+                <p className="text-[11px] leading-snug text-muted-foreground/70">
+                  <span className="whitespace-nowrap">{start} → {end}</span>
                   <span className="mx-1.5 text-foreground/20">·</span>
-                  {start} → {end}
-                </p>
-                <p className="text-[11px] text-muted-foreground/70">
                   {group.roles.length} role{group.roles.length === 1 ? "" : "s"}
                 </p>
               </div>
