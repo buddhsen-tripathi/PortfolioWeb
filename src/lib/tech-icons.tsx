@@ -4,7 +4,6 @@ import {
   SiTailwindcss,
   SiPrisma,
   SiSupabase,
-  SiOpenai,
   SiRedis,
   SiFirebase,
   SiGooglecloud,
@@ -61,7 +60,7 @@ const TECH_META = {
   Tailwindcss: { Icon: SiTailwindcss, color: "#06B6D4" },
   Prisma: { Icon: SiPrisma, adaptive: true },
   Supabase: { Icon: SiSupabase, color: "#3ECF8E" },
-  OpenAI: { Icon: SiOpenai, adaptive: true },
+  OpenAI: { Icon: Sparkles, adaptive: true },
   Redis: { Icon: SiRedis, color: "#DC382D" },
   Firebase: { Icon: SiFirebase, color: "#F57C00" },
   GCP: { Icon: SiGooglecloud, color: "#4285F4" },
@@ -151,7 +150,7 @@ const TECH_META = {
   HTML: { Icon: SiHtml5, color: "#E34F26" },
   CSS: { Icon: SiCss, color: "#1572B6" },
   "Tailwind CSS": { Icon: SiTailwindcss, color: "#06B6D4" },
-  "OpenAI API": { Icon: SiOpenai, adaptive: true },
+  "OpenAI API": { Icon: Sparkles, adaptive: true },
 };
 
 const DEFAULT = { Icon: Code2, adaptive: true };
