@@ -121,7 +121,7 @@ export default async function BlogPost({ params }) {
           currentType={(data as { type?: string }).type}
         />
 
-        <section className="mt-12 border-b border-black/8 pb-12 dark:border-white/8">
+        <section className="mt-12 border-b border-black/15 pb-12 dark:border-white/15">
           <NewsletterSubscription />
         </section>
       </article>

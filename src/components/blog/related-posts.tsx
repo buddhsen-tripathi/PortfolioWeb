@@ -28,7 +28,7 @@ export default async function RelatedPosts({
   if (picks.length === 0) return null;
 
   return (
-    <section className="mt-12 border-b border-black/8 pb-12 dark:border-white/8">
+    <section className="mt-12 border-b border-black/15 pb-12 dark:border-white/15">
       <h2 className="mb-4 font-doto text-xl font-medium md:text-2xl">
         More posts
       </h2>

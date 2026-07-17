@@ -160,7 +160,7 @@ export const mdxComponents = {
   },
   hr: (props: any) => (
     <hr
-      className="my-6 border-t border-black/8 dark:border-white/8"
+      className="my-6 border-t border-black/15 dark:border-white/15"
       {...props}
     />
   ),
