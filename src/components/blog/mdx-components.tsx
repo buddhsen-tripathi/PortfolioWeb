@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/site.config";
+import { MdxCodeBlock } from "@/components/blog/code-block";
 
 const generateId = (text: string) =>
   text
@@ -140,14 +141,7 @@ export const mdxComponents = {
       </code>
     );
   },
-  pre: ({ children, ...props }: any) => (
-    <pre
-      className="my-4 overflow-x-auto rounded-md border border-black/8 bg-zinc-950 p-4 font-mono text-xs text-zinc-100 dark:border-white/8 md:text-sm [&_code]:bg-transparent [&_code]:text-zinc-100"
-      {...props}
-    >
-      {children}
-    </pre>
-  ),
+  pre: MdxCodeBlock,
   img: ({ src, alt, ...props }: any) => {
     const resolved =
       typeof src === "string" && src.startsWith("/blog-images/")

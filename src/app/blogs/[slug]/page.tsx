@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import "highlight.js/styles/github-dark.css";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import remarkFrontmatter from "remark-frontmatter";
 import Layout from "@/components/layout/layout";
@@ -111,7 +109,6 @@ export default async function BlogPost({ params }) {
             source={content}
             options={{
               mdxOptions: {
-                rehypePlugins: [rehypeHighlight],
                 remarkPlugins: [remarkGfm, remarkFrontmatter],
               },
             }}
