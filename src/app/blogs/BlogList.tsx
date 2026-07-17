@@ -6,6 +6,7 @@ import { Search, ArrowUpRight, Check } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import ViewCounter from "@/components/blog/view-counter";
 import { useViews } from "@/components/blog/views-context";
+import { CornerBrackets } from "@/components/ui/corner-brackets";
 
 export default function BlogList({ blogPosts }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -103,7 +104,7 @@ export default function BlogList({ blogPosts }) {
             key="list"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="space-y-6"
+            className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6"
           >
             {filteredPosts.map((post, index) => (
               <motion.div
@@ -115,45 +116,48 @@ export default function BlogList({ blogPosts }) {
                   delay: index * 0.05,
                   ease: [0.16, 1, 0.3, 1],
                 }}
+                className="h-full"
               >
-                <Link
-                  href={post.url ?? `/blogs/${post.slug}`}
-                  target={post.url ? "_blank" : undefined}
-                  rel={post.url ? "noopener noreferrer" : undefined}
-                  className="group block"
-                >
-                  <article className="space-y-1.5">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <h2 className="font-doto text-base font-medium text-foreground transition-colors md:text-lg">
-                          {post.title}
-                        </h2>
-                        {post.url && (
-                          <span className="rounded-xs border border-black/10 px-1.5 py-px text-[10px] leading-none text-muted-foreground dark:border-white/10">
-                            𝕏 article
-                          </span>
+                <CornerBrackets className="h-full">
+                  <Link
+                    href={post.url ?? `/blogs/${post.slug}`}
+                    target={post.url ? "_blank" : undefined}
+                    rel={post.url ? "noopener noreferrer" : undefined}
+                    className="group block h-full p-3"
+                  >
+                    <article className="space-y-1.5">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h2 className="font-doto text-base font-medium text-foreground transition-colors md:text-lg">
+                            {post.title}
+                          </h2>
+                          {post.url && (
+                            <span className="rounded-xs border border-black/10 px-1.5 py-px text-[10px] leading-none text-muted-foreground dark:border-white/10">
+                              𝕏 article
+                            </span>
+                          )}
+                        </div>
+                        <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground opacity-0 transition-all group-hover:opacity-100" />
+                      </div>
+
+                      <div className="flex items-center gap-2 font-space-mono text-xs text-muted-foreground">
+                        <time>{post.date}</time>
+                        {!post.url && (
+                          <>
+                            <span>&middot;</span>
+                            <ViewCounter slug={post.slug} readOnly />
+                          </>
                         )}
                       </div>
-                      <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground opacity-0 transition-all group-hover:opacity-100" />
-                    </div>
 
-                    <div className="flex items-center gap-2 font-space-mono text-xs text-muted-foreground">
-                      <time>{post.date}</time>
-                      {!post.url && (
-                        <>
-                          <span>&middot;</span>
-                          <ViewCounter slug={post.slug} readOnly />
-                        </>
-                      )}
-                    </div>
-
-                    <p className="font-space-mono text-xs leading-relaxed text-muted-foreground md:text-sm">
-                      {post.excerpt && post.excerpt.length > 140
-                        ? `${post.excerpt.substring(0, 140)}...`
-                        : post.excerpt}
-                    </p>
-                  </article>
-                </Link>
+                      <p className="font-space-mono text-xs leading-relaxed text-muted-foreground md:text-sm">
+                        {post.excerpt && post.excerpt.length > 140
+                          ? `${post.excerpt.substring(0, 140)}...`
+                          : post.excerpt}
+                      </p>
+                    </article>
+                  </Link>
+                </CornerBrackets>
               </motion.div>
             ))}
           </motion.div>
