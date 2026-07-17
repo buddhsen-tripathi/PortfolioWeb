@@ -13,7 +13,7 @@ export default function BlogList({ blogPosts }) {
   const [sortType, setSortType] = useState("newest");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const { prefetchViews } = useViews();
+  const { prefetchViews, getViews } = useViews();
 
   useEffect(() => {
     const slugs = blogPosts
@@ -35,6 +35,12 @@ export default function BlogList({ blogPosts }) {
   const sortedPosts = [...blogPosts].sort((a, b) => {
     if (sortType === "oldest") {
       return new Date(a.date).getTime() - new Date(b.date).getTime();
+    }
+    if (sortType === "most read") {
+      const aViews = a.url ? -1 : (getViews(a.slug) ?? 0);
+      const bViews = b.url ? -1 : (getViews(b.slug) ?? 0);
+      if (bViews !== aViews) return bViews - aViews;
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
     }
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
@@ -75,9 +81,9 @@ export default function BlogList({ blogPosts }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.15 }}
-                className="absolute right-0 z-50 mt-1 w-32 overflow-hidden rounded-xs border border-black/8 bg-background shadow-lg dark:border-white/8"
+                className="absolute right-0 z-50 mt-1 w-36 overflow-hidden rounded-xs border border-black/8 bg-background shadow-lg dark:border-white/8"
               >
-                {["newest", "oldest"].map((option) => (
+                {["newest", "oldest", "most read"].map((option) => (
                   <button
                     key={option}
                     onClick={() => {
