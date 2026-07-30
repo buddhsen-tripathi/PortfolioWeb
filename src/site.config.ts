@@ -238,8 +238,8 @@ export const siteConfig = {
       techstacks: ["TanStack Start", "Hono", "Drizzle ORM", "Supabase", "Cloudflare Queues", "Better Auth", "AWS", "Docker"],
       status: "building",
       link: "https://nimu.app",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/nimu-light.png",
-      previewDark: "https://cdn.buddhsentripathi.com/assets/projects/nimu-dark.png",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/nimu-light.png?v=20260729",
+      previewDark: "https://cdn.buddhsentripathi.com/assets/projects/nimu-dark.png?v=20260729",
     },
     {
       title: "OpenVScan",
@@ -249,7 +249,7 @@ export const siteConfig = {
       techstacks: ["TanStack Start", "Drizzle ORM", "Cloudflare Workers", "Cloudflare D1", "Cloudflare R2", "Cloudflare Queues"],
       status: "building",
       link: "https://www.openvscan.com",
-      github: "Buddhsen-tripathi/openvscan",
+      github: "buddhsen-tripathi/openvscan",
       preview: "https://cdn.buddhsentripathi.com/assets/projects/openvscan-light.png",
       previewDark: "https://cdn.buddhsentripathi.com/assets/projects/openvscan-dark.png",
     },
@@ -261,7 +261,7 @@ export const siteConfig = {
       techstacks: ["JavaScript", "TypeScript"],
       status: "active",
       link: "https://www.npmjs.com/package/openai-api-helper",
-      github: "Buddhsen-tripathi/openai-api-helper",
+      github: "buddhsen-tripathi/openai-api-helper",
       preview: "https://cdn.buddhsentripathi.com/assets/projects/npm.png",
     },
     {
