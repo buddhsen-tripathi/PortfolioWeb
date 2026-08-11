@@ -15,8 +15,8 @@ const CACHE_KEY = "views-cache-all";
 const CACHE_DURATION = 5 * 60 * 1000;
 const BATCH_DELAY = 50;
 
-// Module-scoped so React Strict Mode remounts still see in-flight POSTs.
-const inFlightIncrements = new Set();
+// Module-scoped so React Strict Mode remounts share the same in-flight POST.
+const inFlightIncrements = new Map();
 
 export function ViewsProvider({ children }) {
   const [viewsMap, setViewsMap] = useState({});
@@ -136,33 +136,41 @@ export function ViewsProvider({ children }) {
         return;
       }
 
-      if (inFlightIncrements.has(slug)) return;
-      inFlightIncrements.add(slug);
-
-      try {
-        const res = await fetch("/api/views", {
+      // Share one POST across Strict Mode remounts; every caller applies the result
+      // so a discarded first mount can't leave the UI stuck at null.
+      let pending = inFlightIncrements.get(slug);
+      if (!pending) {
+        pending = fetch("/api/views", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ slug }),
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          const views = Number(data.views) || 0;
-          sessionStorage.setItem(sessionKey, "true");
-          incrementedRef.current.add(slug);
-          setViewsMap((prev) => {
-            const next = Math.max(prev[slug] ?? 0, views);
-            const updated = { ...prev, [slug]: next };
-            saveCache(updated);
-            return updated;
+        })
+          .then(async (res) => {
+            if (!res.ok) return null;
+            const data = await res.json();
+            return Number(data.views) || 0;
+          })
+          .catch((error) => {
+            console.error("Error incrementing views:", error);
+            return null;
+          })
+          .finally(() => {
+            inFlightIncrements.delete(slug);
           });
-        }
-      } catch (error) {
-        console.error("Error incrementing views:", error);
-      } finally {
-        inFlightIncrements.delete(slug);
+        inFlightIncrements.set(slug, pending);
       }
+
+      const views = await pending;
+      if (views == null) return;
+
+      sessionStorage.setItem(sessionKey, "true");
+      incrementedRef.current.add(slug);
+      setViewsMap((prev) => {
+        const next = Math.max(prev[slug] ?? 0, views);
+        const updated = { ...prev, [slug]: next };
+        saveCache(updated);
+        return updated;
+      });
     },
     [saveCache, refreshViews]
   );

@@ -16,7 +16,7 @@ const Footer = () => {
   const [battery, setBattery] = useState<number | null>(null);
   const [location, setLocation] = useState<string | null>(null);
   const [weather, setWeather] = useState<string | null>(null);
-  const { getViews, incrementViews } = useViews();
+  const { getViews, incrementViews, prefetchViews } = useViews();
   const visitorCount = getViews(SITE_VISITORS_SLUG);
 
   useEffect(() => {
@@ -38,8 +38,11 @@ const Footer = () => {
   }, []);
 
   useEffect(() => {
+    // Prefetch so the count can render from GET even if the increment POST is slow
+    // or a Strict Mode remount races the in-flight request.
+    prefetchViews([SITE_VISITORS_SLUG]);
     incrementViews(SITE_VISITORS_SLUG);
-  }, [incrementViews]);
+  }, [incrementViews, prefetchViews]);
 
   useEffect(() => {
     fetch("/api/location")
