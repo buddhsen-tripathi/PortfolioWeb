@@ -15,6 +15,9 @@ const CACHE_KEY = "views-cache-all";
 const CACHE_DURATION = 5 * 60 * 1000;
 const BATCH_DELAY = 50;
 
+// Module-scoped so React Strict Mode remounts still see in-flight POSTs.
+const inFlightIncrements = new Set();
+
 export function ViewsProvider({ children }) {
   const [viewsMap, setViewsMap] = useState({});
   const pendingSlugsRef = useRef(new Set());
@@ -58,11 +61,12 @@ export function ViewsProvider({ children }) {
           const data = await res.json();
           setViewsMap((prev) => {
             const updated = { ...prev };
-            for (const [slug, count] of Object.entries(data.views ?? {})) {
+            for (const [slug, rawCount] of Object.entries(data.views ?? {})) {
+              const count = Number(rawCount) || 0;
               if (incrementedRef.current.has(slug)) {
-                updated[slug] = Math.max(prev[slug] ?? 0, count ?? 0);
+                updated[slug] = Math.max(prev[slug] ?? 0, count);
               } else {
-                updated[slug] = count ?? 0;
+                updated[slug] = count;
               }
             }
             saveCache(updated);
@@ -87,32 +91,19 @@ export function ViewsProvider({ children }) {
     }, BATCH_DELAY);
   }, [fetchBatch]);
 
-  const ensureFetched = useCallback(
-    (slug) => {
+  const queueFetch = useCallback(
+    (slugs, { force = false } = {}) => {
       setViewsMap((current) => {
-        if (
-          !(slug in current) &&
-          !pendingSlugsRef.current.has(slug) &&
-          !fetchingRef.current.has(slug)
-        ) {
-          pendingSlugsRef.current.add(slug);
-          scheduleBatchFetch();
-        }
-        return current;
-      });
-    },
-    [scheduleBatchFetch]
-  );
-
-  const prefetchViews = useCallback(
-    (slugs) => {
-      setViewsMap((current) => {
-        const slugsToFetch = slugs.filter(
-          (slug) =>
-            !(slug in current) &&
-            !pendingSlugsRef.current.has(slug) &&
-            !fetchingRef.current.has(slug)
-        );
+        const slugsToFetch = slugs.filter((slug) => {
+          if (
+            pendingSlugsRef.current.has(slug) ||
+            fetchingRef.current.has(slug)
+          ) {
+            return false;
+          }
+          if (!force && slug in current) return false;
+          return true;
+        });
         if (slugsToFetch.length > 0) {
           slugsToFetch.forEach((slug) => pendingSlugsRef.current.add(slug));
           scheduleBatchFetch();
@@ -123,19 +114,30 @@ export function ViewsProvider({ children }) {
     [scheduleBatchFetch]
   );
 
+  const prefetchViews = useCallback(
+    (slugs) => queueFetch(slugs, { force: false }),
+    [queueFetch]
+  );
+
+  /** Re-fetch even when a cached/prefetched value exists (e.g. after a claimed session view). */
+  const refreshViews = useCallback(
+    (slugs) => queueFetch(slugs, { force: true }),
+    [queueFetch]
+  );
+
   const getViews = useCallback((slug) => viewsMap[slug] ?? null, [viewsMap]);
 
   const incrementViews = useCallback(
     async (slug) => {
       const sessionKey = `viewed-${slug}`;
       if (sessionStorage.getItem(sessionKey)) {
-        ensureFetched(slug);
+        // Sync from server so a mid-flight reload can't leave a stale cached count.
+        refreshViews([slug]);
         return;
       }
 
-      // Claim the view before the request so Strict Mode remounts / rapid
-      // refreshes cannot double-POST. Clear on failure so a retry is possible.
-      sessionStorage.setItem(sessionKey, "true");
+      if (inFlightIncrements.has(slug)) return;
+      inFlightIncrements.add(slug);
 
       try {
         const res = await fetch("/api/views", {
@@ -146,22 +148,23 @@ export function ViewsProvider({ children }) {
 
         if (res.ok) {
           const data = await res.json();
+          const views = Number(data.views) || 0;
+          sessionStorage.setItem(sessionKey, "true");
           incrementedRef.current.add(slug);
           setViewsMap((prev) => {
-            const next = Math.max(prev[slug] ?? 0, data.views ?? 0);
+            const next = Math.max(prev[slug] ?? 0, views);
             const updated = { ...prev, [slug]: next };
             saveCache(updated);
             return updated;
           });
-        } else {
-          sessionStorage.removeItem(sessionKey);
         }
       } catch (error) {
-        sessionStorage.removeItem(sessionKey);
         console.error("Error incrementing views:", error);
+      } finally {
+        inFlightIncrements.delete(slug);
       }
     },
-    [saveCache, ensureFetched]
+    [saveCache, refreshViews]
   );
 
   useEffect(() => {
@@ -171,7 +174,9 @@ export function ViewsProvider({ children }) {
   }, []);
 
   return (
-    <ViewsContext.Provider value={{ getViews, incrementViews, prefetchViews }}>
+    <ViewsContext.Provider
+      value={{ getViews, incrementViews, prefetchViews, refreshViews }}
+    >
       {children}
     </ViewsContext.Provider>
   );
