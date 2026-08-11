@@ -20,6 +20,8 @@ export function ViewsProvider({ children }) {
   const pendingSlugsRef = useRef(new Set());
   const batchTimeoutRef = useRef(null);
   const fetchingRef = useRef(new Set());
+  // Slugs incremented this tab session — batch results must not clobber them with a stale count.
+  const incrementedRef = useRef(new Set());
 
   useEffect(() => {
     try {
@@ -55,7 +57,14 @@ export function ViewsProvider({ children }) {
         if (res.ok) {
           const data = await res.json();
           setViewsMap((prev) => {
-            const updated = { ...prev, ...data.views };
+            const updated = { ...prev };
+            for (const [slug, count] of Object.entries(data.views ?? {})) {
+              if (incrementedRef.current.has(slug)) {
+                updated[slug] = Math.max(prev[slug] ?? 0, count ?? 0);
+              } else {
+                updated[slug] = count ?? 0;
+              }
+            }
             saveCache(updated);
             return updated;
           });
@@ -78,11 +87,31 @@ export function ViewsProvider({ children }) {
     }, BATCH_DELAY);
   }, [fetchBatch]);
 
+  const ensureFetched = useCallback(
+    (slug) => {
+      setViewsMap((current) => {
+        if (
+          !(slug in current) &&
+          !pendingSlugsRef.current.has(slug) &&
+          !fetchingRef.current.has(slug)
+        ) {
+          pendingSlugsRef.current.add(slug);
+          scheduleBatchFetch();
+        }
+        return current;
+      });
+    },
+    [scheduleBatchFetch]
+  );
+
   const prefetchViews = useCallback(
     (slugs) => {
       setViewsMap((current) => {
         const slugsToFetch = slugs.filter(
-          (slug) => !(slug in current) && !fetchingRef.current.has(slug)
+          (slug) =>
+            !(slug in current) &&
+            !pendingSlugsRef.current.has(slug) &&
+            !fetchingRef.current.has(slug)
         );
         if (slugsToFetch.length > 0) {
           slugsToFetch.forEach((slug) => pendingSlugsRef.current.add(slug));
@@ -94,39 +123,19 @@ export function ViewsProvider({ children }) {
     [scheduleBatchFetch]
   );
 
-  const getViews = useCallback(
-    (slug) => {
-      if (
-        !(slug in viewsMap) &&
-        !pendingSlugsRef.current.has(slug) &&
-        !fetchingRef.current.has(slug)
-      ) {
-        pendingSlugsRef.current.add(slug);
-        scheduleBatchFetch();
-      }
-      return viewsMap[slug] ?? null;
-    },
-    [viewsMap, scheduleBatchFetch]
-  );
+  const getViews = useCallback((slug) => viewsMap[slug] ?? null, [viewsMap]);
 
   const incrementViews = useCallback(
     async (slug) => {
       const sessionKey = `viewed-${slug}`;
       if (sessionStorage.getItem(sessionKey)) {
-        if (
-          !pendingSlugsRef.current.has(slug) &&
-          !fetchingRef.current.has(slug)
-        ) {
-          setViewsMap((current) => {
-            if (!(slug in current)) {
-              pendingSlugsRef.current.add(slug);
-              scheduleBatchFetch();
-            }
-            return current;
-          });
-        }
+        ensureFetched(slug);
         return;
       }
+
+      // Claim the view before the request so Strict Mode remounts / rapid
+      // refreshes cannot double-POST. Clear on failure so a retry is possible.
+      sessionStorage.setItem(sessionKey, "true");
 
       try {
         const res = await fetch("/api/views", {
@@ -137,18 +146,22 @@ export function ViewsProvider({ children }) {
 
         if (res.ok) {
           const data = await res.json();
+          incrementedRef.current.add(slug);
           setViewsMap((prev) => {
-            const updated = { ...prev, [slug]: data.views };
+            const next = Math.max(prev[slug] ?? 0, data.views ?? 0);
+            const updated = { ...prev, [slug]: next };
             saveCache(updated);
             return updated;
           });
-          sessionStorage.setItem(sessionKey, "true");
+        } else {
+          sessionStorage.removeItem(sessionKey);
         }
       } catch (error) {
+        sessionStorage.removeItem(sessionKey);
         console.error("Error incrementing views:", error);
       }
     },
-    [saveCache, scheduleBatchFetch]
+    [saveCache, ensureFetched]
   );
 
   useEffect(() => {

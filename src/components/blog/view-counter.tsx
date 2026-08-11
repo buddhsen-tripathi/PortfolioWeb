@@ -5,13 +5,18 @@ import { Eye } from "lucide-react";
 import { useViews } from "./views-context";
 
 export default function ViewCounter({ slug, readOnly = false, showIcon = false }) {
-  const { getViews, incrementViews } = useViews();
+  const { getViews, incrementViews, prefetchViews } = useViews();
 
   const count = slug ? getViews(slug) : null;
 
   useEffect(() => {
-    if (!readOnly && slug) incrementViews(slug);
-  }, [slug, readOnly, incrementViews]);
+    if (!slug) return;
+    if (readOnly) {
+      prefetchViews([slug]);
+    } else {
+      incrementViews(slug);
+    }
+  }, [slug, readOnly, incrementViews, prefetchViews]);
 
   if (!slug) return null;
 
