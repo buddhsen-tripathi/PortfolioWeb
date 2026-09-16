@@ -13,6 +13,7 @@ const linkMeta = (url: string): { label: string; icon: React.ReactNode } => {
     const host = new URL(url).hostname.replace(/^www\./, "");
     if (host === "github.com") return { label: "GitHub", icon: <GithubIcon className="h-4 w-4" /> };
     if (host === "devpost.com") return { label: "Devpost", icon: <SiDevpost className="h-4 w-4" /> };
+    if (host === "builderbase.com") return { label: "Event", icon: <ArrowUpRight className="h-4 w-4" /> };
     return { label: host, icon: <ArrowUpRight className="h-4 w-4" /> };
   } catch {
     return { label: "Link", icon: <ArrowUpRight className="h-4 w-4" /> };

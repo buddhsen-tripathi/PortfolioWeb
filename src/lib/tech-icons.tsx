@@ -109,6 +109,7 @@ const TECH_META = {
   Datadog: { Icon: SiDatadog, color: "#632CA6" },
   ClickHouse: { Icon: SiClickhouse, color: "#FAFF69", adaptive: true },
   OpenRouter: { Icon: Route, color: "#6467F2" },
+  PRISM: { Icon: Activity, color: "#8B5CF6" },
   "Cloudflare Workers": { Icon: SiCloudflare, color: "#F38020" },
   "Cloudflare D1": { Icon: SiCloudflare, color: "#F38020" },
   "Cloudflare R2": { Icon: SiCloudflare, color: "#F38020" },

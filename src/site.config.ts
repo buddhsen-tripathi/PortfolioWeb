@@ -279,6 +279,29 @@ export const siteConfig = {
   // ── Content: Hackathons ───────────────────────────────────────────────────
   hackathons: [
     {
+      title: "AI Security Analyst",
+      event: "AI × Finance Hackathon — Money Talks",
+      year: "Sep 2026",
+      placement: "2nd Place",
+      college: "New York, NY",
+      body: [
+        { text: "Built " },
+        { text: "AI Security Analyst", bold: true },
+        { text: ", an " },
+        { text: "evidence-first vendor-security questionnaire agent", bold: true },
+        { text: " for the Regodit track. It parsed policies, SOC 2 reports, and access reviews into sourced claims, filled a " },
+        { text: "66-question buyer workbook", bold: true },
+        { text: " without inventing answers, then applied the " },
+        { text: "buyer's own risk tables", bold: true },
+        { text: " so the vendor sees predicted rating, escalations, and a fix-first list before sending." },
+      ],
+      techstacks: ["React", "Vite", "Tailwind CSS", "FastAPI", "Python", "OpenRouter", "Neon Postgres", "PRISM"],
+      link: [
+        "https://github.com/Alred-79/AI-x-Finance-Wall-street-Hackathon",
+        "https://builderbase.com/event/ai-x-finance-hackathon-money-talks-bjl2",
+      ],
+    },
+    {
       title: "ClaimAid",
       event: "Pulse Foundry AI NYC × ABI Frameworks",
       year: "Jun 2026",
