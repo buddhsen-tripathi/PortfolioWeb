@@ -1,0 +1,717 @@
+---
+title: "The Architecture of an AI System"
+excerpt: "What actually happens between sending a prompt and getting an answer? A first-principles look at the architecture behind modern AI systems."
+date: "17-09-2026"
+type: "technical"
+---
+
+When you use an AI application, the mental model is usually pretty simple.
+
+You type something.
+
+The AI thinks.
+
+You get an answer.
+
+```text
+You → AI → Answer
+```
+
+That model is useful, but it is also wildly incomplete.
+
+A modern AI system is not just a model sitting on a GPU waiting for your prompt. There are applications, context builders, agent loops, tools, retrieval systems, model-serving infrastructure, GPUs, storage systems, monitoring, and an entire lifecycle that happened before you ever typed the first character.
+
+If you are building AI applications, understanding these boundaries is more useful than memorizing a list of AI buzzwords.
+
+So let's open the box.
+
+## The naive mental model
+
+Start with the simplest possible architecture:
+
+![The naive mental model: User, then AI, then Answer](/blog-images/the-architecture-of-an-ai-system/01-naive-ai-model.png)
+
+You send a prompt to an AI.
+
+The AI processes it.
+
+The AI returns some text.
+
+At the center of this system is a **model**.
+
+A model is the thing that takes an input and produces an output based on the patterns it learned during training.
+
+But there is an important question here.
+
+**Who actually sends your prompt to the model?**
+
+And another one.
+
+**What exactly gets sent to the model?**
+
+If you are using a coding agent, there is an even bigger question.
+
+**How does the model read files, run commands, search the web, call APIs, and modify your code?**
+
+The model itself does not magically have access to all of these things.
+
+There is a lot more software surrounding it.
+
+## Let's open the box
+
+A more useful mental model looks something like this:
+
+![The full AI system stack from User through Application, Harness, Runtime, Serving, and GPU down to the Model](/blog-images/the-architecture-of-an-ai-system/02-complete-ai-system.png)
+
+This is not one universal implementation.
+
+Different companies combine, split, rename, or hide these components.
+
+But these are useful **architectural boundaries** for understanding how modern AI systems work.
+
+There is also another major part of the picture that does not simply sit underneath the GPU: the **model lifecycle**. The serving infrastructure runs a trained model. The lifecycle is how you get that model in the first place and continue improving it.
+
+Let's go through the stack from the top.
+
+## The AI application
+
+At the top is the thing you actually interact with.
+
+It could be a chat interface.
+
+It could be an API.
+
+It could be a coding environment.
+
+It could be a customer support application.
+
+It could be an internal company tool.
+
+The application is responsible for turning a user's interaction into something the AI system can process.
+
+Suppose you ask:
+
+> What is the capital of France?
+
+The application receives that message.
+
+But the model might not receive exactly those words.
+
+There may be system instructions.
+
+There may be conversation history.
+
+There may be retrieved documents.
+
+There may be tool definitions.
+
+There may be information about the current user or task.
+
+The application or another component has to construct the actual context that will eventually reach the model.
+
+This is where things start getting interesting.
+
+## The agent and the harness
+
+If you are building a simple chatbot, you might not need a complicated agent layer.
+
+You can essentially do:
+
+```text
+User message → Model → Answer
+```
+
+But imagine you are using a coding agent.
+
+You say:
+
+> Fix the authentication bug in my application.
+
+Now the system needs to do much more.
+
+It might need to:
+
+1. Inspect the repository.
+2. Find authentication-related files.
+3. Read relevant code.
+4. Understand the error.
+5. Decide what to change.
+6. Modify files.
+7. Run tests.
+8. Read the test output.
+9. Fix another issue if the tests fail.
+10. Repeat until the task is complete.
+
+The model can reason about these actions, but something has to **orchestrate the process**.
+
+That surrounding software is often described as an **agent harness**.
+
+![Harness internals: context, tools, routing, loop, state, memory, permissions, compaction, and error recovery](/blog-images/the-architecture-of-an-ai-system/03-harness.png)
+
+The exact implementation differs between systems.
+
+For example, Anthropic's Claude Code and OpenAI's Codex are examples of sophisticated coding-agent systems. Their internal architectures are proprietary, so it would be wrong to assume that either one literally implements this exact diagram.
+
+The point is the boundary.
+
+**The model is not the entire agent.**
+
+The harness is the software around the model that manages the interaction between the model, the environment, and the task.
+
+If you want to understand this layer in more detail, I wrote about [building AI agents from scratch](/blogs/building-ai-agents-from-scratch).
+
+## What does the model actually see?
+
+This is one of the most important concepts in AI engineering.
+
+Suppose you type:
+
+> Fix the login bug.
+
+The model does not see your entire computer.
+
+It does not automatically see every file in your repository.
+
+It does not automatically know which tools exist.
+
+It does not magically see your database.
+
+Something has to construct the model's input.
+
+![Context construction: system instructions, history, user message, retrieved context, tools, and state become the model input](/blog-images/the-architecture-of-an-ai-system/06-context-construction.png)
+
+This is why **context engineering** matters so much.
+
+The model can only reason over the information that is actually made available to it.
+
+And this brings us to one of the most common pieces of AI application architecture.
+
+## Retrieval and RAG
+
+Suppose your company has 50,000 internal documents.
+
+You ask:
+
+> What is our refund policy for enterprise customers?
+
+You probably don't want to put all 50,000 documents into the model's context.
+
+Instead, the system can retrieve the pieces of information that are relevant to your question.
+
+This is the basic idea behind **Retrieval-Augmented Generation**, or RAG.
+
+There are really two different flows to understand.
+
+![RAG has two flows: ingestion into a vector database on the left, and query-time retrieval on the right](/blog-images/the-architecture-of-an-ai-system/05-rag.png)
+
+A document might be split into smaller chunks.
+
+Each chunk is converted into a numerical representation called an **embedding**.
+
+Those embeddings are stored alongside the original content and metadata.
+
+For example:
+
+```text
+Document chunk:  "Enterprise refunds are..."
+Embedding:       [0.12, -0.44, 0.83, ...]
+Metadata:        document_id=123, department=billing
+```
+
+A vector database can then search for vectors that are close to the vector representing a user's query.
+
+The important thing to understand is that **RAG does not retrain the model**.
+
+The model remains the model.
+
+RAG changes the information that is supplied to it at request time.
+
+This is also why a vector database is not the same thing as a normal key-value database or a graph database.
+
+A key-value database answers questions like:
+
+```text
+key → value
+```
+
+A vector database answers questions like:
+
+```text
+"Find things similar to this vector"
+```
+
+A graph database is optimized around relationships:
+
+```text
+Alice → works_at → Company
+Company → owns → Product
+Product → depends_on → Service
+```
+
+Different storage models exist because different questions require different retrieval mechanisms.
+
+## Tool calling
+
+Retrieval lets an AI system **find information**.
+
+But what if it needs to **do something**?
+
+Suppose you ask:
+
+> What is the weather in New York?
+
+The model itself does not need to contain today's weather data.
+
+The application can expose a weather tool.
+
+```text
+User → Model → "I need weather data"
+             → Tool call → Weather API
+             → Tool result → Model → Answer
+```
+
+The model generates a structured request representing the tool it wants to use.
+
+The surrounding software interprets that request and actually executes the tool.
+
+That distinction matters.
+
+**The model can request an action. The surrounding system performs the action.**
+
+The tool could be:
+
+- A weather API
+- A database query
+- A web search
+- A shell command
+- A file operation
+- A payment API
+- A Git operation
+- An internal company service
+
+The model does not need to implement all of these capabilities itself.
+
+It needs a way to express that it wants one of them.
+
+## MCP, tools, and the harness
+
+This is also where people often mix up several different concepts.
+
+A **tool** is an action the AI system can invoke.
+
+An **MCP server** can provide tools and other capabilities to an AI application through the Model Context Protocol.
+
+A **harness** is the surrounding orchestration layer that manages the model interaction, context, tools, state, permissions, and execution.
+
+They are related, but they are not interchangeable terms.
+
+You can think about it like this:
+
+```text
+                 HARNESS
+                    │
+          ┌─────────┴─────────┐
+          │                   │
+       MODEL                TOOLS
+                              │
+                     ┌────────┼────────┐
+                     │        │        │
+                   Files     APIs    Database
+```
+
+MCP can be one mechanism for making tools or other capabilities available to the application.
+
+It is not itself an agent.
+
+It is not the model.
+
+And it is not synonymous with a harness.
+
+## The agent loop
+
+Now we can finally explain what makes something feel like an agent.
+
+A simple model interaction looks like:
+
+```text
+User → Model → Answer
+```
+
+An agentic interaction has a loop: the model can call a tool, receive the result, reason again, and either call another tool or stop.
+
+![The agent loop: User to Harness to Model, then Tool call, Tool, Tool result back to the Model, or a stop to Final answer](/blog-images/the-architecture-of-an-ai-system/04-agent-loop.png)
+
+The model receives the result of the tool.
+
+It reasons again.
+
+It might call another tool.
+
+That result comes back.
+
+It reasons again.
+
+Eventually it decides that it has enough information to produce a final answer.
+
+A useful engineering abstraction is:
+
+```text
+Agent = Model + Tools + State + Loop + Stop Condition
+```
+
+This isn't the only possible definition of an agent, but it is a useful way to reason about agentic systems as an engineer.
+
+The **loop** is particularly important.
+
+Without the loop, you have something closer to:
+
+```text
+Input → Model → Output
+```
+
+With the loop, the model can either emit a final answer or request another action. That is the basic machinery behind many systems that people casually call "AI agents."
+
+## The AI runtime
+
+So far, we've mostly talked about what happens around the model.
+
+But eventually the system needs to actually **run the model**.
+
+This is where another boundary becomes useful.
+
+Call it the **AI runtime** or **inference platform**.
+
+It can be responsible for things such as:
+
+- Request management
+- Routing
+- Authentication
+- Rate limiting
+- Guardrails
+- Policy enforcement
+- Caching
+- Sandboxing
+- Observability
+- Model selection
+- Request scheduling
+
+The exact responsibilities depend heavily on the architecture.
+
+This is an important distinction because **inference** and the entire platform around inference are not the same thing.
+
+Inference means running the trained model to produce an output.
+
+The platform around it can include many other responsibilities.
+
+## Model serving
+
+Now we are getting closer to the actual computation.
+
+A model-serving system is responsible for efficiently running model inference at scale.
+
+Imagine thousands of users sending requests simultaneously.
+
+You don't want every request to simply grab an entire GPU and run independently.
+
+Modern serving systems have to manage resources carefully.
+
+This is where concepts like **batching**, **scheduling**, **GPU memory**, **KV cache**, and **throughput vs latency** become important.
+
+There is another useful distinction inside inference.
+
+When your prompt first arrives, the system has to process the input tokens. This is commonly called **prefill**.
+
+Then the model generates output tokens one at a time. This is the **decode** phase.
+
+![Model serving path on the left, prefill and decode on the right](/blog-images/the-architecture-of-an-ai-system/07-inference-serving.png)
+
+The model repeatedly predicts the next token.
+
+That sounds simple.
+
+The hardware and systems engineering required to do this efficiently at large scale is not.
+
+## What actually happens on the GPU?
+
+At the lowest level of this request path, we eventually reach hardware.
+
+A GPU is responsible for performing the enormous amount of numerical computation required by modern neural networks.
+
+The model contains parameters.
+
+Those parameters are numerical values.
+
+Inference involves applying those learned parameters to the input representations through many layers of computation.
+
+Very roughly:
+
+```text
+Tokens
+  → Embeddings
+  → Transformer layers
+      → Attention
+      → Feed-forward computation
+      → Normalization
+  → Output probabilities
+  → Next token
+```
+
+For a language model, this process happens repeatedly as new tokens are generated.
+
+The important thing is that **the GPU is not the model**.
+
+The GPU is hardware.
+
+The model is the learned mathematical structure represented by its architecture and parameters.
+
+The serving system loads that model onto the available hardware and executes it.
+
+## The model itself
+
+So what is the model?
+
+At a high level, you can think of it as:
+
+```text
+Architecture + Parameters + Weights = Trained Model
+```
+
+For a modern language model, the architecture defines how information flows through the network.
+
+The parameters are the learned numerical values.
+
+During inference, those values are used to transform the input into predictions.
+
+For an autoregressive language model, the core behavior is essentially:
+
+```text
+Input tokens → Model → Probability distribution → Next token → Repeat
+```
+
+The model does not need a file system to predict the next token.
+
+It does not need a browser.
+
+It does not need a Git repository.
+
+It does not inherently have access to your company's database.
+
+Those capabilities come from the software surrounding the model.
+
+This distinction becomes extremely important when building AI systems.
+
+## Where did the model come from?
+
+There is another entire system behind the model.
+
+Before a model can serve your request, someone had to create it.
+
+![Model lifecycle from data and training through evaluation, post-training, release, deployment, monitoring, and iteration](/blog-images/the-architecture-of-an-ai-system/08-model-lifecycle.png)
+
+### Data
+
+Models need enormous amounts of training data.
+
+The data needs to be collected, processed, filtered, transformed, and prepared.
+
+### Training
+
+The model's parameters are optimized using large amounts of computation.
+
+This is where massive GPU clusters and distributed training systems become important.
+
+### Evaluation
+
+You need to measure how the model performs.
+
+That can involve general benchmarks, task-specific evaluations, safety evaluations, human evaluations, and internal tests.
+
+### Post-training
+
+A base model can be further trained or optimized for particular behaviors.
+
+This can include techniques such as supervised fine-tuning and preference-based optimization.
+
+### Deployment
+
+Once a model is ready, it needs to be packaged and deployed into a serving environment.
+
+### Monitoring
+
+Once users start sending requests, you need to monitor the system.
+
+Latency.
+
+Errors.
+
+Throughput.
+
+Resource utilization.
+
+Quality.
+
+Safety.
+
+Cost.
+
+And eventually you learn enough to improve the next version.
+
+This entire loop is part of the broader **MLOps and model lifecycle**.
+
+## Putting the layers together
+
+We can now return to the original question.
+
+What actually happens when you send a prompt to an AI system?
+
+Let's say you type:
+
+> Fix the authentication bug in my application.
+
+A simplified request path might look like this:
+
+![The complete picture: request path through the stack, with retrieval, tools, and memory off the harness, plus the model lifecycle underneath](/blog-images/the-architecture-of-an-ai-system/09-complete-picture.png)
+
+Now the original `User → AI → Answer` abstraction makes a lot more sense.
+
+It isn't wrong.
+
+It's just hiding a lot of boxes.
+
+## What changes for a coding agent?
+
+Let's follow the authentication example one more time.
+
+You ask:
+
+> Fix the authentication bug.
+
+The application passes the request into the agent system.
+
+The harness constructs context.
+
+The model receives the relevant instructions, conversation, tool definitions, and available state.
+
+The model might decide it needs to inspect the repository.
+
+It produces a tool call.
+
+The harness executes that tool.
+
+The file contents come back.
+
+The model analyzes them.
+
+It might request another file.
+
+Then another.
+
+Eventually it might modify a file.
+
+Then it might run tests.
+
+If the tests fail, the result goes back into the loop.
+
+The model reasons again.
+
+The process continues until a stop condition is reached.
+
+This is why calling the model itself "the coding agent" can be misleading.
+
+The model is a critical component.
+
+But the useful behavior emerges from the **system around the model**.
+
+## The bigger lesson
+
+This way of looking at AI systems changes how you think about AI engineering.
+
+Instead of asking:
+
+> Which AI framework should I use?
+
+You can start asking:
+
+> Which part of the system am I actually building?
+
+Maybe your problem is retrieval.
+
+Then you need to think about chunking, embeddings, vector search, reranking, metadata, and context construction.
+
+Maybe your problem is tool use.
+
+Then you need to think about tool schemas, execution, permissions, failures, and structured outputs.
+
+Maybe your problem is agentic behavior.
+
+Then you need to think about state, loops, stop conditions, context management, and recovery.
+
+Maybe your problem is serving.
+
+Then you are thinking about batching, scheduling, GPU memory, KV cache, throughput, latency, and inference engines.
+
+Maybe your problem is the model itself.
+
+Now you are talking about architecture, training, evaluation, post-training, and model weights.
+
+These are very different engineering problems.
+
+And they live at different layers.
+
+## You don't need to build every layer
+
+There is one final thing worth emphasizing.
+
+You do not need to build all of this yourself.
+
+Most AI engineers are not training a foundation model from scratch.
+
+Most application developers are not writing GPU kernels.
+
+Most teams are not building their own inference engine.
+
+You can consume these layers as services.
+
+For example:
+
+```text
+Your Application → Agent / Harness → Model API → Someone else's AI infrastructure
+```
+
+Or you might control more of the stack:
+
+```text
+Your Application → Your Agent → Your Serving Layer → Your GPU Cluster → Your Model
+```
+
+The abstraction boundary is a choice.
+
+That is exactly how software engineering has always worked.
+
+You don't need to build your own database to build a backend.
+
+You don't need to build your own operating system to build a web server.
+
+And you don't need to train your own foundation model to build an AI application.
+
+What matters is understanding **where the boundary is and what happens across it**.
+
+## One mental model to keep
+
+If you remember only one diagram from this article, make it the stack.
+
+The request path:
+
+![The AI system stack from User to Model](/blog-images/the-architecture-of-an-ai-system/02-complete-ai-system.png)
+
+And separately, the lifecycle that creates and maintains the model:
+
+![The model lifecycle looping through iteration](/blog-images/the-architecture-of-an-ai-system/08-model-lifecycle.png)
+
+The next time someone says **RAG**, **agents**, **MCP**, **inference**, **model serving**, **harness**, or **MLOps**, don't just memorize the definition.
+
+Ask yourself:
+
+**Which box is this?**
+
+Once you can place the box, the rest of the system starts making a lot more sense.

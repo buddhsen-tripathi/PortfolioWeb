@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1056" height="946" viewBox="0 0 1056 946">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<defs>
+<marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+<path d="M 0 1 L 11 6 L 0 11 z" fill="#1e1e1e"/>
+</marker>
+</defs>
+<rect x="88" y="48" width="280" height="56" rx="10" ry="10" fill="#ffec99" stroke="#1e1e1e" stroke-width="2"  />
+<text x="228" y="76" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="228" dy="0">User</tspan></text>
+<rect x="88" y="132" width="280" height="56" rx="10" ry="10" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="2"  />
+<text x="228" y="160" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="228" dy="0">AI Application</tspan></text>
+<rect x="88" y="216" width="280" height="56" rx="10" ry="10" fill="#eebefa" stroke="#1e1e1e" stroke-width="2"  />
+<text x="228" y="244" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="228" dy="0">Agent / Harness</tspan></text>
+<rect x="88" y="300" width="280" height="56" rx="10" ry="10" fill="#ffd8a8" stroke="#1e1e1e" stroke-width="2"  />
+<text x="228" y="328" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="228" dy="0">AI Runtime</tspan></text>
+<rect x="88" y="384" width="280" height="56" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="228" y="412" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="228" dy="0">Model Serving</tspan></text>
+<rect x="88" y="468" width="280" height="56" rx="10" ry="10" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="2"  />
+<text x="228" y="496" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="228" dy="0">GPU Cluster</tspan></text>
+<rect x="88" y="552" width="280" height="56" rx="10" ry="10" fill="#99e9f2" stroke="#1e1e1e" stroke-width="2"  />
+<text x="228" y="580" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="228" dy="0">Model</tspan></text>
+<polyline points="228,104 228,132" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="228,188 228,216" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="228,272 228,300" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="228,356 228,384" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="228,440 228,468" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="228,524 228,552" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<rect x="508" y="184" width="200" height="52" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="608" y="210" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="608" dy="0">Retrieval</tspan></text>
+<rect x="768" y="184" width="200" height="52" rx="10" ry="10" fill="#d0ebff" stroke="#1e1e1e" stroke-width="2"  />
+<text x="868" y="210" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="868" dy="0">Vector DB</tspan></text>
+<rect x="508" y="256" width="200" height="52" rx="10" ry="10" fill="#ffd8a8" stroke="#1e1e1e" stroke-width="2"  />
+<text x="608" y="282" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="608" dy="0">Tools</tspan></text>
+<rect x="768" y="256" width="200" height="52" rx="10" ry="10" fill="#e9ecef" stroke="#1e1e1e" stroke-width="2"  />
+<text x="868" y="282" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="868" dy="0">Files / APIs / DB</tspan></text>
+<rect x="508" y="328" width="200" height="52" rx="10" ry="10" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="2"  />
+<text x="608" y="354" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="608" dy="0">Memory / State</tspan></text>
+<rect x="768" y="328" width="200" height="52" rx="10" ry="10" fill="#e9ecef" stroke="#1e1e1e" stroke-width="2"  />
+<text x="868" y="354" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="868" dy="0">Storage</tspan></text>
+<polyline points="368,244 508,210" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="708,210 768,210" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="368,244 508,282" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="708,282 768,282" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="368,244 508,354" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="708,354 768,354" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<rect x="48" y="688" width="960" height="210" rx="10" ry="10" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="10 8" />
+<text x="528" y="793" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="528" dy="0"></tspan></text>
+<text x="528" y="722" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="528" dy="0">MODEL LIFECYCLE</tspan></text>
+<rect x="68" y="748" width="116" height="56" rx="10" ry="10" fill="#e9ecef" stroke="#1e1e1e" stroke-width="2"  />
+<text x="126" y="776" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#1e1e1e"><tspan x="126" dy="0">Data</tspan></text>
+<rect x="198" y="748" width="116" height="56" rx="10" ry="10" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="2"  />
+<text x="256" y="776" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#1e1e1e"><tspan x="256" dy="0">Training</tspan></text>
+<rect x="328" y="748" width="116" height="56" rx="10" ry="10" fill="#eebefa" stroke="#1e1e1e" stroke-width="2"  />
+<text x="386" y="776" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#1e1e1e"><tspan x="386" dy="0">Eval</tspan></text>
+<rect x="458" y="748" width="116" height="56" rx="10" ry="10" fill="#ffd8a8" stroke="#1e1e1e" stroke-width="2"  />
+<text x="516" y="776" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#1e1e1e"><tspan x="516" dy="0">Post-train</tspan></text>
+<rect x="588" y="748" width="116" height="56" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="646" y="776" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#1e1e1e"><tspan x="646" dy="0">Release</tspan></text>
+<rect x="718" y="748" width="116" height="56" rx="10" ry="10" fill="#99e9f2" stroke="#1e1e1e" stroke-width="2"  />
+<text x="776" y="776" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#1e1e1e"><tspan x="776" dy="0">Deploy</tspan></text>
+<rect x="848" y="748" width="116" height="56" rx="10" ry="10" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="2"  />
+<text x="906" y="776" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#1e1e1e"><tspan x="906" dy="0">Monitor</tspan></text>
+<polyline points="184,776 198,776" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="314,776 328,776" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="444,776 458,776" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="574,776 588,776" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="704,776 718,776" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="834,776 848,776" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="924,804 924,868 126,868 126,804" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="10 8" />
+<text x="528" y="890" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#1e1e1e"><tspan x="528" dy="0">iteration → new version</tspan></text>
+</svg>

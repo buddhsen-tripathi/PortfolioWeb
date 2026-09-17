@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="416" height="760" viewBox="0 0 416 760">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<defs>
+<marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+<path d="M 0 1 L 11 6 L 0 11 z" fill="#1e1e1e"/>
+</marker>
+</defs>
+<rect x="48" y="48" width="320" height="64" rx="10" ry="10" fill="#ffec99" stroke="#1e1e1e" stroke-width="2"  />
+<text x="208" y="80" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="208" dy="0">User</tspan></text>
+<rect x="48" y="148" width="320" height="64" rx="10" ry="10" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="2"  />
+<text x="208" y="180" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="208" dy="0">AI Application</tspan></text>
+<rect x="48" y="248" width="320" height="64" rx="10" ry="10" fill="#eebefa" stroke="#1e1e1e" stroke-width="2"  />
+<text x="208" y="280" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="208" dy="0">Agent / Harness</tspan></text>
+<rect x="48" y="348" width="320" height="64" rx="10" ry="10" fill="#ffd8a8" stroke="#1e1e1e" stroke-width="2"  />
+<text x="208" y="380" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="208" dy="0">AI Runtime</tspan></text>
+<rect x="48" y="448" width="320" height="64" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="208" y="480" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="208" dy="0">Model Serving</tspan></text>
+<rect x="48" y="548" width="320" height="64" rx="10" ry="10" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="2"  />
+<text x="208" y="580" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="208" dy="0">GPU Cluster</tspan></text>
+<rect x="48" y="648" width="320" height="64" rx="10" ry="10" fill="#99e9f2" stroke="#1e1e1e" stroke-width="2"  />
+<text x="208" y="680" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="208" dy="0">Model</tspan></text>
+<polyline points="208,112 208,148" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="208,212 208,248" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="208,312 208,348" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="208,412 208,448" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="208,512 208,548" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="208,612 208,648" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+</svg>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1036" height="816" viewBox="0 0 1036 816">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<defs>
+<marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+<path d="M 0 1 L 11 6 L 0 11 z" fill="#1e1e1e"/>
+</marker>
+</defs>
+<rect x="48" y="48" width="430" height="720" rx="10" ry="10" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="10 8" />
+<text x="263" y="408" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="263" dy="0"></tspan></text>
+<rect x="518" y="48" width="470" height="720" rx="10" ry="10" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="10 8" />
+<text x="753" y="408" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="753" dy="0"></tspan></text>
+<text x="263" y="86" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="263" dy="0">SERVING PATH</tspan></text>
+<text x="753" y="86" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="753" dy="0">PREFILL AND DECODE</tspan></text>
+<rect x="98" y="118" width="330" height="52" rx="10" ry="10" fill="#ffec99" stroke="#1e1e1e" stroke-width="2"  />
+<text x="263" y="144" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="263" dy="0">Requests</tspan></text>
+<rect x="98" y="192" width="330" height="52" rx="10" ry="10" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="2"  />
+<text x="263" y="218" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="263" dy="0">API / Gateway</tspan></text>
+<rect x="98" y="266" width="330" height="52" rx="10" ry="10" fill="#eebefa" stroke="#1e1e1e" stroke-width="2"  />
+<text x="263" y="292" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="263" dy="0">Router</tspan></text>
+<rect x="98" y="340" width="330" height="52" rx="10" ry="10" fill="#ffd8a8" stroke="#1e1e1e" stroke-width="2"  />
+<text x="263" y="366" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="263" dy="0">Queue / Scheduler</tspan></text>
+<rect x="98" y="414" width="330" height="52" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="263" y="440" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="263" dy="0">Batching</tspan></text>
+<rect x="98" y="488" width="330" height="52" rx="10" ry="10" fill="#99e9f2" stroke="#1e1e1e" stroke-width="2"  />
+<text x="263" y="514" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="263" dy="0">Inference engine</tspan></text>
+<rect x="98" y="562" width="330" height="52" rx="10" ry="10" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="2"  />
+<text x="263" y="588" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="263" dy="0">GPU</tspan></text>
+<rect x="98" y="636" width="330" height="52" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="263" y="662" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="263" dy="0">Generated tokens</tspan></text>
+<polyline points="263,170 263,192" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="263,244 263,266" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="263,318 263,340" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="263,392 263,414" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="263,466 263,488" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="263,540 263,562" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="263,614 263,636" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<rect x="578" y="138" width="350" height="64" rx="10" ry="10" fill="#ffec99" stroke="#1e1e1e" stroke-width="2"  />
+<text x="753" y="170" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="753" dy="0">Prompt tokens</tspan></text>
+<rect x="578" y="248" width="350" height="64" rx="10" ry="10" fill="#ffd8a8" stroke="#1e1e1e" stroke-width="2"  />
+<text x="753" y="280" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="753" dy="0">Prefill</tspan></text>
+<rect x="578" y="358" width="350" height="64" rx="10" ry="10" fill="#d0ebff" stroke="#1e1e1e" stroke-width="2"  />
+<text x="753" y="390" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="753" dy="0">Model state / KV cache</tspan></text>
+<rect x="578" y="468" width="350" height="64" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="753" y="500" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="753" dy="0">Decode</tspan></text>
+<polyline points="753,202 753,248" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="753,312 753,358" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="753,422 753,468" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<rect x="608" y="578" width="140" height="52" rx="10" ry="10" fill="#99e9f2" stroke="#1e1e1e" stroke-width="2"  />
+<text x="678" y="604" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="678" dy="0">Token 1</tspan></text>
+<rect x="768" y="578" width="140" height="52" rx="10" ry="10" fill="#99e9f2" stroke="#1e1e1e" stroke-width="2"  />
+<text x="838" y="604" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="838" dy="0">Token 2</tspan></text>
+<rect x="608" y="648" width="140" height="52" rx="10" ry="10" fill="#99e9f2" stroke="#1e1e1e" stroke-width="2"  />
+<text x="678" y="674" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="678" dy="0">Token 3</tspan></text>
+<rect x="768" y="648" width="140" height="52" rx="10" ry="10" fill="#99e9f2" stroke="#1e1e1e" stroke-width="2"  />
+<text x="838" y="674" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="838" dy="0">Token …</tspan></text>
+<polyline points="753,532 753,570" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+</svg>

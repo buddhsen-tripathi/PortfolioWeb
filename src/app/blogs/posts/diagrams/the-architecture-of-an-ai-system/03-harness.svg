@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1016" height="616" viewBox="0 0 1016 616">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<defs>
+<marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+<path d="M 0 1 L 11 6 L 0 11 z" fill="#1e1e1e"/>
+</marker>
+</defs>
+<rect x="48" y="48" width="920" height="520" rx="10" ry="10" fill="#f8f0ff" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="10 8" />
+<text x="508" y="308" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="508" dy="0"></tspan></text>
+<text x="508" y="88" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="22" font-weight="600" fill="#1e1e1e"><tspan x="508" dy="0">HARNESS</tspan></text>
+<rect x="88" y="118" width="260" height="100" rx="10" ry="10" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="2"  />
+<text x="218" y="168" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="218" dy="0">Context management</tspan></text>
+<rect x="378" y="118" width="260" height="100" rx="10" ry="10" fill="#ffd8a8" stroke="#1e1e1e" stroke-width="2"  />
+<text x="508" y="168" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="508" dy="0">Tool definitions</tspan></text>
+<rect x="668" y="118" width="260" height="100" rx="10" ry="10" fill="#ffd8a8" stroke="#1e1e1e" stroke-width="2"  />
+<text x="798" y="168" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="798" dy="0">Tool routing</tspan></text>
+<rect x="88" y="258" width="260" height="100" rx="10" ry="10" fill="#eebefa" stroke="#1e1e1e" stroke-width="2"  />
+<text x="218" y="308" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="218" dy="0">Agent loop</tspan></text>
+<rect x="378" y="258" width="260" height="100" rx="10" ry="10" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="2"  />
+<text x="508" y="308" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="508" dy="0">State</tspan></text>
+<rect x="668" y="258" width="260" height="100" rx="10" ry="10" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="2"  />
+<text x="798" y="308" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="798" dy="0">Memory</tspan></text>
+<rect x="88" y="398" width="260" height="100" rx="10" ry="10" fill="#ffd8a8" stroke="#1e1e1e" stroke-width="2"  />
+<text x="218" y="448" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="218" dy="0">Permissions</tspan></text>
+<rect x="378" y="398" width="260" height="100" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="508" y="448" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="508" dy="0">Compaction</tspan></text>
+<rect x="668" y="398" width="260" height="100" rx="10" ry="10" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="2"  />
+<text x="798" y="448" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="798" dy="0">Error recovery</tspan></text>
+</svg>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1056" height="736" viewBox="0 0 1056 736">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<defs>
+<marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+<path d="M 0 1 L 11 6 L 0 11 z" fill="#1e1e1e"/>
+</marker>
+</defs>
+<rect x="48" y="48" width="420" height="640" rx="10" ry="10" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="10 8" />
+<text x="258" y="368" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="258" dy="0"></tspan></text>
+<rect x="508" y="48" width="500" height="640" rx="10" ry="10" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="10 8" />
+<text x="758" y="368" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="758" dy="0"></tspan></text>
+<text x="258" y="88" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="258" dy="0">INGESTION</tspan></text>
+<text x="758" y="88" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="758" dy="0">QUERY TIME</tspan></text>
+<rect x="98" y="118" width="320" height="64" rx="10" ry="10" fill="#e9ecef" stroke="#1e1e1e" stroke-width="2"  />
+<text x="258" y="150" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="258" dy="0">Documents</tspan></text>
+<rect x="98" y="210" width="320" height="64" rx="10" ry="10" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="2"  />
+<text x="258" y="242" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="258" dy="0">Chunking</tspan></text>
+<rect x="98" y="302" width="320" height="64" rx="10" ry="10" fill="#99e9f2" stroke="#1e1e1e" stroke-width="2"  />
+<text x="258" y="334" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="258" dy="0">Embedding model</tspan></text>
+<rect x="98" y="394" width="320" height="64" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="258" y="426" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="258" dy="0">Vectors</tspan></text>
+<rect x="98" y="486" width="320" height="64" rx="10" ry="10" fill="#d0ebff" stroke="#1e1e1e" stroke-width="2"  />
+<text x="258" y="518" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="258" dy="0">Vector database</tspan></text>
+<polyline points="258,182 258,210" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="258,274 258,302" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="258,366 258,394" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="258,458 258,486" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<rect x="578" y="108" width="360" height="52" rx="10" ry="10" fill="#ffec99" stroke="#1e1e1e" stroke-width="2"  />
+<text x="758" y="134" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="758" dy="0">User question</tspan></text>
+<rect x="578" y="180" width="360" height="52" rx="10" ry="10" fill="#99e9f2" stroke="#1e1e1e" stroke-width="2"  />
+<text x="758" y="206" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="758" dy="0">Embedding model</tspan></text>
+<rect x="578" y="252" width="360" height="52" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="758" y="278" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="758" dy="0">Query vector</tspan></text>
+<rect x="578" y="324" width="360" height="52" rx="10" ry="10" fill="#d0ebff" stroke="#1e1e1e" stroke-width="2"  />
+<text x="758" y="350" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="758" dy="0">Vector search</tspan></text>
+<rect x="578" y="396" width="360" height="52" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="758" y="422" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="758" dy="0">Top-K relevant chunks</tspan></text>
+<rect x="578" y="468" width="360" height="52" rx="10" ry="10" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="2"  />
+<text x="758" y="494" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="758" dy="0">Question + context</tspan></text>
+<rect x="578" y="540" width="360" height="52" rx="10" ry="10" fill="#99e9f2" stroke="#1e1e1e" stroke-width="2"  />
+<text x="758" y="566" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="758" dy="0">LLM</tspan></text>
+<rect x="578" y="612" width="360" height="52" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="758" y="638" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e"><tspan x="758" dy="0">Answer</tspan></text>
+<polyline points="758,160 758,180" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="758,232 758,252" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="758,304 758,324" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="758,376 758,396" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="758,448 758,468" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="758,520 758,540" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="758,592 758,612" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+</svg>

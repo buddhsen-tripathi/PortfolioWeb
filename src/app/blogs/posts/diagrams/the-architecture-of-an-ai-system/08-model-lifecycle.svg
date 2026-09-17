@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="607" height="720" viewBox="0 0 607 720">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<defs>
+<marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+<path d="M 0 1 L 11 6 L 0 11 z" fill="#1e1e1e"/>
+</marker>
+</defs>
+<rect x="48" y="48" width="280" height="64" rx="10" ry="10" fill="#e9ecef" stroke="#1e1e1e" stroke-width="2"  />
+<text x="188" y="80" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="188" dy="0">Data</tspan></text>
+<rect x="48" y="140" width="280" height="64" rx="10" ry="10" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="2"  />
+<text x="188" y="172" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="188" dy="0">Training</tspan></text>
+<rect x="48" y="232" width="280" height="64" rx="10" ry="10" fill="#eebefa" stroke="#1e1e1e" stroke-width="2"  />
+<text x="188" y="264" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="188" dy="0">Evaluation</tspan></text>
+<rect x="48" y="324" width="280" height="64" rx="10" ry="10" fill="#ffd8a8" stroke="#1e1e1e" stroke-width="2"  />
+<text x="188" y="356" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="188" dy="0">Post-training</tspan></text>
+<rect x="48" y="416" width="280" height="64" rx="10" ry="10" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="2"  />
+<text x="188" y="448" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="188" dy="0">Model release</tspan></text>
+<rect x="48" y="508" width="280" height="64" rx="10" ry="10" fill="#99e9f2" stroke="#1e1e1e" stroke-width="2"  />
+<text x="188" y="540" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="188" dy="0">Deployment</tspan></text>
+<rect x="48" y="600" width="280" height="64" rx="10" ry="10" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="2"  />
+<text x="188" y="632" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e"><tspan x="188" dy="0">Monitoring</tspan></text>
+<polyline points="188,112 188,140" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="188,204 188,232" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="188,296 188,324" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="188,388 188,416" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="188,480 188,508" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="188,572 188,600" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"  />
+<polyline points="328,672 448,672 448,80 328,80" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="10 8" />
+<text x="508" y="376" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1e1e1e"><tspan x="508" dy="0">Iteration</tspan></text>
+</svg>
