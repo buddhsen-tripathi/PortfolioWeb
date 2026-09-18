@@ -5,25 +5,15 @@ date: "17-09-2026"
 type: "technical"
 ---
 
-When you use an AI application, the mental model is usually pretty simple.
-
-You type something.
-
-The AI thinks.
-
-You get an answer.
+When you use an AI application, the mental model is usually pretty simple. You type something, the AI thinks, and you get an answer.
 
 ```text
 You → AI → Answer
 ```
 
-That model is useful, but it is also wildly incomplete.
+That model is useful, but it is also wildly incomplete. A modern AI system is not just a model sitting on a GPU waiting for your prompt. There are applications, context builders, agent loops, tools, retrieval systems, model-serving infrastructure, GPUs, storage systems, monitoring, and an entire lifecycle that happened before you ever typed the first character.
 
-A modern AI system is not just a model sitting on a GPU waiting for your prompt. There are applications, context builders, agent loops, tools, retrieval systems, model-serving infrastructure, GPUs, storage systems, monitoring, and an entire lifecycle that happened before you ever typed the first character.
-
-If you are building AI applications, understanding these boundaries is more useful than memorizing a list of AI buzzwords.
-
-So let's open the box.
+If you are building AI applications, understanding these boundaries is more useful than memorizing a list of AI buzzwords. So let's open the box.
 
 ## The naive mental model
 
@@ -31,31 +21,11 @@ Start with the simplest possible architecture:
 
 ![The naive mental model: User, then AI, then Answer](/blog-images/the-architecture-of-an-ai-system/01-naive-ai-model.png)
 
-You send a prompt to an AI.
+You send a prompt to an AI, it processes it, and it returns some text. At the center of this system is a **model**, the thing that takes an input and produces an output based on the patterns it learned during training.
 
-The AI processes it.
+That raises a few questions worth sitting with. Who actually sends your prompt to the model? What exactly gets sent to it? And if you are using a coding agent, how does the model read files, run commands, search the web, call APIs, and modify your code?
 
-The AI returns some text.
-
-At the center of this system is a **model**.
-
-A model is the thing that takes an input and produces an output based on the patterns it learned during training.
-
-But there is an important question here.
-
-**Who actually sends your prompt to the model?**
-
-And another one.
-
-**What exactly gets sent to the model?**
-
-If you are using a coding agent, there is an even bigger question.
-
-**How does the model read files, run commands, search the web, call APIs, and modify your code?**
-
-The model itself does not magically have access to all of these things.
-
-There is a lot more software surrounding it.
+The model itself does not magically have access to all of these things. There is a lot more software surrounding it.
 
 ## Let's open the box
 
