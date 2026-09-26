@@ -152,6 +152,10 @@ const TECH_META = {
   CSS: { Icon: SiCss, color: "#1572B6" },
   "Tailwind CSS": { Icon: SiTailwindcss, color: "#06B6D4" },
   "OpenAI API": { Icon: Sparkles, adaptive: true },
+  LightGBM: { Icon: Cpu, color: "#6495ED" },
+  XGBoost: { Icon: Cpu, color: "#1A9A5B" },
+  CatBoost: { Icon: Cpu, color: "#FFCC00" },
+  Pandas: { Icon: Database, color: "#150458" },
 };
 
 const DEFAULT = { Icon: Code2, adaptive: true };

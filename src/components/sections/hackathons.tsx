@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import GithubIcon from "../icons/github";
+import LinkedinIcon from "../icons/linkedin";
 import { SiDevpost } from "react-icons/si";
 import { TechBadge } from "@/lib/tech-icons";
 
@@ -14,6 +15,8 @@ const linkMeta = (url: string): { label: string; icon: React.ReactNode } => {
     if (host === "github.com") return { label: "GitHub", icon: <GithubIcon className="h-4 w-4" /> };
     if (host === "devpost.com") return { label: "Devpost", icon: <SiDevpost className="h-4 w-4" /> };
     if (host === "builderbase.com") return { label: "Event", icon: <ArrowUpRight className="h-4 w-4" /> };
+    if (host === "luma.com") return { label: "Event", icon: <ArrowUpRight className="h-4 w-4" /> };
+    if (host === "linkedin.com") return { label: "LinkedIn", icon: <LinkedinIcon className="h-4 w-4" /> };
     return { label: host, icon: <ArrowUpRight className="h-4 w-4" /> };
   } catch {
     return { label: "Link", icon: <ArrowUpRight className="h-4 w-4" /> };

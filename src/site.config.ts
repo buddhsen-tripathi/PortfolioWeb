@@ -279,6 +279,29 @@ export const siteConfig = {
   // ── Content: Hackathons ───────────────────────────────────────────────────
   hackathons: [
     {
+      title: "Live Futures Ranking",
+      event: "Everesteer Hedge Fund Hackathon",
+      year: "Sep 2026",
+      placement: "2nd Place",
+      college: "Monk HQ, NYC",
+      body: [
+        { text: "Placed 2nd in a " },
+        { text: "live money-on-the-line prediction tournament", bold: true },
+        { text: ", turning " },
+        { text: "50 into ~86 USDC (+72%)", bold: true },
+        { text: " across " },
+        { text: "4 live rounds", bold: true },
+        { text: ". Ranked ~90 anonymized futures by 20-day returns and ran the full pipeline: walk-forward tests, model training, staking scripts, and live execution. Gains came from " },
+        { text: "targets, not algorithms", bold: true },
+        { text: ": a 3-variant LightGBM blend with the benchmark, an Azurki auxiliary-target hedge, plus a distill and MLP for diversity. Cut live underperformers and moved stake onto the core models once they beat the benchmark." },
+      ],
+      techstacks: ["Python", "LightGBM", "XGBoost", "CatBoost", "Pandas"],
+      link: [
+        "https://luma.com/sdnfy9kp",
+        "https://www.linkedin.com/feed/update/urn:li:activity:7509037352930033664/",
+      ],
+    },
+    {
       title: "AI Security Analyst",
       event: "AI × Finance Hackathon — Money Talks",
       year: "Sep 2026",
