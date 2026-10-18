@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import Layout from "@/components/layout/layout";
+import PageHeader from "@/components/site/page-header";
 import ResearchList from "@/components/sections/research-list";
 import { research } from "@/constants";
 import { buildMetadata } from "@/lib/metadata";
@@ -17,13 +17,12 @@ const Research = () => {
   if (research.length === 0) notFound();
 
   return (
-    <Layout
-      showHeader
-      title="Research"
-      subtitle="Academic research, publications, and experimental projects"
-    >
-      <ResearchList research={research} />
-    </Layout>
+    <>
+      <PageHeader title="Research" description="Academic research, publications, and experimental projects." />
+      <div className="px-6 pt-8">
+        <ResearchList research={research} />
+      </div>
+    </>
   );
 };
 

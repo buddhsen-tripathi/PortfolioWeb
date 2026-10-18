@@ -1,10 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { ChevronRight, List } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { useEffect, useMemo, useState } from "react";
+import { ChevronDown } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { useLenis } from "lenis/react";
+import { cn } from "@/lib/utils";
 
-const generateId = (text) =>
+type Heading = { id: string; text: string; level: number };
+
+const slugify = (text: string) =>
   text
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, "")
@@ -12,142 +16,133 @@ const generateId = (text) =>
     .replace(/-+/g, "-")
     .trim();
 
-function extractHeadings(content) {
-  const items = [];
-  const contentWithoutCodeBlocks = content.replace(/```[\s\S]*?```/g, "");
+/* Reads h2/h3 headings out of the MDX source. Ids match mdx-components.tsx. */
+function extractHeadings(content: string): Heading[] {
+  const withoutCode = content.replace(/```[\s\S]*?```/g, "");
+  const items: Heading[] = [];
+  let match: RegExpExecArray | null;
 
-  const htmlHeadingRegex = /<h([1-6])[^>]*id="([^"]*)"[^>]*>([\s\S]*?)<\/h[1-6]>/gi;
-  let match;
-  while ((match = htmlHeadingRegex.exec(content)) !== null) {
-    const level = parseInt(match[1], 10);
-    const id = match[2];
+  // Posts written with raw HTML headings carry their own ids.
+  const html = /<h([23])[^>]*id="([^"]*)"[^>]*>([\s\S]*?)<\/h[23]>/gi;
+  while ((match = html.exec(withoutCode)) !== null) {
     const text = match[3].replace(/<[^>]*>/g, "").trim();
-    if (id && text) items.push({ id, text, level });
+    if (match[2] && text) items.push({ id: match[2], text, level: Number(match[1]) });
   }
+  if (items.length) return items;
 
-  if (items.length === 0) {
-    const markdownHeadingRegex = /^(#{1,6})\s+(.+)$/gm;
-    while ((match = markdownHeadingRegex.exec(contentWithoutCodeBlocks)) !== null) {
-      const level = match[1].length;
-      const text = match[2].trim();
-      const id = generateId(text);
-      items.push({ id, text, level });
-    }
+  const re = /^(#{2,3})\s+(.+)$/gm;
+  while ((match = re.exec(withoutCode)) !== null) {
+    const text = match[2].replace(/[*_`]/g, "").trim();
+    items.push({ id: slugify(text), text, level: match[1].length });
   }
-
   return items;
 }
 
-export default function TableOfContents({ content }) {
-  const [tocItems, setTocItems] = useState([]);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [activeId, setActiveId] = useState("");
+export default function TableOfContents({ content }: { content: string }) {
+  const headings = useMemo(() => extractHeadings(content), [content]);
+  const [active, setActive] = useState("");
+  const [open, setOpen] = useState(false);
+  const lenis = useLenis();
 
   useEffect(() => {
-    setTocItems(extractHeadings(content));
-  }, [content]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const headings = tocItems
-        .map((item) => document.getElementById(item.id))
-        .filter(Boolean);
+    if (!headings.length) return;
+    const onScroll = () => {
       let current = "";
-      for (const heading of headings) {
-        if (heading.getBoundingClientRect().top <= 100) {
-          current = heading.id;
-        }
+      for (const h of headings) {
+        const el = document.getElementById(h.id);
+        if (el && el.getBoundingClientRect().top <= 120) current = h.id;
       }
-      setActiveId(current);
+      setActive(current);
     };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [headings]);
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [tocItems]);
+  if (headings.length < 2) return null;
 
-  const scrollToHeading = (id) => {
-    const element = document.getElementById(id);
-    if (!element) return;
-    const y =
-      element.getBoundingClientRect().top + window.pageYOffset - 80;
-    window.scrollTo({ top: y, behavior: "smooth" });
+  const goTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    setOpen(false);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (lenis) lenis.scrollTo(el, { offset: -64, immediate: reduced });
+    else el.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
   };
 
-  if (tocItems.length === 0) return null;
+  const item = (h: Heading, variant: "side" | "inline") => {
+    const isActive = h.id === active;
+    return (
+      <li key={h.id}>
+        <button
+          type="button"
+          onClick={() => goTo(h.id)}
+          aria-current={isActive ? "location" : undefined}
+          className={cn(
+            "group flex w-full items-center gap-3 py-1 text-left text-xs transition-colors",
+            variant === "side" && "justify-end",
+            isActive ? "text-foreground" : "text-muted-foreground/70 hover:text-foreground",
+            variant === "inline" && h.level === 3 && "pl-4"
+          )}
+        >
+          <span
+            className={cn(variant === "side" && "line-clamp-1 max-w-48 rounded bg-background px-1.5 py-0.5 text-right")}
+          >
+            {h.text}
+          </span>
+          {variant === "side" && (
+            <span
+              aria-hidden
+              className={cn(
+                "h-px shrink-0 transition-all duration-300 ease-soft",
+                isActive ? "w-6 bg-brand" : h.level === 3 ? "w-2 bg-muted-foreground/30" : "w-3 bg-muted-foreground/40"
+              )}
+            />
+          )}
+        </button>
+      </li>
+    );
+  };
 
   return (
-    <div className="sticky top-20 z-10 rounded-xs border border-black/8 bg-background/60 p-4 backdrop-blur-xs dark:border-white/8">
-      <button
-        type="button"
-        onClick={() => setIsCollapsed((v) => !v)}
-        className="flex w-full items-center justify-between text-left transition-colors hover:text-foreground"
+    <>
+      {/* Wide screens: pinned in the left gutter, outside the frame. */}
+      <nav
+        aria-label="On this page"
+        className="fixed top-1/2 z-30 hidden max-h-[70vh] -translate-y-1/2 flex-col items-end overflow-y-auto xl:flex"
+        style={{ right: "calc(50% + var(--frame-width) / 2 + 2rem)" }}
       >
-        <div className="flex items-center gap-2">
-          <List size={14} className="text-muted-foreground" />
-          <span className="font-doto text-sm font-medium text-foreground">
-            Table of Contents
-          </span>
-        </div>
-        <motion.div
-          animate={{ rotate: isCollapsed ? 0 : 90 }}
-          transition={{ duration: 0.2 }}
-        >
-          <ChevronRight size={14} className="text-muted-foreground" />
-        </motion.div>
-      </button>
+        <span className="mb-3 rounded bg-background px-1.5 py-0.5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+          On this page
+        </span>
+        <ul className="flex flex-col items-end">{headings.map((h) => item(h, "side"))}</ul>
+      </nav>
 
-      <AnimatePresence initial={false}>
-        {!isCollapsed && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <nav className="mt-3 space-y-0.5">
-              {tocItems.map((item, index) => {
-                const isActive = activeId === item.id;
-                const depth = Math.max(0, item.level - 2);
-                const marker = depth === 0 ? "" : depth === 1 ? "›" : "··";
-                return (
-                  <motion.button
-                    key={`${item.id}-${index}`}
-                    type="button"
-                    initial={{ x: -6, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: index * 0.03 }}
-                    onClick={() => scrollToHeading(item.id)}
-                    style={{ paddingLeft: `${depth * 14 + 10}px` }}
-                    className={`block w-full rounded-xs py-1.5 pr-2 text-left font-space-mono text-xs transition-colors ${
-                      isActive
-                        ? "border-l-2 border-foreground bg-black/4 text-foreground dark:bg-white/5"
-                        : `border-l-2 border-transparent hover:bg-black/3 hover:text-foreground dark:hover:bg-white/4 ${
-                            depth === 0
-                              ? "text-muted-foreground"
-                              : "text-muted-foreground/70"
-                          }`
-                    }`}
-                  >
-                    <span className="flex items-center gap-1.5 truncate">
-                      {marker && (
-                        <span
-                          aria-hidden="true"
-                          className="shrink-0 text-muted-foreground/50"
-                        >
-                          {marker}
-                        </span>
-                      )}
-                      <span className="truncate">{item.text}</span>
-                    </span>
-                  </motion.button>
-                );
-              })}
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+      {/* Below xl: a collapsible block at the top of the article. */}
+      <div className="mx-6 mt-8 rounded-lg border border-border xl:hidden">
+        <button
+          type="button"
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+          className="flex w-full items-center justify-between px-4 py-3 text-[13px] font-medium"
+        >
+          On this page
+          <ChevronDown className={cn("size-4 text-muted-foreground transition-transform", open && "rotate-180")} />
+        </button>
+        <AnimatePresence initial={false}>
+          {open && (
+            <motion.ul
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="overflow-hidden border-t border-dashed border-border px-4 py-2"
+            >
+              {headings.map((h) => item(h, "inline"))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
+      </div>
+    </>
   );
 }

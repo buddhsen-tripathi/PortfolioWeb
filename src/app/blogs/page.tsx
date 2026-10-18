@@ -1,5 +1,5 @@
-import Layout from "@/components/layout/layout";
-import BlogTabs from "./BlogTabs";
+import PageHeader from "@/components/site/page-header";
+import BlogIndex from "./BlogIndex";
 import { getAllBlogPosts } from "./utils";
 import { twitterArticles } from "./articles";
 import { buildMetadata } from "@/lib/metadata";
@@ -26,12 +26,25 @@ export default async function BlogsPage() {
   const personalPosts = allPosts.filter((post) => post.type === "personal");
 
   return (
-    <Layout
-      showHeader
-      title="Blogs"
-      subtitle="Latest articles and tutorials"
-    >
-      <BlogTabs technical={technicalPosts} personal={personalPosts} />
-    </Layout>
+    <>
+      <PageHeader
+        title="Blogs"
+        description="Writing on AI systems, security and building products, plus the occasional personal post."
+        meta={
+          <>
+            <span>{technicalPosts.length + personalPosts.length} posts</span>
+            <span aria-hidden>·</span>
+            <a href="/feed.xml" className="transition-colors hover:text-foreground">
+              RSS
+            </a>
+            <span aria-hidden>·</span>
+            <a href="/newsletter" className="transition-colors hover:text-foreground">
+              Newsletter
+            </a>
+          </>
+        }
+      />
+      <BlogIndex technical={technicalPosts} personal={personalPosts} />
+    </>
   );
 }

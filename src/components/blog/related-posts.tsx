@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import Section from "@/components/site/section";
 import { getAllBlogPostsFromS3 } from "@/lib/r2Client";
 
 interface RelatedPostsProps {
@@ -8,55 +9,44 @@ interface RelatedPostsProps {
   limit?: number;
 }
 
+type Post = { slug: string; title: string; date: string; excerpt?: string; type?: string };
+
 // Server component. Prefers posts of the same `type`, falls back to recency.
 // Renders nothing if there are no other posts.
-export default async function RelatedPosts({
-  currentSlug,
-  currentType,
-  limit = 3,
-}: RelatedPostsProps) {
-  const all = await getAllBlogPostsFromS3();
-  const others = all.filter((p: any) => p.slug !== currentSlug);
-  if (others.length === 0) return null;
-
-  const sameType = currentType
-    ? others.filter((p: any) => p.type === currentType)
-    : [];
-  const rest = others.filter((p: any) => !sameType.includes(p));
-  const picks = [...sameType, ...rest].slice(0, limit);
+export default async function RelatedPosts({ currentSlug, currentType, limit = 3 }: RelatedPostsProps) {
+  const all: Post[] = await getAllBlogPostsFromS3();
+  const others = all.filter((p) => p.slug !== currentSlug);
+  const sameType = currentType ? others.filter((p) => p.type === currentType) : [];
+  const picks = [...sameType, ...others.filter((p) => !sameType.includes(p))].slice(0, limit);
 
   if (picks.length === 0) return null;
 
   return (
-    <section className="mt-12 border-b border-black/15 pb-12 dark:border-white/15">
-      <h2 className="mb-4 font-doto text-xl font-medium md:text-2xl">
-        More posts
-      </h2>
-      <ul className="space-y-3">
-        {picks.map((post: any) => (
+    <Section id="more-posts" title="Keep reading" more={{ href: "/blogs", label: "All posts" }}>
+      <ul className="py-2">
+        {picks.map((post) => (
           <li key={post.slug}>
             <Link
               href={`/blogs/${post.slug}`}
-              className="group flex items-start gap-3 rounded-md border border-black/6 bg-black/2 p-4 transition-colors hover:bg-black/4 dark:border-white/6 dark:bg-white/3 dark:hover:bg-white/5"
+              className="group relative flex items-start gap-4 px-6 py-3.5 outline-none focus-visible:bg-muted/30"
             >
-              <div className="min-w-0 flex-1">
-                <p className="font-doto text-sm font-medium md:text-base">
-                  {post.title}
-                </p>
+              <span className="hatch pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <span className="relative hidden w-20 shrink-0 pt-0.5 font-mono text-[11px] text-muted-foreground sm:block">
+                {post.date}
+              </span>
+              <span className="relative flex min-w-0 flex-col gap-1">
+                <span className="text-sm font-medium leading-snug">{post.title}</span>
                 {post.excerpt && (
-                  <p className="mt-1 line-clamp-2 font-space-mono text-xs text-muted-foreground md:text-sm">
+                  <span className="line-clamp-2 text-[13px] leading-relaxed text-muted-foreground">
                     {post.excerpt}
-                  </p>
+                  </span>
                 )}
-                <p className="mt-1.5 font-space-mono text-[10px] uppercase tracking-wide text-muted-foreground/60 md:text-xs">
-                  {post.date}
-                </p>
-              </div>
-              <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </span>
+              <ArrowRight className="relative ml-auto mt-0.5 size-3.5 shrink-0 text-muted-foreground/50 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-brand" />
             </Link>
           </li>
         ))}
       </ul>
-    </section>
+    </Section>
   );
 }

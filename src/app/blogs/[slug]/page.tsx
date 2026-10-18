@@ -1,9 +1,8 @@
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import remarkFrontmatter from "remark-frontmatter";
-import Layout from "@/components/layout/layout";
+import PageHeader from "@/components/site/page-header";
+import Section from "@/components/site/section";
 import { mdxComponents } from "@/components/blog/mdx-components";
 import TableOfContents from "@/components/blog/table-of-contents";
 import ViewCounter from "@/components/blog/view-counter";
@@ -66,7 +65,7 @@ export default async function BlogPost({ params }) {
   ]);
 
   return (
-    <Layout>
+    <>
       <ReadingProgress />
       <script
         type="application/ld+json"
@@ -76,35 +75,28 @@ export default async function BlogPost({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <article className="space-y-6 px-2 md:px-0">
-        <Link
-          href="/blogs"
-          className="group inline-flex items-center gap-1.5 font-space-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
-          <span>back to blogs</span>
-        </Link>
-
-        <header className="space-y-3">
-          <h1 className="font-doto text-2xl font-medium leading-tight text-foreground md:text-4xl">
-            {data.title}
-          </h1>
-          <div className="flex flex-wrap items-center gap-2 font-space-mono text-xs text-muted-foreground">
-            <span>{data.date}</span>
-            {content && (
-              <>
-                <span>&middot;</span>
-                <span>{getReadingTime(content)} min read</span>
-                <span>&middot;</span>
-                <ViewCounter slug={data.slug} />
-              </>
-            )}
-          </div>
-        </header>
+      <article>
+        <PageHeader
+          back={{ href: "/blogs", label: "All posts" }}
+          title={data.title}
+          meta={
+            <>
+              <time>{data.date}</time>
+              {content && (
+                <>
+                  <span aria-hidden>·</span>
+                  <span>{getReadingTime(content)} min read</span>
+                  <span aria-hidden>·</span>
+                  <ViewCounter slug={data.slug} />
+                </>
+              )}
+            </>
+          }
+        />
 
         {content && <TableOfContents content={content} />}
 
-        <div className="mdx-content pt-2">
+        <div className="mdx-content px-6 pb-4 pt-8">
           <MDXRemote
             source={content}
             options={{
@@ -115,16 +107,16 @@ export default async function BlogPost({ params }) {
             components={mdxComponents}
           />
         </div>
-
-        <RelatedPosts
-          currentSlug={data.slug}
-          currentType={(data as { type?: string }).type}
-        />
-
-        <section className="mt-12 border-b border-black/15 pb-12 dark:border-white/15">
-          <NewsletterSubscription />
-        </section>
       </article>
-    </Layout>
+
+      <RelatedPosts currentSlug={data.slug} currentType={(data as { type?: string }).type} />
+
+      <Section id="newsletter" title="Newsletter" className="px-6 pb-2 pt-5">
+        <p className="mb-4 text-[14px] leading-relaxed text-muted-foreground">
+          Get the next post in your inbox. No spam, unsubscribe any time.
+        </p>
+        <NewsletterSubscription />
+      </Section>
+    </>
   );
 }

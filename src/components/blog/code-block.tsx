@@ -367,7 +367,7 @@ export function CodeBlock({
     >
       {showFrame && showHeader ? (
         <div className="border-(--cb-border) bg-(--cb-header-bg) flex h-10 shrink-0 items-center gap-3 border-b px-3.5 backdrop-blur-md">
-          <span className="font-space-mono text-(--cb-muted) min-w-0 flex-1 truncate text-xs">
+          <span className="font-mono text-(--cb-muted) min-w-0 flex-1 truncate text-xs">
             {filename ?? safeLanguage}
           </span>
           {showCopyButton ? <CopyButton code={trimmed} /> : null}
@@ -391,7 +391,7 @@ export function CodeBlock({
           {({ tokens, getLineProps, getTokenProps }) => {
             const gutterWidth = `${String(tokens.length).length}ch`;
             return (
-              <pre className="font-space-mono w-max min-w-full text-[13px] leading-6 [tab-size:4]">
+              <pre className="font-mono w-max min-w-full text-[13px] leading-6 [tab-size:4]">
                 {tokens.map((line, index) => {
                   const lineProps = getLineProps({ line });
                   return (

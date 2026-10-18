@@ -20,26 +20,26 @@ const createHeading = (level: number) => {
 
     const sizeClass =
       level === 1
-        ? "text-2xl md:text-3xl mt-8 mb-4"
+        ? "text-2xl mt-12 mb-4"
         : level === 2
-        ? "text-xl md:text-2xl mt-8 mb-3"
+        ? "text-xl mt-12 mb-4"
         : level === 3
-        ? "text-lg md:text-xl mt-6 mb-2"
+        ? "text-[17px] mt-8 mb-3"
         : level === 4
-        ? "text-base mt-4 mb-2"
-        : "text-sm mt-3 mb-1";
+        ? "text-base mt-6 mb-2"
+        : "text-sm mt-4 mb-1";
 
     return (
       <Tag
         id={headingId}
-        className={`font-doto scroll-mt-24 font-medium text-foreground group relative ${sizeClass}`}
+        className={`group relative scroll-mt-16 font-semibold tracking-tight text-foreground ${sizeClass}`}
         {...props}
       >
         {children}
         <a
           href={`#${headingId}`}
           aria-label={`Link to ${text}`}
-          className="absolute -left-5 top-0 text-sm text-muted-foreground opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
+          className="absolute -left-4 top-0 font-mono text-sm font-normal text-muted-foreground/60 opacity-0 transition-opacity hover:text-brand group-hover:opacity-100"
         >
           #
         </a>
@@ -59,7 +59,7 @@ export const mdxComponents = {
   h6: createHeading(6),
   p: ({ children, ...props }: any) => (
     <p
-      className="mb-4 font-space-mono text-sm leading-relaxed text-muted-foreground md:text-base"
+      className="mb-5 text-[16px] leading-[1.8] text-foreground/80"
       {...props}
     >
       {children}
@@ -67,7 +67,7 @@ export const mdxComponents = {
   ),
   ul: ({ children, ...props }: any) => (
     <ul
-      className="mb-4 list-disc space-y-1 pl-5 marker:text-muted-foreground/50"
+      className="mb-5 list-disc space-y-1.5 pl-5 marker:text-muted-foreground/50"
       {...props}
     >
       {children}
@@ -75,7 +75,7 @@ export const mdxComponents = {
   ),
   ol: ({ children, ...props }: any) => (
     <ol
-      className="mb-4 list-decimal space-y-1 pl-5 marker:text-muted-foreground/50"
+      className="mb-5 list-decimal space-y-1.5 pl-5 marker:font-mono marker:text-[13px] marker:text-muted-foreground/60"
       {...props}
     >
       {children}
@@ -83,7 +83,7 @@ export const mdxComponents = {
   ),
   li: ({ children, ...props }: any) => (
     <li
-      className="pl-1 font-space-mono text-sm leading-relaxed text-muted-foreground md:text-base"
+      className="pl-1 text-[16px] leading-[1.75] text-foreground/80"
       {...props}
     >
       {children}
@@ -91,7 +91,7 @@ export const mdxComponents = {
   ),
   blockquote: ({ children, ...props }: any) => (
     <blockquote
-      className="my-4 border-l-2 border-foreground/20 pl-4 font-space-mono text-sm italic text-muted-foreground md:text-base"
+      className="my-6 border-l-2 border-brand/60 pl-4 text-[16px] italic leading-relaxed text-foreground/80 [&_p]:mb-0"
       {...props}
     >
       {children}
@@ -105,7 +105,7 @@ export const mdxComponents = {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-0.5 font-medium text-foreground underline underline-offset-[3px] decoration-foreground/30 transition-colors hover:decoration-foreground"
+          className="inline-flex items-center gap-0.5 font-medium text-foreground underline decoration-foreground/30 underline-offset-[3px] transition-colors hover:decoration-brand"
           {...props}
         >
           {children}
@@ -116,7 +116,7 @@ export const mdxComponents = {
     return (
       <Link
         href={href || "#"}
-        className="font-medium text-foreground underline underline-offset-[3px] decoration-foreground/30 transition-colors hover:decoration-foreground"
+        className="font-medium text-foreground underline decoration-foreground/30 underline-offset-[3px] transition-colors hover:decoration-brand"
         {...props}
       >
         {children}
@@ -128,7 +128,7 @@ export const mdxComponents = {
     if (isInline) {
       return (
         <code
-          className="rounded-sm border border-black/8 bg-black/4 px-1.5 py-0.5 font-mono text-xs text-foreground dark:border-white/8 dark:bg-white/5"
+          className="rounded border border-border bg-muted/50 px-1.5 py-0.5 font-mono text-[0.85em] text-foreground"
           {...props}
         >
           {children}
@@ -153,38 +153,38 @@ export const mdxComponents = {
         src={resolved}
         alt={alt || ""}
         loading="lazy"
-        className="my-6 h-auto max-w-full rounded-md border border-black/8 dark:border-white/8"
+        className="my-8 h-auto max-w-full rounded-lg border border-border"
         {...props}
       />
     );
   },
   hr: (props: any) => (
     <hr
-      className="my-6 border-t border-black/15 dark:border-white/15"
+      className="my-10 border-t border-dashed border-border"
       {...props}
     />
   ),
   table: ({ children, ...props }: any) => (
-    <div className="my-6 overflow-x-auto rounded-md border border-black/8 dark:border-white/8">
+    <div className="my-8 overflow-x-auto rounded-lg border border-border">
       <table className="w-full text-sm" {...props}>
         {children}
       </table>
     </div>
   ),
   thead: ({ children, ...props }: any) => (
-    <thead className="bg-black/3 dark:bg-white/4" {...props}>
+    <thead className="bg-muted/40" {...props}>
       {children}
     </thead>
   ),
   tbody: ({ children, ...props }: any) => (
-    <tbody className="divide-y divide-black/6 dark:divide-white/6" {...props}>
+    <tbody className="divide-y divide-dashed divide-border" {...props}>
       {children}
     </tbody>
   ),
   tr: ({ children, ...props }: any) => <tr {...props}>{children}</tr>,
   th: ({ children, ...props }: any) => (
     <th
-      className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-foreground"
+      className="px-4 py-2.5 text-left font-mono text-[11px] font-medium uppercase tracking-wider text-muted-foreground"
       {...props}
     >
       {children}
@@ -192,7 +192,7 @@ export const mdxComponents = {
   ),
   td: ({ children, ...props }: any) => (
     <td
-      className="px-4 py-3 font-space-mono text-sm text-muted-foreground"
+      className="px-4 py-2.5 text-[14px] text-foreground/80"
       {...props}
     >
       {children}
