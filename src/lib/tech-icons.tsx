@@ -25,6 +25,10 @@ import {
   SiMongodb,
   SiGooglemaps,
   SiPython,
+  SiAstro,
+  SiPytorch,
+  SiNumpy,
+  SiScipy,
   SiExpress,
   SiOpencv,
   SiSocketdotio,
@@ -48,7 +52,7 @@ import {
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa";
 import { VscAzure } from "react-icons/vsc";
-import { Database, Sparkles, Brain, Boxes, Network, Activity, Code2, Flame, Cpu, Eye, Cloud, Link2, Rocket, Volume2, Plug, Workflow, ShieldCheck, Route, Layers, Container } from "lucide-react";
+import { Database, Sparkles, Brain, Boxes, Network, Activity, Code2, Flame, Cpu, Eye, Cloud, Link2, Rocket, Volume2, Plug, Workflow, ShieldCheck, Route, Layers, Container, Music } from "lucide-react";
 
 // adaptive => use currentColor (good for monochrome brands so they stay visible in dark/light)
 const TECH_META = {
@@ -98,6 +102,11 @@ const TECH_META = {
   MongoDB: { Icon: SiMongodb, color: "#47A248" },
   "Google Maps API": { Icon: SiGooglemaps, color: "#4285F4" },
   Python: { Icon: SiPython, color: "#3776AB" },
+  Astro: { Icon: SiAstro, color: "#FF5D01" },
+  PyTorch: { Icon: SiPytorch, color: "#EE4C2C" },
+  NumPy: { Icon: SiNumpy, color: "#4DABCF" },
+  SciPy: { Icon: SiScipy, color: "#8CAAE6" },
+  music21: { Icon: Music, adaptive: true },
   Express: { Icon: SiExpress, adaptive: true },
   OpenCV: { Icon: SiOpencv, color: "#5C3EE8" },
   "Socket.IO": { Icon: SiSocketdotio, adaptive: true },
