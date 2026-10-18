@@ -1,217 +1,176 @@
-<img width="1920" height="1280" alt="image" src="https://github.com/user-attachments/assets/75f5f4b8-d633-423e-b204-e037f6c95ad3" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://cdn.buddhsentripathi.com/assets/readme/home-dark.webp?v=2">
+  <img alt="Home page of buddhsentripathi.com: hero, socials grid, and work section, with the section index on the left" src="https://cdn.buddhsentripathi.com/assets/readme/home-light.webp?v=2">
+</picture>
 
-## Project Overview
+# buddhsentripathi.com
 
-Personal portfolio and blog, live at [buddhsentripathi.com](https://buddhsentripathi.com). Built with Next.js 16 (App Router), TypeScript, Tailwind v4, and an MDX-powered blog backed by Cloudflare R2 and Supabase. The focus is on performance, SEO, and a clean developer experience.
+My portfolio and blog, live at [buddhsentripathi.com](https://buddhsentripathi.com). It's a Next.js 16 app with TypeScript and Tailwind v4. Blog posts are MDX stored on Cloudflare R2, view counts and newsletter sign-ups live in Supabase, and everything personal comes from one config file, so you can fork it and make it yours.
 
-> The previous iteration of the portfolio lives on the [`ver/04-26`](https://github.com/buddhsen-tripathi/PortfolioWeb/tree/ver/04-26) branch.
+Older versions are kept on branches: [`ver/10-26`](https://github.com/buddhsen-tripathi/PortfolioWeb/tree/ver/10-26) (the pixel-font design before this one) and [`ver/04-26`](https://github.com/buddhsen-tripathi/PortfolioWeb/tree/ver/04-26).
 
-## Features
+## What's on the site
 
-### Core Pages
--   **Home:** Hero with bio, contribution graph, social links, hackathons feed, and CTA
--   **Projects:** Project showcase with tech badges, GitHub stars, and live previews
--   **Blogs:** Technical and personal articles with view counters, TOC, and tabbed navigation
--   **Experience:** Timeline of professional work with responsibilities and stack
--   **Hackathons, Research, Newsletter:** Dedicated pages for each
+The home page is one long scroll, and each section links to its full page:
 
-### Blog System
--   MDX posts stored on Cloudflare R2 and rendered with `next-mdx-remote`
--   Per-post view counter backed by Supabase with batched fetches
--   Table of contents, reading time, and syntax highlighting via `highlight.js`
--   RSS feed (`/feed.xml`) and dynamic sitemap (`/sitemap.xml`)
+| Section | What it shows |
+|---|---|
+| Intro | Photo, a short hello, location with live local time |
+| Socials | Grid of profiles; hover one for a live preview card (GitHub, X, LinkedIn, LeetCode, TryHackMe, Codeforces) |
+| Work | Featured projects with screenshots, status badges, tech badges, and GitHub stars |
+| Experience | Roles grouped by company, with tenure |
+| Hackathons | Top placements, first places first |
+| Writing | Latest posts with excerpts |
+| GitHub | Contribution graph |
+| Contact | Book a call, copy email, resume |
 
-### Additional Features
--   **Dark/Light Mode:** Theme toggling via `next-themes`
--   **Newsletter:** Email sign-ups backed by Supabase
--   **Visitor Counter:** Tracks unique visitors
--   **SEO Optimized:** Full JSON-LD (Person, Website, ProfilePage, BlogPosting, Breadcrumb) plus per-page OpenGraph, Twitter cards, and canonical URLs
--   **Analytics:** Google Analytics integration
--   **Animations:** Smooth transitions with Motion (ex-Framer Motion)
+Full pages: `/projects`, `/experience`, `/hackathons`, `/blogs` (with a post page for each), `/newsletter`, and `/research` (hidden until it has entries).
 
-## Tech Stack
+Other details:
 
-| Category | Technologies |
-|----------|-------------|
-| **Framework** | [Next.js](https://nextjs.org/) 16 (App Router, Turbopack) |
-| **Language** | [TypeScript](https://www.typescriptlang.org/) 6 |
-| **Runtime / Package Manager** | [Bun](https://bun.sh) |
-| **Styling** | [Tailwind CSS](https://tailwindcss.com/) v4, [shadcn/ui](https://ui.shadcn.com/), [Radix UI](https://radix-ui.com/) |
-| **Animation** | [Motion](https://motion.dev/) |
-| **Database** | [Supabase](https://supabase.io/) (views & subscribers) |
-| **Storage** | [Cloudflare R2](https://www.cloudflare.com/r2/) (blog content & images) |
-| **Content** | [MDX](https://mdxjs.com/) with `next-mdx-remote` |
-| **Deployment** | [Vercel](https://vercel.com/) |
+- Light and dark themes, including a footer illustration of New York in a day and a night version.
+- A section index in the left gutter on wide screens, and an "On this page" index on blog posts.
+- A night-sky backdrop beside the page, with the odd shooting star. It respects reduced motion.
+- A star button in the header showing this repo's star count.
+- RSS at `/feed.xml`, a sitemap at `/sitemap.xml`, JSON-LD for search engines, and Open Graph cards on every page.
 
-## Getting Started
+## Tech stack
 
-Follow these steps to get the project running locally:
+| | |
+|---|---|
+| Framework | [Next.js](https://nextjs.org/) 16 (App Router) |
+| Language | TypeScript |
+| Package manager | [Bun](https://bun.sh) |
+| Styling | [Tailwind CSS](https://tailwindcss.com/) v4, Radix primitives, [Geist](https://vercel.com/font) Sans and Mono |
+| Animation | [Motion](https://motion.dev/) |
+| Content | MDX via `next-mdx-remote`, code blocks with `prism-react-renderer` |
+| Storage | [Cloudflare R2](https://developers.cloudflare.com/r2/) behind `cdn.buddhsentripathi.com` (posts and all images) |
+| Database | [Supabase](https://supabase.com/) (view counts, newsletter) |
+| Hosting | [Vercel](https://vercel.com/) |
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/buddhsen-tripathi/PortfolioWeb.git
-    cd PortfolioWeb
-    ```
+## Run it locally
 
-2.  **Install dependencies:**
-    ```bash
-    bun install
-    ```
+```bash
+git clone https://github.com/buddhsen-tripathi/PortfolioWeb.git
+cd PortfolioWeb
+bun install
+cp .env.example .env.local   # fill in what you need, see below
+bun run dev
+```
 
-3.  **Personalize the site:**
-    Open [`src/site.config.ts`](src/site.config.ts) and update identity, contact info, socials, SEO defaults, nav, and content lists. This is the single source of truth — see [Customization](#customization) below.
+Then open [localhost:3000](http://localhost:3000). The site runs without any keys; the parts that need one (blog posts from R2, view counts, the GitHub graph) just stay empty.
 
-4.  **Set up Environment Variables:**
-    Copy `.env.example` to `.env.local` and fill in your credentials (see [Environment Variables](#environment-variables) section below).
+## Make it yours
 
-5.  **Run the development server:**
-    ```bash
-    bun run dev
-    ```
-    Open [http://localhost:3000](http://localhost:3000) to view the site.
+Everything personal lives in [`src/site.config.ts`](src/site.config.ts). Pages, metadata, JSON-LD, the RSS feed, and the sitemap all read from it.
 
-## Customization
+| Key | What it controls |
+|---|---|
+| `identity` | Name, title, bio, location and time zone, light and dark photos |
+| `home` | The greeting, headline, and summary at the top of the home page |
+| `contact` | Email, site URL, booking link, resume |
+| `repo` | The GitHub repo shown on the header's star button |
+| `assets` | Open Graph images, favicon, footer illustration |
+| `socials` | One handle per platform (see below) |
+| `seo` | Title template, default description, keywords |
+| `nav` | Header links |
+| `experiences`, `projects`, `hackathons`, `research` | The content lists |
 
-All site content and SEO flow from a single file: [`src/site.config.ts`](src/site.config.ts). Edit it once and every page, metadata tag, JSON-LD schema, RSS feed, and sitemap updates automatically.
+### Socials
 
-### Sections in `site.config.ts`
+35 platforms are built in, from X, GitHub, and LinkedIn to Hugging Face, Kaggle, LeetCode, and Hack The Box. Type a handle to show one and leave it as `""` to hide it everywhere, including the search-engine profile links. Full profile URLs work too, which helps for Mastodon instances.
 
-| Section | Controls |
-|---------|----------|
-| `identity` | Name, title, tagline, bio, rotating intros |
-| `contact` | Email, production URL, Cal.com, resume path |
-| `assets` | Default OG image, blog OG image, favicon |
-| `socials` | Twitter, GitHub, LinkedIn, LeetCode, TryHackMe, Codeforces |
-| `seo` | Title template, default title/description, keywords, Twitter handle, theme color |
-| `nav` | Navigation bar entries |
-| `experiences` | Work history timeline |
-| `projects` | Project showcase cards |
-| `hackathons` | Hackathon entries |
-| `research` | Research / publications |
+```ts
+socials: {
+  github: "buddhsen-tripathi",
+  huggingface: "Buddhsen",
+  youtube: "",          // hidden
+  // ...
+}
+```
 
-### How it propagates
+Icons, brand colors, and URL patterns are in [`src/lib/socials.tsx`](src/lib/socials.tsx).
 
-| Config section | Consumed by |
-|----------------|-------------|
-| `identity`, `seo`, `contact`, `assets` | [`src/app/layout.tsx`](src/app/layout.tsx) (root metadata, JSON-LD, theme color), [`src/lib/metadata.ts`](src/lib/metadata.ts), [`src/lib/jsonLd.ts`](src/lib/jsonLd.ts) |
-| `socials` | [`src/components/sections/hero.tsx`](src/components/sections/hero.tsx) (social buttons), [`src/lib/jsonLd.ts`](src/lib/jsonLd.ts) (`sameAs`) |
-| `nav` | [`src/components/sections/navigation.tsx`](src/components/sections/navigation.tsx) via [`src/constants/index.ts`](src/constants/index.ts) |
-| `experiences`, `projects`, `hackathons`, `research` | Corresponding page components via [`src/constants/index.ts`](src/constants/index.ts) |
-| `contact.url`, `identity.name`, `assets.ogImage` | [`src/app/feed.xml/route.ts`](src/app/feed.xml/route.ts), [`src/app/sitemap.xml/route.ts`](src/app/sitemap.xml/route.ts) |
+### Projects
 
-### Adding a new page with SEO
+Set `featured: true` on the projects you want on the home page; the rest show on `/projects`. `status` is one of `acquired`, `live`, `building`, `research`, or `active`, and each gets its own badge. Add a `github` repo and the card shows its star count.
 
-Use the `buildMetadata` helper in [`src/lib/metadata.ts`](src/lib/metadata.ts) — it inherits all site defaults and lets you override per page:
+### Adding a page
+
+[`buildMetadata`](src/lib/metadata.ts) fills in the canonical URL, Open Graph, and Twitter tags from the site defaults:
 
 ```tsx
-// src/app/your-page/page.tsx
+// src/app/uses/page.tsx
 import { buildMetadata } from "@/lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "Your Page",
-  description: "What this page is about.",
-  path: "/your-page",
+  title: "Uses",
+  description: "The tools I work with.",
+  path: "/uses",
 });
 ```
 
-This automatically fills in canonical URL, OpenGraph tags, Twitter card, site name, and the page-appropriate image.
+## Images and posts on R2
+
+Nothing heavy is committed. Images and blog posts live in an R2 bucket under `assets/` and are served from the CDN, so config entries use full URLs like `https://cdn.buddhsentripathi.com/assets/projects/nimu-dark.png`.
+
+To add images, drop them in `public/` and run `bun run migrate:assets`. It uploads anything new and skips what's already there. Blog diagrams render into the git-ignored `public/blog-images/` folder and upload the same way.
+
+The CDN caches missing files for 12 hours, so don't open an image URL before you've uploaded it. If you did, add a version query (`?v=20261018`) to the URL in the config.
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `bun run dev` | Start the development server |
-| `bun run build` | Build for production |
-| `bun run start` | Start the production server |
-| `bun run lint` | Run ESLint |
+| Command | What it does |
+|---|---|
+| `bun run dev` | Start the dev server |
+| `bun run build` | Production build |
+| `bun run start` | Serve the production build |
+| `bun run lint` | ESLint |
+| `bun run migrate:assets` | Upload new files from `public/` to R2 |
+| `bun run migrate:blogs` | Upload blog posts to R2 |
 
-## Environment Variables
+## Environment variables
 
-Create a `.env.local` file with the following variables:
+All optional for local development. Copy `.env.example` to `.env.local`.
 
-### Required
-| Variable | Description |
-|----------|-------------|
-| `SUPABASE_URL` | Supabase project URL (server-side) |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key |
-| `R2_ACCESS_KEY_ID` | Cloudflare R2 access key |
-| `R2_SECRET_ACCESS_KEY` | Cloudflare R2 secret key |
-| `R2_BUCKET_NAME` | R2 bucket name for blog content |
-| `R2_ENDPOINT` | R2 endpoint URL |
-| `R2_ACCOUNT_ID` | Cloudflare account ID |
+| Variable | Used for |
+|---|---|
+| `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`, `R2_ENDPOINT` | Blog posts and the upload scripts |
+| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | View counts and newsletter sign-ups |
+| `GITHUB_TOKEN` | Contribution graph |
+| `NEXT_PUBLIC_GA_ID` | Google Analytics |
 
-### Optional
-| Variable | Description |
-|----------|-------------|
-| `GITHUB_TOKEN` | GitHub token for contribution graph / star counts |
-| `NEXT_PUBLIC_GA_ID` | Google Analytics ID |
+Supabase needs a `views` table (`slug text primary key`, `count int`) with an `increment_view_count(post_slug text)` function, and a `newsletter_subscribers` table (`email text primary key`).
 
-Supabase expects a `views` table (`slug text primary key`, `count int`) with an RPC `increment_view_count(post_slug text)`, plus a `newsletter_subscribers` table (`email text primary key`).
-
-## Project Structure
+## Project structure
 
 ```
 src/
-├── site.config.ts            # ⭐ Central config — edit this to customize
+├── site.config.ts        # all personal content and settings
 ├── app/
-│   ├── api/                  # API routes
-│   │   ├── github/           # Contribution graph + star counts
-│   │   ├── location/         # Visitor geolocation
-│   │   ├── socials/          # Live social metrics
-│   │   ├── subscribe/        # Newsletter subscription
-│   │   ├── views/            # Blog view counter (single + batch)
-│   │   └── visitors/         # Visitor tracking
-│   ├── blogs/                # Blog list, [slug], MDX utilities
-│   ├── experience/           # Experience page
-│   ├── hackathons/           # Hackathons page
-│   ├── research/             # Research page
-│   ├── newsletter/           # Newsletter page
-│   ├── projects/             # Projects listing
-│   ├── feed.xml/             # RSS feed route
-│   ├── sitemap.xml/          # Sitemap route
-│   ├── layout.tsx            # Root layout (reads siteConfig)
-│   ├── page.tsx              # Home page
-│   └── globals.css           # Tailwind v4 theme + base styles
+│   ├── page.tsx          # home page
+│   ├── layout.tsx        # frame, header, footer, fonts
+│   ├── globals.css       # theme tokens and shared styles
+│   ├── projects/  experience/  hackathons/  blogs/  newsletter/  research/
+│   ├── api/              # github, location, socials, subscribe, views, visitors
+│   ├── feed.xml/  sitemap.xml/
+│   └── not-found.tsx
 ├── components/
-│   ├── blog/                 # MDX components, view counter, TOC
-│   ├── common/               # Shared (newsletter subscription, etc.)
-│   ├── sections/             # Page sections (hero, projects, experience, etc.)
-│   ├── layout/               # Layout wrappers and timeline
-│   ├── ui/                   # shadcn/ui primitives
-│   ├── icons/                # Icon components
-│   └── illustrations/        # Custom SVG illustrations
-├── constants/                # Re-exports content from site.config.ts
-├── lib/
-│   ├── metadata.ts           # buildMetadata() helper for per-page SEO
-│   ├── jsonLd.ts             # JSON-LD schema generators (reads siteConfig)
-│   ├── r2Client.ts           # Cloudflare R2 integration
-│   ├── supabaseAdmin.ts      # Supabase server client
-│   ├── github.ts             # GitHub API helpers
-│   └── utils.ts              # Utility functions
-├── utils/                    # Fonts and misc
-└── public/                   # Static assets
+│   ├── home/             # home page sections
+│   ├── site/             # header, section index, backdrop, page header, section
+│   ├── projects/         # project card
+│   ├── blog/             # MDX components, contents list, view counter
+│   └── ui/  icons/  common/  sections/  kibo-ui/
+├── lib/                  # socials registry, metadata, JSON-LD, R2, GitHub, helpers
+└── constants/            # re-exports content lists from site.config.ts
 ```
-
-## Connect
-
--   **Website:** [buddhsentripathi.com](https://buddhsentripathi.com)
--   **LinkedIn:** [buddhsen-tripathi](https://linkedin.com/in/buddhsen-tripathi)
--   **Twitter/X:** [@senbuilds](https://twitter.com/senbuilds)
 
 ## Credits
 
--   Original template: [ShivaBhattacharjee/Portfolio-latest](https://github.com/ShivaBhattacharjee/Portfolio-latest)
+Started from [ShivaBhattacharjee/Portfolio-latest](https://github.com/ShivaBhattacharjee/Portfolio-latest).
 
 ## License
 
-This project is open source under the [MIT License](LICENSE).
+[MIT](LICENSE). Fork it, change the config, and make it yours.
 
-## Learn More
-
--   [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API
--   [Tailwind CSS v4](https://tailwindcss.com/docs) - Utility-first CSS framework
--   [shadcn/ui](https://ui.shadcn.com/) - Re-usable UI components
--   [Supabase](https://supabase.com/docs) - Open source Firebase alternative
--   [Cloudflare R2](https://developers.cloudflare.com/r2/) - Object storage
-
-Built by [Buddhsen Tripathi](https://buddhsentripathi.com) 💙
+Built by [Buddhsen Tripathi](https://buddhsentripathi.com) ([@senbuilds](https://x.com/senbuilds)).
