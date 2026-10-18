@@ -13,7 +13,6 @@ import { ViewsProvider } from "@/components/blog/views-context";
 import {
   getPersonSchema,
   getWebsiteSchema,
-  getProfilePageSchema,
 } from "@/lib/jsonLd";
 import { siteConfig } from "@/site.config";
 import { fetchGitHubStars } from "@/lib/github";
@@ -29,7 +28,6 @@ export const metadata = {
   creator: siteConfig.identity.name,
   publisher: siteConfig.identity.name,
   metadataBase: new URL(siteConfig.contact.url),
-  manifest: "/manifest.json",
   robots: {
     index: true,
     follow: true,
@@ -82,7 +80,6 @@ export default async function RootLayout({ children }) {
   const jsonLd = [
     { "@context": "https://schema.org", ...getPersonSchema() },
     getWebsiteSchema(),
-    getProfilePageSchema(),
   ];
 
   return (

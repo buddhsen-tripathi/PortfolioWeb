@@ -2,6 +2,7 @@ import Image from "next/image";
 import { experiences } from "@/constants";
 import { formatTenure, groupByCompany, monthsBetween, parseYearRange } from "@/lib/experience";
 import Section from "@/components/site/section";
+import { siteConfig } from "@/site.config";
 
 export default function Experience() {
   const companies = groupByCompany(experiences);
@@ -10,7 +11,7 @@ export default function Experience() {
   return (
     <Section
       id="experience"
-      title="Experience"
+      title={siteConfig.home.sections.experience.title}
       more={{ href: "/experience", label: "Full experience" }}
     >
       {companies.map(({ company, roles }, index) => {

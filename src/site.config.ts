@@ -22,9 +22,13 @@ export const siteConfig = {
   // ── Identity ──────────────────────────────────────────────────────────────
   identity: {
     name: "Buddhsen Tripathi",
-    title: "Full Stack Developer",
+    // What people call you; used in structured data so searches for it match.
+    alternateName: "Sen",
+    // Current school or employer, for structured data.
+    affiliation: { name: "New York University", url: "https://www.nyu.edu" },
+    title: "AI Engineer",
     tagline: "MS CS @ NYU",
-    bio: "Full stack web developer building scalable, user-centric applications with expertise in cloud infrastructure and microservices architecture.",
+    bio: "Software engineer in New York building AI agents and products. MS CS student at NYU, previously a software engineer at Amadeus.",
     location: {
       label: "New York, NY",
       timeZone: "America/New_York",
@@ -40,6 +44,100 @@ export const siteConfig = {
     greeting: "Hola, I'm Buddhsen (Sen)",
     headline: "Just figuring things out as I go.",
     summary: "Mostly AI stuff. I live in New York, love hackathons, and build things that catch my interest.",
+    contact:
+      "Working on something interesting, hiring, or putting a hackathon team together? I'm happy to talk.",
+    // Heading of each home section. `short` is the label in the side index.
+    sections: {
+      socials: { title: "Socials" },
+      work: { title: "Work" },
+      experience: { title: "Experience" },
+      hackathons: { title: "Hackathons" },
+      writing: { title: "Writing" },
+      github: { title: "GitHub activity", short: "GitHub" },
+      contact: { title: "Get in touch", short: "Contact" },
+    },
+  },
+
+  // ── Pages ─────────────────────────────────────────────────────────────────
+  //  For each page: `title` (heading and browser tab), `description` (search
+  //  results and link previews) and `intro` (the line under the heading).
+  pages: {
+    projects: {
+      title: "Projects",
+      description:
+        "Products, open source, and research by Buddhsen Tripathi, from an acquired OSINT platform to an AI outreach tool and machine learning experiments.",
+      intro: "Products I've shipped, open source people use, and research I've done along the way.",
+    },
+    experience: {
+      title: "Experience",
+      description:
+        "Course assistant at NYU and former software engineer at Amadeus, where I built microservices in Java, Spring Boot, and C++ on Azure.",
+      intro: "Where I've worked and what I did there.",
+    },
+    hackathons: {
+      title: "Hackathons",
+      description: "Hackathon wins and podiums: what I built, with whom, and how it placed.",
+      intro: "Weekends spent building under pressure, mostly in New York. What I built, and how it placed.",
+    },
+    blogs: {
+      title: "Blogs",
+      description:
+        "Posts on AI systems, agents, security, and building products, plus the occasional personal update.",
+      intro: "Writing on AI systems, security and building products, plus the occasional personal post.",
+    },
+    newsletter: {
+      title: "Newsletter",
+      description:
+        "New posts on AI systems, security, and building products, sent to your inbox when they go up. No spam, unsubscribe any time.",
+      intro:
+        "New posts on AI systems, security and building products, plus the occasional personal story. Straight to your inbox when they're published.",
+      promises: ["Only when there's a new post", "No spam, no selling your email", "Unsubscribe in one click"],
+    },
+    research: {
+      title: "Research",
+      description:
+        "Academic research, publications, and experimental projects in software engineering and technology.",
+      intro: "Academic research, publications, and experimental projects.",
+    },
+    notFound: {
+      eyebrow: "404 · Page not found",
+      title: "Nothing was committed here.",
+      intro: "The link might be broken, or the page moved. One of these should get you back on track.",
+    },
+  },
+
+  // ── Writing hosted elsewhere ──────────────────────────────────────────────
+  //  Posts published on other sites (e.g. X articles). They appear in the blog
+  //  list and the home Writing section, linking out. Blog posts themselves
+  //  live on R2 or in src/app/blogs/posts.
+  writing: {
+    external: [
+      {
+        slug: "language-models-prompts-and-the-illusion-of-understanding",
+        title: "Language Models, Prompts, and the Illusion of Understanding",
+        excerpt:
+          "Prompts do not just ask questions. They define constraints. When outputs feel misaligned, the model is not misunderstanding intent. It is resolving ambiguity through probability. The gap is often ours.",
+        date: "20 Feb 2026",
+        type: "technical",
+        url: "https://x.com/senbuilds/status/2024753374772564029",
+      },
+      {
+        slug: "honest-take-on-coding-in-2026",
+        title: "This is my honest take on coding in 2026",
+        excerpt:
+          "An honest reflection on AI-assisted development, the illusion of productivity, fading syntax fluency and what an interview revealed about modern coding.",
+        date: "16 Feb 2026",
+        type: "technical",
+        url: "https://x.com/senbuilds/status/2023280893071179782",
+      },
+    ],
+  },
+
+  // ── Integrations ──────────────────────────────────────────────────────────
+  integrations: {
+    // Namespace for the footer visitor count on counterapi.dev. Pick any
+    // unique string; a new one starts counting from zero.
+    visitorCounter: "buddhsen-tripathi-portfolio",
   },
   
   // ── Contact & URL ─────────────────────────────────────────────────────────
@@ -114,12 +212,21 @@ export const siteConfig = {
     hackthebox: "",
   } satisfies Record<SocialPlatform, string>,
 
+  // Hover-card details for platforms without a public profile API.
+  socialPreviews: {
+    linkedin: {
+      headline: "MSCS @ NYU’27 | ex-Amadeus | Building DeepFind.Me, Bucket0.com | AI × Infra",
+      location: "Brooklyn, New York, United States",
+      connections: "500+",
+    },
+  },
+
   // ── SEO defaults ──────────────────────────────────────────────────────────
   seo: {
     titleTemplate: "%s | Buddhsen Tripathi",
-    defaultTitle: "Buddhsen Tripathi",
+    defaultTitle: "Buddhsen Tripathi, software engineer in New York",
     defaultDescription:
-      "Full stack web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs",
+      "Software engineer in New York building AI agents and products. MS CS at NYU, previously at Amadeus. Projects, hackathon wins, and writing.",
     keywords: [
       "Buddhsen Tripathi",
       "Full Stack Developer",

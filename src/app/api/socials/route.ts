@@ -3,9 +3,10 @@ import { socialHandle, type SocialPlatform } from "@/lib/socials";
 import { siteConfig } from "@/site.config";
 
 // Identity + handles are sourced from site.config.ts so a fork only edits that
-// file. LinkedIn and Email have no public API and stay static (edit below).
+// file. LinkedIn has no public API, so its card reads socialPreviews in the config.
 // Platforms left blank in the config are never fetched and never returned.
 const { identity } = siteConfig;
+const linkedinPreview = siteConfig.socialPreviews.linkedin;
 const handles = {
   github: socialHandle("github"),
   twitter: socialHandle("twitter"),
@@ -15,7 +16,7 @@ const handles = {
   codeforces: socialHandle("codeforces"),
 } satisfies Partial<Record<SocialPlatform, string>>;
 const FALLBACK_AVATAR = handles.github ? `https://github.com/${handles.github}.png` : identity.photo.dark;
-const DEFAULT_LOCATION = "New York, USA";
+const DEFAULT_LOCATION = identity.location.label;
 const DEFAULT_BIO = `${identity.title} • ${identity.tagline}`;
 const NAME = identity.name;
 
@@ -85,23 +86,15 @@ export async function GET() {
         username: handles.linkedin,
         avatar: FALLBACK_AVATAR,
         banner: null,
-        bio: "MSCS @ NYU’27 | ex-Amadeus | Building DeepFind.Me, Bucket0.com | AI × Infra",
-        location: "Brooklyn, New York, United States",
-        stats: [{ label: "Connections", value: "500+" }],
-      },
-      email: {
-        name: "Drop an Email",
-        username: siteConfig.contact.email,
-        avatar: FALLBACK_AVATAR,
-        bio: "Whether you have a question, a project idea, or just want to say hi, feel free to reach out!",
-        location: "Inbox",
-        stats: [],
+        bio: linkedinPreview.headline,
+        location: linkedinPreview.location,
+        stats: [{ label: "Connections", value: linkedinPreview.connections }],
       },
       leetcode: {
         name: leetcodeData.name || NAME,
         username: leetcodeData.username || handles.leetcode,
         avatar: leetcodeData.avatar || FALLBACK_AVATAR,
-        bio: leetcodeData.about || "Grinding problems between builds.",
+        bio: leetcodeData.about || DEFAULT_BIO,
         location: leetcodeData.country || DEFAULT_LOCATION,
         stats: [{ label: "Solved", value: leetcodeSolved.solvedProblem ?? 0 }],
       },
@@ -113,7 +106,7 @@ export async function GET() {
           thmData.about ||
           (typeof thmData.topPercentage === "number"
             ? `Top ${thmData.topPercentage}% on TryHackMe — offensive security, one room at a time.`
-            : "Learning offensive security and defensive tooling, one room at a time."),
+            : DEFAULT_BIO),
         location: DEFAULT_LOCATION,
         stats: [
           { label: "Rank", value: typeof thmData.rank === "number" ? thmData.rank.toLocaleString("en-US") : "—" },
@@ -127,7 +120,7 @@ export async function GET() {
           : NAME,
         username: cfData.handle || handles.codeforces,
         avatar: cfData.titlePhoto ? codeforcesPhoto(cfData.titlePhoto) : FALLBACK_AVATAR,
-        bio: cfData.rank ? `${cfData.rank.charAt(0).toUpperCase()}${cfData.rank.slice(1)}` : "Competitive programmer",
+        bio: cfData.rank ? `${cfData.rank.charAt(0).toUpperCase()}${cfData.rank.slice(1)}` : DEFAULT_BIO,
         location: [cfData.city, cfData.country].filter(Boolean).join(", ") || DEFAULT_LOCATION,
         stats: [
           { label: "Rating", value: cfData.rating ?? "—" },
@@ -136,11 +129,9 @@ export async function GET() {
       },
     };
 
-    // Email is always shown; everything else only when its handle is set.
+    // Only platforms with a handle set in the config.
     const visible = Object.fromEntries(
-      Object.entries(profiles).filter(
-        ([key]) => key === "email" || Boolean(handles[key as keyof typeof handles])
-      )
+      Object.entries(profiles).filter(([key]) => Boolean(handles[key as keyof typeof handles]))
     );
     return NextResponse.json(visible);
   } catch (error) {

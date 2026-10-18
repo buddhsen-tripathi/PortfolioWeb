@@ -6,13 +6,13 @@ import PageHeader from "@/components/site/page-header";
 import Section from "@/components/site/section";
 import { hackathons } from "@/constants";
 import { buildMetadata } from "@/lib/metadata";
+import { siteConfig } from "@/site.config";
 import { TechBadge } from "@/lib/tech-icons";
 import { cn } from "@/lib/utils";
 
 export const metadata = buildMetadata({
-  title: "Hackathons",
-  description:
-    "Hackathon wins and podiums: what I built, with whom, and how it placed.",
+  title: siteConfig.pages.hackathons.title,
+  description: siteConfig.pages.hackathons.description,
   path: "/hackathons",
 });
 
@@ -131,8 +131,8 @@ export default function HackathonsPage() {
   return (
     <>
       <PageHeader
-        title="Hackathons"
-        description="Weekends spent building under pressure, mostly in New York. What I built, and how it placed."
+        title={siteConfig.pages.hackathons.title}
+        description={siteConfig.pages.hackathons.intro}
         meta={
           <>
             <span>{hackathons.length} podiums</span>

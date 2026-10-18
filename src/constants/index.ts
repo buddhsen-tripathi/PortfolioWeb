@@ -8,3 +8,4 @@ export const experiences = siteConfig.experiences;
 export const projects = siteConfig.projects;
 export const hackathons = siteConfig.hackathons;
 export const research = siteConfig.research;
+export const externalArticles = siteConfig.writing.external;

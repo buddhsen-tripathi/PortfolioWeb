@@ -10,6 +10,7 @@ import { vibrateLight } from "@/lib/haptics";
 import { getSocials, type SocialLink, type SocialPlatform } from "@/lib/socials";
 import { cn } from "@/lib/utils";
 import Section from "@/components/site/section";
+import { siteConfig } from "@/site.config";
 
 const socials = getSocials();
 
@@ -51,7 +52,7 @@ function ProfileCard({ data, loading }: { data?: Profile; loading: boolean }) {
       <div className={`relative flex gap-3 ${data.banner ? "-mt-10 flex-col items-start" : "items-center"}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={data.avatar || "https://github.com/buddhsen-tripathi.png"}
+          src={data.avatar || siteConfig.identity.photo.dark}
           alt=""
           className={`rounded-full bg-background object-cover ${data.banner ? "size-16 border-[3px] border-popover" : "size-12 border border-border"}`}
         />
@@ -201,7 +202,7 @@ export default function Socials() {
   if (!socials.length) return null;
 
   return (
-    <Section id="socials" title="Socials">
+    <Section id="socials" title={siteConfig.home.sections.socials.title}>
       <div className="grid sm:grid-cols-2">
         {socials.map((social, i) => (
           <SocialCell

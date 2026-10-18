@@ -1,6 +1,6 @@
 import RSS from "rss";
 import { getAllBlogPosts } from "@/app/blogs/utils";
-import { twitterArticles } from "@/app/blogs/articles";
+import { externalArticles } from "@/constants";
 import { siteConfig } from "@/site.config";
 
 function parseDate(dateStr: string | undefined) {
@@ -13,7 +13,7 @@ export async function GET() {
   const { identity, contact, assets } = siteConfig;
   const feed = new RSS({
     title: `${identity.name}'s Blog`,
-    description: "Web development insights and tutorials",
+    description: siteConfig.pages.blogs.description,
     site_url: contact.url,
     feed_url: `${contact.url}/feed.xml`,
     language: "en",
@@ -26,7 +26,7 @@ export async function GET() {
 
   try {
     const allPosts = await getAllBlogPosts();
-    const externalSlugs = new Set(twitterArticles.map((a) => a.slug));
+    const externalSlugs = new Set(externalArticles.map((a) => a.slug));
     const blogPosts = allPosts.filter((post) => !externalSlugs.has(post.slug));
 
     blogPosts.forEach((post) => {

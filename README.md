@@ -62,19 +62,25 @@ Then open [localhost:3000](http://localhost:3000). The site runs without any key
 
 ## Make it yours
 
-Everything personal lives in [`src/site.config.ts`](src/site.config.ts). Pages, metadata, JSON-LD, the RSS feed, and the sitemap all read from it.
+Everything personal lives in [`src/site.config.ts`](src/site.config.ts), and it's the only file you need to edit. Pages, metadata, JSON-LD, the RSS feed, the sitemap, `robots.txt`, and the web manifest all read from it.
 
 | Key | What it controls |
 |---|---|
-| `identity` | Name, title, bio, location and time zone, light and dark photos |
-| `home` | The greeting, headline, and summary at the top of the home page |
+| `identity` | Name, alternate name, job title, bio, affiliation, location and time zone, light and dark photos |
+| `home` | The hero text, the contact line, and each home section's heading |
+| `pages` | For every page: its heading, search description, and intro line (plus the 404 text and newsletter promises) |
 | `contact` | Email, site URL, booking link, resume |
 | `repo` | The GitHub repo shown on the header's star button |
-| `assets` | Open Graph images, favicon, footer illustration |
+| `assets` | Open Graph images, favicon, footer illustration and sign-off line |
 | `socials` | One handle per platform (see below) |
-| `seo` | Title template, default description, keywords |
+| `socialPreviews` | Hover-card details for platforms without a public API (LinkedIn) |
+| `seo` | Default title and description, title template, theme color |
 | `nav` | Header links |
 | `experiences`, `projects`, `hackathons`, `research` | The content lists |
+| `writing.external` | Posts published elsewhere (like X articles) that show in the blog list |
+| `integrations` | The namespace for the footer visitor counter |
+
+Components only hold generic interface words like "Featured" or "Keep reading". Anything about you belongs in the config.
 
 ### Socials
 

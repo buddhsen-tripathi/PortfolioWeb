@@ -2,6 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import { hackathons } from "@/constants";
 import { cn } from "@/lib/utils";
 import Section from "@/components/site/section";
+import { siteConfig } from "@/site.config";
 
 const SHOWN = 3;
 
@@ -24,7 +25,7 @@ export default function Hackathons() {
   return (
     <Section
       id="hackathons"
-      title="Hackathons"
+      title={siteConfig.home.sections.hackathons.title}
       meta={`${hackathons.length} podiums · ${wins} wins`}
       more={
         hackathons.length > SHOWN

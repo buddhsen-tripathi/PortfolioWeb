@@ -32,10 +32,9 @@ export default function Contact() {
   };
 
   return (
-    <Section id="contact" title="Get in touch">
+    <Section id="contact" title={siteConfig.home.sections.contact.title}>
       <p className="px-6 pb-4 pt-5 text-[15px] leading-relaxed text-muted-foreground">
-        Working on something interesting, hiring, or putting a hackathon team together? I&apos;m
-        happy to talk.
+        {siteConfig.home.contact}
       </p>
       <div className="grid border-t border-dashed border-border sm:grid-cols-3">
         <a href={calUrl} target="_blank" rel="noopener noreferrer" className={cell}>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Section from "@/components/site/section";
+import { siteConfig } from "@/site.config";
 
 /* "404" drawn on a 7-row grid, like a week column of the GitHub activity graph. */
 const GLYPHS: Record<string, string[]> = {
@@ -50,13 +51,13 @@ export default function NotFound() {
           )}
         </div>
         <p className="mt-6 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-          404 · Page not found
+          {siteConfig.pages.notFound.eyebrow}
         </p>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-[28px]">
-          Nothing was committed here.
+          {siteConfig.pages.notFound.title}
         </h1>
         <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
-          The link might be broken, or the page moved. One of these should get you back on track.
+          {siteConfig.pages.notFound.intro}
         </p>
       </header>
 

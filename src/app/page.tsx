@@ -9,10 +9,12 @@ import Work from "@/components/home/work";
 import Writing from "@/components/home/writing";
 import SectionIndex from "@/components/site/section-index";
 import { getAllBlogPosts } from "@/app/blogs/utils";
-import { twitterArticles } from "@/app/blogs/articles";
+import { externalArticles } from "@/constants";
 import { fetchGitHubContributions } from "@/lib/github";
+import { getProfilePageSchema } from "@/lib/jsonLd";
 import { buildMetadata } from "@/lib/metadata";
 import { PLATFORMS, socialHandle } from "@/lib/socials";
+import { siteConfig } from "@/site.config";
 
 export const revalidate = 3600;
 
@@ -21,18 +23,23 @@ export const metadata = buildMetadata({ path: "/" });
 const LATEST_POSTS = 3;
 
 export default async function Home() {
+  const { sections } = siteConfig.home;
   const githubHandle = socialHandle("github");
   const [{ contributions, lifetimeTotal }, blogPosts] = await Promise.all([
     githubHandle ? fetchGitHubContributions(githubHandle) : { contributions: [], lifetimeTotal: 0 },
     getAllBlogPosts(),
   ]);
 
-  const posts = [...blogPosts, ...twitterArticles].sort(
+  const posts = [...blogPosts, ...externalArticles].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getProfilePageSchema()) }}
+      />
       <Hero />
       <Socials />
       <Work />
@@ -42,7 +49,7 @@ export default async function Home() {
       {contributions.length > 0 && (
         <Section
           id="activity"
-          title="GitHub activity"
+          title={siteConfig.home.sections.github.title}
           meta={
             <a
               href={PLATFORMS.github.url(githubHandle)}
@@ -62,13 +69,13 @@ export default async function Home() {
       <SectionIndex
         items={[
           { id: "intro", label: "Intro" },
-          { id: "socials", label: "Socials" },
-          { id: "work", label: "Work" },
-          { id: "experience", label: "Experience" },
-          { id: "hackathons", label: "Hackathons" },
-          { id: "writing", label: "Writing" },
-          ...(contributions.length > 0 ? [{ id: "activity", label: "GitHub" }] : []),
-          { id: "contact", label: "Contact" },
+          { id: "socials", label: sections.socials.title },
+          { id: "work", label: sections.work.title },
+          { id: "experience", label: sections.experience.title },
+          { id: "hackathons", label: sections.hackathons.title },
+          { id: "writing", label: sections.writing.title },
+          ...(contributions.length > 0 ? [{ id: "activity", label: sections.github.short }] : []),
+          { id: "contact", label: sections.contact.short },
         ]}
       />
     </>

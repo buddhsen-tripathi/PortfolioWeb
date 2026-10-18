@@ -1,6 +1,7 @@
+import { siteConfig } from "@/site.config";
 import { NextResponse } from "next/server";
 
-const BASE = "https://api.counterapi.dev/v1/buddhsen-tripathi-portfolio";
+const BASE = `https://api.counterapi.dev/v1/${siteConfig.integrations.visitorCounter}`;
 
 export async function GET() {
   try {

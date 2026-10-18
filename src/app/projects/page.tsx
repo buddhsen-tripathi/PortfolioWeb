@@ -4,11 +4,11 @@ import Section from "@/components/site/section";
 import { projects } from "@/constants";
 import { fetchGitHubStars } from "@/lib/github";
 import { buildMetadata } from "@/lib/metadata";
+import { siteConfig } from "@/site.config";
 
 export const metadata = buildMetadata({
-  title: "Projects",
-  description:
-    "Explore my latest projects, including web applications, open-source tools, and experiments in technology and programming.",
+  title: siteConfig.pages.projects.title,
+  description: siteConfig.pages.projects.description,
   path: "/projects",
 });
 
@@ -48,8 +48,8 @@ export default async function ProjectsPage() {
   return (
     <>
       <PageHeader
-        title="Projects"
-        description="Products I've shipped, open source people use, and research I've done along the way."
+        title={siteConfig.pages.projects.title}
+        description={siteConfig.pages.projects.intro}
         meta={
           <>
             <span>{projects.length} projects</span>

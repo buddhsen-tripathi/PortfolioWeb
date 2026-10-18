@@ -1,14 +1,13 @@
 import PageHeader from "@/components/site/page-header";
 import BlogIndex from "./BlogIndex";
 import { getAllBlogPosts } from "./utils";
-import { twitterArticles } from "./articles";
+import { externalArticles } from "@/constants";
 import { buildMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/site.config";
 
 export const metadata = buildMetadata({
-  title: "Blogs",
-  description:
-    "Read the latest articles, tutorials, and personal thoughts on technology, programming, and more.",
+  title: siteConfig.pages.blogs.title,
+  description: siteConfig.pages.blogs.description,
   path: "/blogs",
   image: siteConfig.assets.blogOgImage,
 });
@@ -20,7 +19,7 @@ export default async function BlogsPage() {
 
   const technicalPosts = [
     ...allPosts.filter((post) => post.type !== "personal"),
-    ...twitterArticles,
+    ...externalArticles,
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   const personalPosts = allPosts.filter((post) => post.type === "personal");
@@ -28,8 +27,8 @@ export default async function BlogsPage() {
   return (
     <>
       <PageHeader
-        title="Blogs"
-        description="Writing on AI systems, security and building products, plus the occasional personal post."
+        title={siteConfig.pages.blogs.title}
+        description={siteConfig.pages.blogs.intro}
         meta={
           <>
             <span>{technicalPosts.length + personalPosts.length} posts</span>

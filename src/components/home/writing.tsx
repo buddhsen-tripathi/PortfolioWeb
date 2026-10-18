@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Section from "@/components/site/section";
+import { siteConfig } from "@/site.config";
 
 export type PostSummary = {
   slug: string;
@@ -16,7 +17,7 @@ export default function Writing({ posts, total }: { posts: PostSummary[]; total:
   return (
     <Section
       id="writing"
-      title="Writing"
+      title={siteConfig.home.sections.writing.title}
       meta={`${total} posts`}
       more={{ href: "/blogs", label: "Read all posts" }}
     >

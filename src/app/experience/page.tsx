@@ -9,12 +9,12 @@ import {
   parseYearRange,
 } from "@/lib/experience";
 import { buildMetadata } from "@/lib/metadata";
+import { siteConfig } from "@/site.config";
 import { TechBadge } from "@/lib/tech-icons";
 
 export const metadata = buildMetadata({
-  title: "Experience",
-  description:
-    "Professional experience and career journey as a full stack developer working with modern web technologies.",
+  title: siteConfig.pages.experience.title,
+  description: siteConfig.pages.experience.description,
   path: "/experience",
 });
 
@@ -43,8 +43,8 @@ export default function ExperiencePage() {
   return (
     <>
       <PageHeader
-        title="Experience"
-        description="Where I've worked and what I did there."
+        title={siteConfig.pages.experience.title}
+        description={siteConfig.pages.experience.intro}
         meta={
           <>
             <span>{companies.length} organizations</span>
