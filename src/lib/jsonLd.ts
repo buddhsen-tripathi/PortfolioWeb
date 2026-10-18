@@ -1,7 +1,8 @@
+import { getSocials } from "@/lib/socials";
 import { siteConfig } from "@/site.config";
 
 export function getPersonSchema() {
-  const { identity, contact, assets, socials } = siteConfig;
+  const { identity, contact, assets } = siteConfig;
   return {
     "@type": "Person",
     name: identity.name,
@@ -9,7 +10,7 @@ export function getPersonSchema() {
     jobTitle: identity.title,
     description: identity.bio,
     image: assets.ogImage,
-    sameAs: Object.values(socials).map((s) => s.url),
+    sameAs: getSocials().flatMap((s) => (s.url ? [s.url] : [])),
   };
 }
 
