@@ -23,16 +23,6 @@ export default function SeikoWatchModal({ children }) {
     return () => clearInterval(id);
   }, []);
 
-  useEffect(() => {
-    const onekoCatElement = document.querySelector('[data-oneko-cat="true"]');
-    if (!(onekoCatElement instanceof HTMLElement)) return;
-
-    onekoCatElement.style.opacity = open ? "0" : "1";
-
-    return () => {
-      onekoCatElement.style.opacity = "1";
-    };
-  }, [open]);
 
   const timeLabel = time
     ? time.toLocaleTimeString("en-US", {
@@ -59,7 +49,7 @@ export default function SeikoWatchModal({ children }) {
           Shows the current local date, time, and timezone.
         </DialogDescription>
         <SeikoWatchIllustration />
-        <div className="flex flex-col items-center gap-1 font-doto text-xs uppercase tracking-[0.18em] text-muted-foreground">
+        <div className="flex flex-col items-center gap-1 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
           <span>{dateLabel}</span>
           <span>{timeLabel}</span>
           <span className="text-[10px] normal-case tracking-normal text-muted-foreground/60">

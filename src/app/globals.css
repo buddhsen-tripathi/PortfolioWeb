@@ -3,22 +3,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@utility container {
-  margin-inline: auto;
-  padding-inline: 2rem;
-  @media (width >= --theme(--breakpoint-sm)) {
-    max-width: none;
-  }
-  @media (width >= 1400px) {
-    max-width: 1400px;
-  }
-}
-
 @theme {
-  --font-inter: var(--font-inter);
-  --font-cera: var(--font-cera);
-  --font-doto: 'Doto', sans-serif;
-  --font-space-mono: var(--font-space-mono), monospace;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   --text-sm: 0.8rem;
   --text-base: 1rem;
@@ -33,7 +20,7 @@
   --color-ring: hsl(var(--ring));
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-  --color-tx-accent: hsl(Var(--accent-text));
+  --color-brand: hsl(var(--brand));
 
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
@@ -56,16 +43,7 @@
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 
-  --radius-base: 4px;
-
-  --shadow-dark: 4px 4px 0px 0px rgba(0, 0, 0, 1);
-  --shadow-light: 4px 4px 0px 0px rgba(255, 255, 255, 1);
-
-  --translate-boxShadowX: 4px;
-  --translate-boxShadowY: 4px;
-
   --animate-wave: wave 1s ease-in-out 1;
-  --animate-wave-slow: wave 1.5s ease-in-out 1;
 
   @keyframes wave {
     0%,
@@ -130,10 +108,10 @@
     background-color: var(--selection-background);
     color: var(--selection-color);
   }
-  p,
-  li {
-    font-family: var(--font-inter);
-    font-size: 16px;
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1,
@@ -142,8 +120,7 @@
   h4,
   h5,
   h6 {
-    font-weight: 700;
-    font-family: var(--font-cera);
+    font-weight: 600;
   }
 }
 
@@ -178,7 +155,8 @@
     --ring: 0 0% 3.9%;
 
     --radius: 0.5rem;
-    --accent-text: 345 85% 60%; /* HSL equivalent of #EE4865 */
+    --brand: 142 64% 34%;
+    --surface: 0 0% 98.5%;
   }
 
   .dark {
@@ -209,7 +187,8 @@
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
-    --accent-text: 42 100% 50%; /* HSL equivalent of #FFAB00 */
+    --brand: 136 62% 52%;
+    --surface: 200 8% 6.6%;
   }
 }
 
@@ -222,3 +201,124 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Site frame
+   Every route sits in one bordered column. The header, footer and the
+   gutter decoration all read --frame-width so they stay aligned with it.
+--------------------------------------------------------------------------- */
+:root {
+  --frame-width: 48rem;
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@utility bg-surface {
+  background-color: hsl(var(--surface));
+}
+
+@layer components {
+  /* Full-bleed heading bar that opens every home section. */
+  .section-bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 1.5rem;
+    border-block: 1px dashed hsl(var(--border));
+    background-color: hsl(var(--muted) / 0.25);
+  }
+
+  /* Faint cross-hatch revealed behind interactive rows and cells. */
+  .hatch {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      hsl(var(--foreground) / 0.035) 0 1px,
+      transparent 1px 7px
+    );
+  }
+
+  .ease-soft {
+    transition-timing-function: var(--ease-out-soft);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Beam border (components/home/work.tsx)
+   On hover of the parent `.group`, a short band of light travels around the
+   element's border, trailed by a soft glow. ::before is the 1px ring (the
+   gradient masked down to the border), ::after is the blurred glow behind.
+--------------------------------------------------------------------------- */
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: true;
+}
+
+@keyframes beam-travel {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+.beam-border {
+  position: relative;
+  isolation: isolate;
+  --beam: conic-gradient(
+    from var(--beam-angle),
+    transparent 0deg 220deg,
+    hsl(var(--brand) / 0.15) 260deg,
+    hsl(var(--brand)) 330deg,
+    hsl(var(--foreground) / 0.9) 352deg,
+    transparent 360deg
+  );
+  animation: beam-travel 2.8s linear infinite paused;
+}
+
+.beam-border::before,
+.beam-border::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(--beam);
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out-soft);
+}
+
+.beam-border::before {
+  inset: -1px;
+  padding: 1px;
+  z-index: 1;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.beam-border::after {
+  inset: -3px;
+  z-index: -1;
+  filter: blur(10px);
+}
+
+.group:hover .beam-border,
+.group:focus-visible .beam-border {
+  animation-play-state: running;
+}
+
+.group:hover .beam-border::before,
+.group:focus-visible .beam-border::before {
+  opacity: 1;
+}
+
+.group:hover .beam-border::after,
+.group:focus-visible .beam-border::after {
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam-border {
+    animation: none;
+    --beam: linear-gradient(hsl(var(--brand)), hsl(var(--brand)));
+  }
+}

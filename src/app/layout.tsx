@@ -1,10 +1,11 @@
 import "./globals.css";
 import Script from "next/script";
 import { Toaster } from "@/components/ui/toaster";
-import NavigationBar from "@/components/sections/navigation";
+import SiteHeader from "@/components/site/site-header";
+import Backdrop from "@/components/site/backdrop";
 import Footer from "@/components/sections/footer";
 import TopLoader from "@/components/top-loader";
-import OnekoCat from "@/components/OnekoCat";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { SmoothScrollProvider } from "@/components/smooth-scroll-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ScrollToTopButton } from "@/components/scroll-to-top";
@@ -15,6 +16,7 @@ import {
   getProfilePageSchema,
 } from "@/lib/jsonLd";
 import { siteConfig } from "@/site.config";
+import { fetchGitHubStars } from "@/lib/github";
 
 export const metadata = {
   title: {
@@ -71,24 +73,12 @@ export const metadata = {
   },
 };
 
-import { GeistPixelSquare } from "geist/font/pixel";
-import { Space_Mono, Press_Start_2P } from "next/font/google";
+import { geistSans } from "@/lib/fonts";
+import { GeistMono } from "geist/font/mono";
 
-const spaceMono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-space-mono",
-  display: "swap",
-});
 
-const pressStart = Press_Start_2P({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-press-start",
-  display: "swap",
-});
-
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const repoStars = await fetchGitHubStars(siteConfig.repo);
   const jsonLd = [
     { "@context": "https://schema.org", ...getPersonSchema() },
     getWebsiteSchema(),
@@ -96,20 +86,10 @@ export default function RootLayout({ children }) {
   ];
 
   return (
-    <html lang="en" suppressHydrationWarning className={`${spaceMono.variable} ${pressStart.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${GeistMono.variable}`}>
       <head>
         <meta name="theme-color" content={siteConfig.seo.themeColor} />
         <meta name="color-scheme" content="dark light" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap"
-          rel="stylesheet"
-        />
         <link
           rel="alternate"
           type="application/rss+xml"
@@ -141,18 +121,16 @@ export default function RootLayout({ children }) {
           <TopLoader />
           <SmoothScrollProvider>
             <ViewsProvider>
-              <div className="grid min-h-dvh grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto] overflow-x-hidden">
-                <main
-                  className={`${GeistPixelSquare.className} max-w-[1800px] px-6 pt-14 md:mx-auto md:px-0 md:pt-24`}
-                >
-                  <OnekoCat />
-                  {children}
-                </main>
-                <Footer />
-                <NavigationBar />
+              <TooltipProvider delayDuration={150}>
+                <Backdrop />
+                <div className="relative mx-auto flex min-h-dvh w-full max-w-[var(--frame-width)] flex-col border-x border-border bg-surface">
+                  <SiteHeader repoStars={repoStars} />
+                  <main className="flex-1">{children}</main>
+                  <Footer />
+                </div>
                 <Toaster />
                 <ScrollToTopButton />
-              </div>
+              </TooltipProvider>
             </ViewsProvider>
           </SmoothScrollProvider>
         </ThemeProvider>

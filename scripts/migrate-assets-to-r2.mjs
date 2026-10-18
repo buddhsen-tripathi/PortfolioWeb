@@ -25,7 +25,6 @@ const KEEP_AT_ROOT = new Set([
   "favicon.ico",
   "manifest.json",
   "robots.txt",
-  "oneko.gif",
 ]);
 
 const CONTENT_TYPES = {
