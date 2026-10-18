@@ -14,30 +14,34 @@
  * ────────────────────────────────────────────────────────────────────────────
  */
 
-export type SocialPlatform =
-  | "twitter"
-  | "github"
-  | "linkedin"
-  | "leetcode"
-  | "tryhackme"
-  | "codeforces";
+import type { SocialPlatform } from "@/lib/socials";
+
+export type { SocialPlatform };
 
 export const siteConfig = {
   // ── Identity ──────────────────────────────────────────────────────────────
   identity: {
     name: "Buddhsen Tripathi",
-    firstName: "Buddhsen",
     title: "Full Stack Developer",
     tagline: "MS CS @ NYU",
     bio: "Full stack web developer building scalable, user-centric applications with expertise in cloud infrastructure and microservices architecture.",
-    intros: [
-      "Software Engineer",
-      "Full-Stack Developer",
-      "Problem Solver",
-      "Tech Geek",
-    ],
+    location: {
+      label: "New York, NY",
+      timeZone: "America/New_York",
+    },
+    photo: {
+      light: "https://cdn.buddhsentripathi.com/assets/profpic2.jpg",
+      dark: "https://cdn.buddhsentripathi.com/assets/profpic.jpg",
+    },
   },
 
+  // ── Home page copy ────────────────────────────────────────────────────────
+  home: {
+    greeting: "Hola, I'm Buddhsen (Sen)",
+    headline: "Just figuring things out as I go.",
+    summary: "Mostly AI stuff. I live in New York, love hackathons, and build things that catch my interest.",
+  },
+  
   // ── Contact & URL ─────────────────────────────────────────────────────────
   contact: {
     email: "bt2609@nyu.edu",
@@ -46,50 +50,69 @@ export const siteConfig = {
     resumeUrl: "https://cdn.buddhsentripathi.com/assets/Resume.pdf",
   },
 
+  // Source of this site, shown with its star count in the header.
+  repo: "buddhsen-tripathi/PortfolioWeb",
+
   // ── Assets (R2-backed CDN at cdn.buddhsentripathi.com/assets) ─────────────
-  // Tiny site-chrome files (favicon, manifest, robots, oneko) stay in /public;
+  // Tiny site-chrome files (favicon, manifest, robots) stay in /public;
   // everything else is uploaded via scripts/migrate-assets-to-r2.mjs.
   assetsUrl: "https://cdn.buddhsentripathi.com/assets",
   assets: {
     ogImage: "https://cdn.buddhsentripathi.com/assets/default-image.webp",
     blogOgImage: "https://cdn.buddhsentripathi.com/assets/default-image-blogs.webp",
     favicon: "/favicon.ico",
+    // Wide illustration strip shown at the bottom of every page. Null hides it.
+    // Sign-off line shown above the footer illustration. "" hides it.
+    footerQuote: "See you on the other side of the internet.",
+    footerArt: {
+      light: "https://cdn.buddhsentripathi.com/assets/footer/footer-nyc-day.webp?v=20261018",
+      dark: "https://cdn.buddhsentripathi.com/assets/footer/footer-nyc-night.webp?v=20261018",
+      width: 1568,
+      height: 672,
+    } as { light: string; dark: string; width: number; height: number } | null,
   },
 
-  // ── Socials (platform → username + url) ───────────────────────────────────
-  //  Adding/removing entries here updates the hero social buttons automatically.
+  // ── Socials ───────────────────────────────────────────────────────────────
+  //  One handle per platform; leave it blank ("") to hide that platform
+  //  everywhere. A full profile URL works too (handy for Mastodon instances
+  //  or Stack Overflow's numeric profile links). Order here is display order.
+  //  Icons, colors and URL patterns live in src/lib/socials.tsx.
   socials: {
-    twitter: {
-      label: "Twitter",
-      username: "senbuilds",
-      url: "https://x.com/senbuilds",
-    },
-    github: {
-      label: "Github",
-      username: "buddhsen-tripathi",
-      url: "https://github.com/buddhsen-tripathi",
-    },
-    linkedin: {
-      label: "LinkedIn",
-      username: "buddhsen-tripathi",
-      url: "https://www.linkedin.com/in/buddhsen-tripathi/",
-    },
-    leetcode: {
-      label: "LeetCode",
-      username: "buddhsen",
-      url: "https://leetcode.com/u/buddhsen",
-    },
-    tryhackme: {
-      label: "TryHackMe",
-      username: "btripathi",
-      url: "https://tryhackme.com/p/btripathi",
-    },
-    codeforces: {
-      label: "Codeforces",
-      username: "Buddhsen",
-      url: "https://codeforces.com/profile/Buddhsen",
-    },
-  } satisfies Record<SocialPlatform, { label: string; username: string; url: string }>,
+    twitter: "senbuilds",
+    github: "buddhsen-tripathi",
+    linkedin: "buddhsen-tripathi",
+    leetcode: "buddhsen",
+    tryhackme: "btripathi",
+    codeforces: "Buddhsen",
+    instagram: "",
+    youtube: "",
+    threads: "",
+    bluesky: "",
+    mastodon: "",
+    reddit: "",
+    discord: "btr1pathi",
+    telegram: "",
+    facebook: "",
+    tiktok: "",
+    twitch: "",
+    medium: "",
+    devto: "",
+    hashnode: "",
+    substack: "",
+    gitlab: "",
+    stackoverflow: "",
+    huggingface: "Buddhsen",
+    kaggle: "",
+    npm: "",
+    producthunt: "",
+    peerlist: "",
+    dribbble: "",
+    behance: "",
+    codechef: "",
+    hackerrank: "",
+    geeksforgeeks: "",
+    hackthebox: "",
+  } satisfies Record<SocialPlatform, string>,
 
   // ── SEO defaults ──────────────────────────────────────────────────────────
   seo: {
@@ -116,7 +139,7 @@ export const siteConfig = {
 
   // ── Navigation ────────────────────────────────────────────────────────────
   nav: [
-    { path: "/", name: "About" },
+    { path: "/", name: "Home" },
     { path: "/projects", name: "Projects" },
     { path: "/experience", name: "Experience" },
     { path: "/hackathons", name: "Hacks" },
@@ -126,11 +149,27 @@ export const siteConfig = {
   // ── Content: Experiences ──────────────────────────────────────────────────
   experiences: [
     {
-      role: "Software Development Engineer Intern",
+      role: "Course Assistant",
+      year: "Sep 2026 - Present",
+      company: "New York University",
+      type: "Part-time",
+      location: "Brooklyn, On-Site",
+      logo: "https://cdn.buddhsentripathi.com/assets/company/nyu.jpg?v=20261018",
+      responsibility: [
+        [
+          { text: "Course Assistant for " },
+          { text: "Software Engineering I (CS-GY-6063)", bold: true },
+          { text: " at NYU Tandon School of Engineering." },
+        ],
+      ],
+      techstacks: [] as string[],
+    },
+    {
+      role: "Software Development Intern",
       year: "Jan 2023 - Jun 2023",
       company: "Amadeus",
       type: "Internship",
-      location: "Bangalore, On-Site",
+      location: "Bengaluru, On-Site",
       logo: "https://cdn.buddhsentripathi.com/assets/company/amadeus.jpg",
       responsibility: [
         [
@@ -155,7 +194,7 @@ export const siteConfig = {
       year: "Jul 2023 - Aug 2025",
       company: "Amadeus",
       type: "Full-Time",
-      location: "Bangalore, On-Site",
+      location: "Bengaluru, Hybrid",
       logo: "https://cdn.buddhsentripathi.com/assets/company/amadeus.jpg",
       responsibility: [
         [
@@ -211,13 +250,51 @@ export const siteConfig = {
   projects: [
     {
       title: "DeepFind.Me",
+      featured: true,
       category: "SaaS · OSINT Platform",
       description:
         "Educational OSINT platform offering tools and resources to help users understand and manage their digital footprint.",
       techstacks: ["Next.js", "NestJS", "FastAPI", "PostgreSQL", "Docker", "AWS", "OpenAI API"],
-      status: "live",
+      status: "acquired",
       link: "https://deepfind.me",
       preview: "https://cdn.buddhsentripathi.com/assets/projects/deepfindme.png",
+    },
+    {
+      title: "Nimu",
+      featured: true,
+      category: "SaaS · AI Outreach",
+      description:
+        "AI outreach platform with automated domain authentication, multi-step campaigns, mailbox warm-up, and real-time deliverability monitoring.",
+      techstacks: ["TanStack Start", "Hono", "Drizzle ORM", "Supabase", "Cloudflare Queues", "Better Auth", "AWS", "Docker"],
+      status: "live",
+      link: "https://nimu.app",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/nimu-light.png?v=20260729",
+      previewDark: "https://cdn.buddhsentripathi.com/assets/projects/nimu-dark.png?v=20260729",
+    },
+    {
+      title: "OSINT Kit",
+      featured: true,
+      category: "Open Source · Security",
+      description:
+        "Curated directory of OSINT tools for researchers and security folks, from breach search and metadata analysis to geolocation and social media intelligence.",
+      techstacks: ["Astro", "TypeScript"],
+      status: "live",
+      link: "https://buddhsen-tripathi.github.io/OSINT-Kit/",
+      github: "buddhsen-tripathi/OSINT-Kit",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/osint-kit-light.webp?v=20261018",
+      previewDark: "https://cdn.buddhsentripathi.com/assets/projects/osint-kit-dark.webp?v=20261018",
+    },
+    {
+      title: "Music Scaling Laws",
+      featured: true,
+      category: "Research · Machine Learning",
+      description:
+        "Scaling-law study of Transformers vs LSTMs on symbolic music: trained 1M to 100M parameter models on Lakh MIDI converted to ABC notation and fit loss against model size. Transformers scale more than twice as steeply (α 0.60 vs 0.27).",
+      techstacks: ["Python", "PyTorch", "NumPy", "SciPy", "music21"],
+      status: "research",
+      link: "https://github.com/buddhsen-tripathi/music-scaling-laws",
+      github: "buddhsen-tripathi/music-scaling-laws",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/music-scaling-laws.webp?v=20261018",
     },
     {
       title: "Bucket0",
@@ -231,23 +308,12 @@ export const siteConfig = {
       previewDark: "https://cdn.buddhsentripathi.com/assets/projects/bucket0-dark.png",
     },
     {
-      title: "Nimu",
-      category: "SaaS · AI Outreach",
-      description:
-        "AI outreach platform with automated domain authentication, multi-step campaigns, mailbox warm-up, and real-time deliverability monitoring.",
-      techstacks: ["TanStack Start", "Hono", "Drizzle ORM", "Supabase", "Cloudflare Queues", "Better Auth", "AWS", "Docker"],
-      status: "building",
-      link: "https://nimu.app",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/nimu-light.png?v=20260729",
-      previewDark: "https://cdn.buddhsentripathi.com/assets/projects/nimu-dark.png?v=20260729",
-    },
-    {
       title: "OpenVScan",
       category: "Open Source · Security",
       description:
         "Web-based vulnerability scanner that integrates open-source tools with AI to deliver smarter, faster and more reliable pre-production security testing.",
       techstacks: ["TanStack Start", "Drizzle ORM", "Cloudflare Workers", "Cloudflare D1", "Cloudflare R2", "Cloudflare Queues"],
-      status: "building",
+      status: "live",
       link: "https://www.openvscan.com",
       github: "buddhsen-tripathi/openvscan",
       preview: "https://cdn.buddhsentripathi.com/assets/projects/openvscan-light.png",
