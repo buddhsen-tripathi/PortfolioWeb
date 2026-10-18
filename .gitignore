@@ -38,3 +38,6 @@ yarn-error.log*
 #nvmrc
 .nvmrc
 .claude
+# Blog diagram PNGs are rendered here locally, then uploaded to R2
+# with `bun run migrate:assets`; posts load them from the CDN.
+/public/blog-images/

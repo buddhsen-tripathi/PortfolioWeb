@@ -4,6 +4,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const DIR = dirname(fileURLToPath(import.meta.url));
+// Git-ignored staging folder: upload the PNGs with `bun run migrate:assets`.
+// Posts read them from the CDN (see the img resolver in mdx-components.tsx).
 const PUBLIC_DIR = join(DIR, "../../../../../../public/blog-images/the-architecture-of-an-ai-system");
 mkdirSync(PUBLIC_DIR, { recursive: true });
 
