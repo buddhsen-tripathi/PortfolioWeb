@@ -12,6 +12,7 @@ import NewsletterSubscription from "@/components/common/newsletter-subscription"
 import { getBlogPostFromS3, getBlogSlugsFromS3 } from "@/lib/r2Client";
 import { getReadingTime } from "../utils";
 import { getBlogPostingSchema, getBreadcrumbSchema } from "@/lib/jsonLd";
+import { toIsoDate } from "@/lib/dates";
 import { buildMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/site.config";
 
@@ -38,7 +39,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       ...meta.openGraph,
       type: "article",
-      publishedTime: data.date,
+      publishedTime: toIsoDate(data.date),
       authors: [siteConfig.identity.name],
     },
   };
@@ -52,6 +53,7 @@ export default async function BlogPost({ params }) {
     title: data.title,
     excerpt: data.excerpt,
     date: data.date,
+    updated: (data as { updated?: string }).updated,
     slug: data.slug,
   });
 

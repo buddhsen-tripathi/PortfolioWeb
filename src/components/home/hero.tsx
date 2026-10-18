@@ -56,6 +56,7 @@ function Wave() {
   return (
     <span
       key={run}
+      aria-hidden
       onMouseEnter={() => setRun((n) => n + 1)}
       className="animate-wave inline-block origin-[70%_70%] cursor-default"
     >
@@ -92,19 +93,19 @@ export default function Hero() {
         </motion.div>
 
         <div className="min-w-0">
-          <motion.p
+          <motion.h1
             {...rise(0.06)}
             className="text-foreground text-[15px] font-medium"
           >
             {home.greeting} <Wave />
-          </motion.p>
+          </motion.h1>
 
-          <motion.h1
+          <motion.p
             {...rise(0.12)}
             className="mt-3 max-w-xl text-2xl leading-tight font-semibold tracking-tight text-balance sm:text-[28px]"
           >
             {home.headline}
-          </motion.h1>
+          </motion.p>
 
           <motion.p
             {...rise(0.18)}
