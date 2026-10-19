@@ -5,7 +5,7 @@
 
 # buddhsentripathi.com
 
-My portfolio and blog, live at [buddhsentripathi.com](https://buddhsentripathi.com). It's a Next.js 16 app with TypeScript and Tailwind v4. Blog posts are MDX stored on Cloudflare R2, view counts and newsletter sign-ups live in Supabase, and everything personal comes from one config file, so you can fork it and make it yours.
+My portfolio and blog, live at [buddhsentripathi.com](https://www.buddhsentripathi.com). It's a Next.js 16 app with TypeScript and Tailwind v4. Blog posts are MDX stored on Cloudflare R2, view counts and newsletter sign-ups live in Supabase, and everything personal comes from one config file, so you can fork it and make it yours.
 
 Older versions are kept on branches: [`ver/10-26`](https://github.com/buddhsen-tripathi/PortfolioWeb/tree/ver/10-26) (the pixel-font design before this one) and [`ver/04-26`](https://github.com/buddhsen-tripathi/PortfolioWeb/tree/ver/04-26).
 
@@ -158,7 +158,7 @@ src/
 │   ├── layout.tsx        # frame, header, footer, fonts
 │   ├── globals.css       # theme tokens and shared styles
 │   ├── projects/  experience/  hackathons/  blogs/  newsletter/  research/
-│   ├── api/              # github, location, socials, subscribe, views, visitors
+│   ├── api/              # github, socials, subscribe, views, visitors
 │   ├── feed.xml/  sitemap.xml/
 │   └── not-found.tsx
 ├── components/
@@ -179,4 +179,4 @@ Started from [ShivaBhattacharjee/Portfolio-latest](https://github.com/ShivaBhatt
 
 [MIT](LICENSE). Fork it, change the config, and make it yours.
 
-Built by [Buddhsen Tripathi](https://buddhsentripathi.com) ([@senbuilds](https://x.com/senbuilds)).
+Built by [Buddhsen Tripathi](https://www.buddhsentripathi.com) ([@senbuilds](https://x.com/senbuilds)).

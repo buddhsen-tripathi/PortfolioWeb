@@ -143,7 +143,8 @@ export const siteConfig = {
   // ── Contact & URL ─────────────────────────────────────────────────────────
   contact: {
     email: "bt2609@nyu.edu",
-    url: "https://buddhsentripathi.com",
+    // Primary domain (Vercel serves www; the bare domain redirects here).
+    url: "https://www.buddhsentripathi.com",
     calUrl: "https://cal.com/buddhsen",
     resumeUrl: "https://cdn.buddhsentripathi.com/assets/Resume.pdf",
   },
