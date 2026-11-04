@@ -467,7 +467,7 @@ export const siteConfig = {
         { text: "Point & Ask", bold: true },
         { text: " explains any chart, headline, or stat in place, and an AI analyst answers from the data on screen with " },
         { text: "cited research", bold: true },
-        { text: ". The research pipeline paper-trades and never places orders." },
+        { text: "." },
       ],
       techstacks: ["React", "Vite", "TypeScript", "FastAPI", "Python", "OpenRouter", "Neon Postgres"],
       link: [
