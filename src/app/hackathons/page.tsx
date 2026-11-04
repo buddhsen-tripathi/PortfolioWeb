@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import { SiDevpost } from "react-icons/si";
+import { SiDevpost, SiYoutube } from "react-icons/si";
 import GithubIcon from "@/components/icons/github";
 import LinkedinIcon from "@/components/icons/linkedin";
 import PageHeader from "@/components/site/page-header";
@@ -19,18 +19,28 @@ export const metadata = buildMetadata({
 type Hackathon = (typeof hackathons)[number];
 type Segment = { text: string; bold?: boolean };
 
-const rank = (placement: string) => parseInt(placement, 10) || 99;
+/* 1.5 keeps a track prize beside the firsts in sorted lists. The page groups it on its own. */
+const rank = (placement: string) => {
+  const place = parseInt(placement, 10);
+  if (!Number.isNaN(place)) return place;
+  if (placement.startsWith("Winner")) return 1.5;
+  return 99;
+};
+
+const isWin = (placement: string) => rank(placement) === 1 || placement.startsWith("Winner");
 
 const medal: Record<number, string> = {
   1: "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400",
+  1.5: "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400",
   2: "border-zinc-400/40 bg-zinc-400/10 text-zinc-600 dark:text-zinc-300",
   3: "border-orange-700/40 bg-orange-700/10 text-orange-700 dark:text-orange-400",
 };
 
 const groups = [
-  { rank: 1, title: "First place" },
-  { rank: 2, title: "Second place" },
-  { rank: 3, title: "Third place" },
+  { rank: 1, id: "first", title: "First place" },
+  { rank: 2, id: "second", title: "Second place" },
+  { rank: 3, id: "third", title: "Third place" },
+  { rank: 1.5, id: "track-wins", title: "Track wins" },
 ];
 
 function linkMeta(url: string) {
@@ -47,6 +57,10 @@ function linkMeta(url: string) {
     return { label: "Devpost", icon: <SiDevpost className="size-3.5" /> };
   if (host === "linkedin.com")
     return { label: "Post", icon: <LinkedinIcon className="size-3.5" /> };
+  if (host === "youtu.be" || host === "youtube.com")
+    return { label: "Demo", icon: <SiYoutube className="size-3.5" /> };
+  if (host === "mlh.com")
+    return { label: "MLH", icon: <ArrowUpRight className="size-3.5" /> };
   return { label: "Event", icon: <ArrowUpRight className="size-3.5" /> };
 }
 
@@ -59,7 +73,7 @@ function Entry({ h }: { h: Hackathon }) {
       <div className="flex items-start gap-3">
         <span
           className={cn(
-            "mt-0.5 w-11 shrink-0 rounded border py-0.5 text-center font-mono text-[11px] font-medium",
+            "mt-0.5 min-w-11 shrink-0 rounded border px-1 py-0.5 text-center font-mono text-[11px] font-medium",
             medal[rank(h.placement)],
           )}
         >
@@ -126,7 +140,7 @@ function Entry({ h }: { h: Hackathon }) {
 }
 
 export default function HackathonsPage() {
-  const wins = hackathons.filter((h) => rank(h.placement) === 1).length;
+  const wins = hackathons.filter((h) => isWin(h.placement)).length;
 
   return (
     <>
@@ -141,13 +155,13 @@ export default function HackathonsPage() {
           </>
         }
       />
-      {groups.map(({ rank: r, title }) => {
+      {groups.map(({ rank: r, id, title }) => {
         const items = hackathons.filter((h) => rank(h.placement) === r);
         if (!items.length) return null;
         return (
           <Section
-            key={r}
-            id={`place-${r}`}
+            key={id}
+            id={id}
             title={title}
             meta={`${items.length}`}
           >

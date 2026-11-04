@@ -8,19 +8,28 @@ const SHOWN = 3;
 
 const medal: Record<string, string> = {
   "1st Place": "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400",
+  Winner: "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400",
   "2nd Place": "border-zinc-400/40 bg-zinc-400/10 text-zinc-600 dark:text-zinc-300",
   "3rd Place": "border-orange-700/40 bg-orange-700/10 text-orange-700 dark:text-orange-400",
 };
 
 const firstLink = (link: string | string[]) => (Array.isArray(link) ? link[0] : link);
 
-const rank = (placement: string) => parseInt(placement, 10) || 99;
+/* Track prizes follow overall firsts, so the home preview includes them. */
+const rank = (placement: string) => {
+  const place = parseInt(placement, 10);
+  if (!Number.isNaN(place)) return place;
+  if (placement.startsWith("Winner")) return 1.5;
+  return 99;
+};
+
+const isWin = (placement: string) => rank(placement) === 1 || placement.startsWith("Winner");
 
 /* First places lead, then by placement; config order (newest first) breaks ties. */
 const ordered = [...hackathons].sort((a, b) => rank(a.placement) - rank(b.placement));
 
 export default function Hackathons() {
-  const wins = hackathons.filter((h) => rank(h.placement) === 1).length;
+  const wins = hackathons.filter((h) => isWin(h.placement)).length;
 
   return (
     <Section
@@ -45,7 +54,7 @@ export default function Hackathons() {
               <span className="hatch pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <span
                 className={cn(
-                  "relative w-11 shrink-0 rounded border py-0.5 text-center font-mono text-[11px] font-medium",
+                  "relative min-w-11 shrink-0 rounded border px-1 py-0.5 text-center font-mono text-[11px] font-medium",
                   medal[h.placement]
                 )}
               >

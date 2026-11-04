@@ -453,6 +453,30 @@ export const siteConfig = {
   // ── Content: Hackathons ───────────────────────────────────────────────────
   hackathons: [
     {
+      title: "Iris",
+      event: "Hacktoberfest 2026 NYC × Tech@NYU",
+      year: "Oct 2026",
+      placement: "Winner",
+      college: "Soma Capital, NYC",
+      body: [
+        { text: "Won " },
+        { text: "Best use of the True Markets Gateway API", bold: true },
+        { text: " with " },
+        { text: "Iris", bold: true },
+        { text: ", a trading desk and research lab on True Markets data. Live charts, order flow, and news sentiment sit next to a company relationship graph and a short-form creator feed. " },
+        { text: "Point & Ask", bold: true },
+        { text: " explains any chart, headline, or stat in place, and an AI analyst answers from the data on screen with " },
+        { text: "cited research", bold: true },
+        { text: ". The research pipeline paper-trades and never places orders." },
+      ],
+      techstacks: ["React", "Vite", "TypeScript", "FastAPI", "Python", "OpenRouter", "Neon Postgres"],
+      link: [
+        "https://github.com/buddhsen-tripathi/iris",
+        "https://www.mlh.com/events/hacktoberfest-2026-new-york-city/submissions/01a16f67-89c9-bf40-28f4-3808e9a486e1",
+        "https://youtu.be/K9DvMTDimSA",
+      ],
+    },
+    {
       title: "Live Futures Ranking",
       event: "Everesteer Hedge Fund Hackathon",
       year: "Sep 2026",
