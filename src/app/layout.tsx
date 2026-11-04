@@ -4,7 +4,6 @@ import { Toaster } from "@/components/ui/toaster";
 import SiteHeader from "@/components/site/site-header";
 import Backdrop from "@/components/site/backdrop";
 import Footer from "@/components/sections/footer";
-import TopLoader from "@/components/top-loader";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SmoothScrollProvider } from "@/components/smooth-scroll-provider";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -115,7 +114,6 @@ export default async function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <TopLoader />
           <SmoothScrollProvider>
             <ViewsProvider>
               <TooltipProvider delayDuration={150}>

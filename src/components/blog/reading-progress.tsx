@@ -1,35 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useLenis } from "lenis/react";
 
 // Fixed-top bar that tracks scroll progress through the current blog post.
-// Mounted only on /blogs/[slug], so it's a per-page indicator, not site-wide.
+// Uses direct DOM transform updates (scaleX) to stay locked to scroll at 60/120fps.
 export default function ReadingProgress() {
-  const [progress, setProgress] = useState(0);
+  const barRef = useRef<HTMLDivElement>(null);
+
+  const updateBar = (scrollY?: number, limit?: number) => {
+    const bar = barRef.current;
+    if (!bar) return;
+    const doc = document.documentElement;
+    const scrollable = limit ?? doc.scrollHeight - doc.clientHeight;
+    const current = scrollY ?? window.scrollY;
+    const ratio = scrollable > 0 ? Math.min(1, Math.max(0, current / scrollable)) : 0;
+    bar.style.transform = `scaleX(${ratio})`;
+  };
+
+  useLenis(({ scroll, limit }) => {
+    updateBar(scroll, limit);
+  });
 
   useEffect(() => {
-    let raf = 0;
+    const onScroll = () => updateBar();
+    updateBar();
 
-    const update = () => {
-      const doc = document.documentElement;
-      const scrollable = doc.scrollHeight - doc.clientHeight;
-      const p = scrollable > 0 ? (doc.scrollTop / scrollable) * 100 : 0;
-      setProgress(Math.min(100, Math.max(0, p)));
-    };
-
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(update);
-    };
-
-    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    const ro = new ResizeObserver(onScroll);
+    ro.observe(document.documentElement);
 
     return () => {
-      cancelAnimationFrame(raf);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      ro.disconnect();
     };
   }, []);
 
@@ -39,8 +45,9 @@ export default function ReadingProgress() {
       aria-hidden="true"
     >
       <div
-        className="h-full bg-brand transition-[width] duration-100 ease-out"
-        style={{ width: `${progress}%` }}
+        ref={barRef}
+        className="h-full w-full origin-left bg-brand will-change-transform"
+        style={{ transform: "scaleX(0)" }}
       />
     </div>
   );
