@@ -52,16 +52,16 @@ function linkMeta(url: string) {
     }
   })();
   if (host === "github.com")
-    return { label: "Code", icon: <GithubIcon className="size-3.5" /> };
+    return { label: "Code", icon: <GithubIcon aria-hidden className="size-3.5" /> };
   if (host === "devpost.com")
-    return { label: "Devpost", icon: <SiDevpost className="size-3.5" /> };
+    return { label: "Devpost", icon: <SiDevpost aria-hidden focusable="false" className="size-3.5" /> };
   if (host === "linkedin.com")
-    return { label: "Post", icon: <LinkedinIcon className="size-3.5" /> };
+    return { label: "Post", icon: <LinkedinIcon aria-hidden className="size-3.5" /> };
   if (host === "youtu.be" || host === "youtube.com")
-    return { label: "Demo", icon: <SiYoutube className="size-3.5" /> };
+    return { label: "Demo", icon: <SiYoutube aria-hidden focusable="false" className="size-3.5" /> };
   if (host === "mlh.com")
-    return { label: "MLH", icon: <ArrowUpRight className="size-3.5" /> };
-  return { label: "Event", icon: <ArrowUpRight className="size-3.5" /> };
+    return { label: "MLH", icon: <ArrowUpRight aria-hidden className="size-3.5" /> };
+  return { label: "Event", icon: <ArrowUpRight aria-hidden className="size-3.5" /> };
 }
 
 function Entry({ h }: { h: Hackathon }) {

@@ -39,7 +39,7 @@ import { siteConfig } from "@/site.config";
 /* Codeforces' mark is three bars in its own colors, which react-icons can't render. */
 function CodeforcesMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+    <svg viewBox="0 0 24 24" className={className} aria-hidden focusable="false">
       <rect x="1.5" y="9" width="6" height="12" rx="1.2" fill="#FFC107" />
       <rect x="9" y="3" width="6" height="18" rx="1.2" fill="#1E88E5" />
       <rect x="16.5" y="12" width="6" height="9" rx="1.2" fill="#E53935" />
@@ -49,7 +49,7 @@ function CodeforcesMark({ className }: { className?: string }) {
 
 type Platform = {
   label: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string; "aria-hidden"?: boolean; focusable?: "false" }>;
   /** Tailwind text color for the icon; omit for monochrome brands. */
   color?: string;
   /** Profile URL for a bare handle. A full URL in the config skips this. */
@@ -174,7 +174,7 @@ export function getSocials(iconClassName = "size-4"): SocialLink[] {
         label: meta.label,
         handle: meta.display ? meta.display(handle) : `@${handle}`,
         url: isUrl(value) ? value : meta.linkable && !meta.linkable(bare) ? null : meta.url(bare),
-        icon: <Icon className={`${iconClassName} ${meta.color ?? "text-foreground"}`} />,
+        icon: <Icon aria-hidden focusable="false" className={`${iconClassName} ${meta.color ?? "text-foreground"}`} />,
       },
     ];
   });

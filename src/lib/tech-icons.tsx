@@ -184,7 +184,7 @@ export const TechBadge = ({ name }) => {
   if (adaptive) {
     return (
       <span className="inline-flex items-center gap-0.5 rounded-sm border border-dashed border-black/15 bg-black/4 px-1 py-px text-[8px] text-foreground/80 dark:border-white/18 dark:bg-white/6 md:px-1.5 md:text-[9px]">
-        <Icon className="h-2 w-2 md:h-2.5 md:w-2.5" />
+        <Icon aria-hidden focusable="false" className="h-2 w-2 md:h-2.5 md:w-2.5" />
         {name}
       </span>
     );
@@ -199,7 +199,7 @@ export const TechBadge = ({ name }) => {
         color,
       }}
     >
-      <Icon className="h-2 w-2 md:h-2.5 md:w-2.5" style={{ color }} />
+      <Icon aria-hidden focusable="false" className="h-2 w-2 md:h-2.5 md:w-2.5" style={{ color }} />
       {name}
     </span>
   );

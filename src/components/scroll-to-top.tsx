@@ -41,7 +41,7 @@ export const ScrollToTopButton = () => {
             onClick={scrollToTop}
             className="flex size-9 items-center justify-center rounded-md border border-border bg-surface/80 text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground"
           >
-            <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg aria-hidden focusable="false" className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
             </svg>
           </button>

@@ -124,16 +124,16 @@ const ResearchList = ({ research }) => {
 
                   <div className="flex flex-wrap items-center gap-3 text-[10px] text-muted-foreground md:gap-4 md:text-sm">
                     <div className="flex items-center gap-1 min-w-0">
-                      <FaBook size={10} className="shrink-0" />
+                      <FaBook aria-hidden focusable="false" size={10} className="shrink-0" />
                       <span className="truncate w-48 md:w-72" title={item.journal}>{item.journal}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <FaCalendar size={10} />
+                      <FaCalendar aria-hidden focusable="false" size={10} />
                       <span>{item.year}</span>
                     </div>
                     {item.collaboration && (
                       <div className="flex items-center gap-1">
-                        <GiArchiveResearch size={10} />
+                        <GiArchiveResearch aria-hidden focusable="false" size={10} />
                         <span>{item.collaboration}</span>
                       </div>
                     )}
@@ -162,7 +162,7 @@ const ResearchList = ({ research }) => {
                             disabled
                             className="cursor-not-allowed opacity-50"
                           >
-                            Under Review <FaArrowRight className="ml-2" size="12px" />
+                            Under Review <FaArrowRight aria-hidden focusable="false" className="ml-2" size="12px" />
                           </Button>
                         </div>
                       </TooltipTrigger>
@@ -173,7 +173,7 @@ const ResearchList = ({ research }) => {
                   ) : (
                     <a href={item.link} target="_blank" rel="noopener noreferrer">
                       <Button size="sm">
-                        View Research <FaArrowRight className="ml-2" size="12px" />
+                        View Research <FaArrowRight aria-hidden focusable="false" className="ml-2" size="12px" />
                       </Button>
                     </a>
                   )}

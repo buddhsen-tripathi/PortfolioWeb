@@ -5,6 +5,8 @@ const MoonIcon = ({ className, ...props }) => (
     height="24"
     viewBox="0 0 24 24"
     className={className}
+    aria-hidden
+    focusable="false"
     {...props}
   >
     <g fill="none">
