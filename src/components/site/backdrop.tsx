@@ -43,6 +43,7 @@ export default function Backdrop() {
 
     let w = 0;
     let h = 0;
+    let frameW = 768;
     let color = "0 0% 98%";
     let stars: Star[] = [];
     let meteor: Meteor | null = null;
@@ -50,20 +51,26 @@ export default function Backdrop() {
     let frame = 0;
     let running = false;
 
-    const readColor = () => {
-      color = getComputedStyle(root).getPropertyValue("--foreground").trim() || color;
+    const readStyles = () => {
+      const cs = getComputedStyle(root);
+      color = cs.getPropertyValue("--foreground").trim() || color;
+      frameW = parseFloat(cs.getPropertyValue("--frame-width")) * 16 || 768;
     };
 
     const gutters = () => {
-      const frameW = parseFloat(getComputedStyle(root).getPropertyValue("--frame-width")) * 16 || 768;
       const left = Math.max(0, (w - frameW) / 2);
       return { left, right: w - left };
     };
 
     const resize = () => {
+      // Read all layout/style properties before mutating canvas dimensions to avoid forced reflow.
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = window.innerWidth;
-      h = window.innerHeight;
+      const nextW = window.innerWidth;
+      const nextH = window.innerHeight;
+      readStyles();
+
+      w = nextW;
+      h = nextH;
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -142,7 +149,6 @@ export default function Backdrop() {
         return;
       }
       resize();
-      readColor();
       if (still.matches || document.hidden) {
         draw(0, false);
         return;
@@ -158,7 +164,7 @@ export default function Backdrop() {
 
     // The theme toggle flips the `dark` class on <html>; re-read the star color.
     const themeObserver = new MutationObserver(() => {
-      readColor();
+      readStyles();
       if (!running && wide.matches) draw(0, false);
     });
     themeObserver.observe(root, { attributes: true, attributeFilter: ["class"] });
@@ -175,7 +181,7 @@ export default function Backdrop() {
       window.removeEventListener("resize", start);
       document.removeEventListener("visibilitychange", onVisibility);
       wide.removeEventListener("change", start);
-      still.removeEventListener("change", start);
+      still.addEventListener("change", start);
     };
   }, []);
 

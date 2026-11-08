@@ -21,6 +21,8 @@ export default function SectionIndex({ items }: { items: IndexItem[] }) {
 
     const start = () => {
       const visible = new Set<string>();
+      let maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
       const pick = () => {
         // At the very top the first item is active, even if the next
         // section already reaches the band (short heroes do).
@@ -45,10 +47,14 @@ export default function SectionIndex({ items }: { items: IndexItem[] }) {
         if (el) observer.observe(el);
       }
 
+      const ro = new ResizeObserver(() => {
+        maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      });
+      ro.observe(document.documentElement);
+
       // The last section can be too short to ever reach the band.
       const onScroll = () => {
-        const { scrollHeight } = document.documentElement;
-        if (window.scrollY + window.innerHeight >= scrollHeight - 4) {
+        if (maxScroll > 0 && window.scrollY >= maxScroll - 4) {
           setActive(items[items.length - 1].id);
         } else if (window.scrollY < 8) {
           setActive(items[0].id);
@@ -58,6 +64,7 @@ export default function SectionIndex({ items }: { items: IndexItem[] }) {
 
       return () => {
         observer.disconnect();
+        ro.disconnect();
         window.removeEventListener("scroll", onScroll);
       };
     };

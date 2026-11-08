@@ -46,17 +46,44 @@ export default function TableOfContents({ content }: { content: string }) {
 
   useEffect(() => {
     if (!headings.length) return;
+    let offsets: { id: string; top: number }[] = [];
+
+    const measure = () => {
+      const scrollY = window.scrollY;
+      offsets = headings
+        .map((h) => {
+          const el = document.getElementById(h.id);
+          return el ? { id: h.id, top: el.getBoundingClientRect().top + scrollY } : null;
+        })
+        .filter((item): item is { id: string; top: number } => item !== null);
+    };
+
     const onScroll = () => {
+      const threshold = window.scrollY + 120;
       let current = "";
-      for (const h of headings) {
-        const el = document.getElementById(h.id);
-        if (el && el.getBoundingClientRect().top <= 120) current = h.id;
+      for (const h of offsets) {
+        if (h.top <= threshold) current = h.id;
+        else break;
       }
       setActive(current);
     };
+
+    measure();
     onScroll();
+
+    const ro = new ResizeObserver(() => {
+      measure();
+      onScroll();
+    });
+    ro.observe(document.documentElement);
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", measure, { passive: true });
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", measure);
+    };
   }, [headings]);
 
   if (headings.length < 2) return null;

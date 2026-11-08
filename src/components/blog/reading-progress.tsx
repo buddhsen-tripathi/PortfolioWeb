@@ -4,15 +4,15 @@ import { useEffect, useRef } from "react";
 import { useLenis } from "lenis/react";
 
 // Fixed-top bar that tracks scroll progress through the current blog post.
-// Uses direct DOM transform updates (scaleX) to stay locked to scroll at 60/120fps.
+// Uses direct DOM transform updates (scaleX) and cached scrollable height to avoid forced reflows.
 export default function ReadingProgress() {
   const barRef = useRef<HTMLDivElement>(null);
+  const scrollableRef = useRef(0);
 
   const updateBar = (scrollY?: number, limit?: number) => {
     const bar = barRef.current;
     if (!bar) return;
-    const doc = document.documentElement;
-    const scrollable = limit ?? doc.scrollHeight - doc.clientHeight;
+    const scrollable = limit ?? scrollableRef.current;
     const current = scrollY ?? window.scrollY;
     const ratio = scrollable > 0 ? Math.min(1, Math.max(0, current / scrollable)) : 0;
     bar.style.transform = `scaleX(${ratio})`;
@@ -23,18 +23,23 @@ export default function ReadingProgress() {
   });
 
   useEffect(() => {
+    const measure = () => {
+      const doc = document.documentElement;
+      scrollableRef.current = Math.max(0, doc.scrollHeight - window.innerHeight);
+      updateBar();
+    };
     const onScroll = () => updateBar();
-    updateBar();
 
+    measure();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
+    window.addEventListener("resize", measure, { passive: true });
 
-    const ro = new ResizeObserver(onScroll);
+    const ro = new ResizeObserver(measure);
     ro.observe(document.documentElement);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", measure);
       ro.disconnect();
     };
   }, []);
