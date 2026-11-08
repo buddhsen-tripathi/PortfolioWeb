@@ -2,6 +2,7 @@
 const nextConfig = {
     allowedDevOrigins: ['192.168.*.*'],
     experimental: {
+        inlineCss: true,
         optimizePackageImports: ['react-icons', 'lucide-react', 'date-fns', 'motion'],
     },
     images: {
