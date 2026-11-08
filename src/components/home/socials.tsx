@@ -190,11 +190,13 @@ export default function Socials() {
     if (fetched || loading) return;
     if (typeof window !== "undefined" && !window.matchMedia("(min-width: 768px)").matches) return;
     setLoading(true);
-    setFetched(true);
     fetch("/api/socials")
       .then((res) => res.json())
       .then((data) => {
-        if (!data.error) setProfiles(data);
+        if (!data.error) {
+          setProfiles(data);
+          setFetched(true);
+        }
       })
       .catch(() => {})
       .finally(() => setLoading(false));

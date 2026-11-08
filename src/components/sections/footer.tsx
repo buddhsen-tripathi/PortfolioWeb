@@ -23,14 +23,10 @@ const Footer = () => {
     // instead of doubling it; pages without one still get a line.
     <footer className="-mt-px">
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-y border-dashed border-border px-6 py-4 font-mono text-[11px] text-muted-foreground">
-        {visitorCount !== null ? (
-          <span className="flex items-center gap-1.5">
-            <IconTelescopeTripod className="size-3" />
-            {visitorCount.toLocaleString()} visitors
-          </span>
-        ) : (
-          <span />
-        )}
+        <span className="flex items-center gap-1.5">
+          <IconTelescopeTripod className="size-3" />
+          {visitorCount !== null ? `${visitorCount.toLocaleString()} visitors` : "— visitors"}
+        </span>
         <span>
           &copy; {new Date().getFullYear()} {siteConfig.identity.name}
         </span>

@@ -71,18 +71,20 @@ export default function TableOfContents({ content }: { content: string }) {
     measure();
     onScroll();
 
-    const ro = new ResizeObserver(() => {
+    const onResize = () => {
       measure();
       onScroll();
-    });
+    };
+
+    const ro = new ResizeObserver(onResize);
     ro.observe(document.documentElement);
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", measure, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
     return () => {
       ro.disconnect();
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", measure);
+      window.removeEventListener("resize", onResize);
     };
   }, [headings]);
 

@@ -181,7 +181,7 @@ export default function Backdrop() {
       window.removeEventListener("resize", start);
       document.removeEventListener("visibilitychange", onVisibility);
       wide.removeEventListener("change", start);
-      still.addEventListener("change", start);
+      still.removeEventListener("change", start);
     };
   }, []);
 
