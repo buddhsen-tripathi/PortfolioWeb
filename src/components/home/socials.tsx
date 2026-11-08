@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type MouseEvent } from "react";
+import { useState, type MouseEvent } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
 import { ArrowUpRight, Check, Copy } from "lucide-react";
 import { toast } from "sonner";
@@ -183,27 +183,28 @@ function SocialCell({
 
 export default function Socials() {
   const [profiles, setProfiles] = useState<Partial<Record<SocialPlatform, Profile>>>({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [fetched, setFetched] = useState(false);
 
-  useEffect(() => {
-    let alive = true;
+  const ensureProfiles = () => {
+    if (fetched || loading) return;
+    if (typeof window !== "undefined" && !window.matchMedia("(min-width: 768px)").matches) return;
+    setLoading(true);
+    setFetched(true);
     fetch("/api/socials")
       .then((res) => res.json())
       .then((data) => {
-        if (alive && !data.error) setProfiles(data);
+        if (!data.error) setProfiles(data);
       })
       .catch(() => {})
-      .finally(() => alive && setLoading(false));
-    return () => {
-      alive = false;
-    };
-  }, []);
+      .finally(() => setLoading(false));
+  };
 
   if (!socials.length) return null;
 
   return (
     <Section id="socials" title={siteConfig.home.sections.socials.title}>
-      <div className="grid sm:grid-cols-2">
+      <div className="grid sm:grid-cols-2" onMouseEnter={ensureProfiles} onFocus={ensureProfiles}>
         {socials.map((social, i) => (
           <SocialCell
             key={social.platform}

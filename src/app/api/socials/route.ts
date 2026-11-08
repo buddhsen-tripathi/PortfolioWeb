@@ -133,7 +133,11 @@ export async function GET() {
     const visible = Object.fromEntries(
       Object.entries(profiles).filter(([key]) => Boolean(handles[key as keyof typeof handles]))
     );
-    return NextResponse.json(visible);
+    return NextResponse.json(visible, {
+      headers: {
+        "Cache-Control": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
+      },
+    });
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch data" }, { status: 500 });
   }

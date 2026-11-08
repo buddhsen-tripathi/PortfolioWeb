@@ -86,6 +86,7 @@ export default async function RootLayout({ children }) {
       <head>
         <meta name="theme-color" content={siteConfig.seo.themeColor} />
         <meta name="color-scheme" content="dark light" />
+        <link rel="preconnect" href="https://cdn.buddhsentripathi.com" crossOrigin="anonymous" />
         <link
           rel="alternate"
           type="application/rss+xml"

@@ -9,15 +9,12 @@ import { siteConfig } from "@/site.config";
 const SITE_VISITORS_SLUG = "_site_visitors";
 
 const Footer = () => {
-  const { getViews, incrementViews, prefetchViews } = useViews();
+  const { getViews, incrementViews } = useViews();
   const visitorCount = getViews(SITE_VISITORS_SLUG);
 
   useEffect(() => {
-    // Prefetch so the count can render from GET even if the increment POST is slow
-    // or a Strict Mode remount races the in-flight request.
-    prefetchViews([SITE_VISITORS_SLUG]);
     incrementViews(SITE_VISITORS_SLUG);
-  }, [incrementViews, prefetchViews]);
+  }, [incrementViews]);
 
   const art = siteConfig.assets.footerArt;
 

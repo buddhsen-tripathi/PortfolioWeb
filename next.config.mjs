@@ -5,6 +5,7 @@ const nextConfig = {
         optimizePackageImports: ['react-icons', 'lucide-react', 'date-fns', 'motion'],
     },
     images: {
+        minimumCacheTTL: 2592000,
         remotePatterns: [
             {
                 protocol: 'https',
@@ -12,6 +13,19 @@ const nextConfig = {
                 pathname: '/assets/**',
             },
         ],
+    },
+    async headers() {
+        return [
+            {
+                source: '/:all*(svg|jpg|jpeg|png|webp|ico|woff2|manifest.json)',
+                headers: [
+                    {
+                        key: 'Cache-Control',
+                        value: 'public, max-age=31536000, immutable',
+                    },
+                ],
+            },
+        ];
     },
     async redirects() {
         return [
