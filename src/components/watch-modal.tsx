@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import {
   Dialog,
   DialogContent,
@@ -8,21 +9,28 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { SeikoWatchIllustration } from "@/components/illustrations/watch-illustration";
+
+const SeikoWatchIllustration = dynamic(
+  () =>
+    import("@/components/illustrations/watch-illustration").then(
+      (mod) => mod.SeikoWatchIllustration
+    ),
+  { ssr: false }
+);
 
 export default function SeikoWatchModal({ children }) {
   const [open, setOpen] = useState(false);
-  const [time, setTime] = useState(null);
+  const [time, setTime] = useState<Date | null>(null);
   const [tz, setTz] = useState("");
 
   useEffect(() => {
+    if (!open) return;
     setTz(Intl.DateTimeFormat().resolvedOptions().timeZone);
     const tick = () => setTime(new Date());
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  }, []);
-
+  }, [open]);
 
   const timeLabel = time
     ? time.toLocaleTimeString("en-US", {
@@ -48,7 +56,7 @@ export default function SeikoWatchModal({ children }) {
         <DialogDescription className="sr-only">
           Shows the current local date, time, and timezone.
         </DialogDescription>
-        <SeikoWatchIllustration />
+        {open && <SeikoWatchIllustration />}
         <div className="flex flex-col items-center gap-1 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
           <span>{dateLabel}</span>
           <span>{timeLabel}</span>

@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     allowedDevOrigins: ['192.168.*.*'],
+    experimental: {
+        optimizePackageImports: ['react-icons', 'lucide-react', 'date-fns', 'motion'],
+    },
     images: {
         remotePatterns: [
             {
