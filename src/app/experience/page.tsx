@@ -1,7 +1,6 @@
 import Image from "next/image";
 import PageHeader from "@/components/site/page-header";
 import Section from "@/components/site/section";
-import { experiences } from "@/constants";
 import {
   formatTenure,
   groupByCompany,
@@ -9,6 +8,7 @@ import {
   parseYearRange,
 } from "@/lib/experience";
 import { buildMetadata } from "@/lib/metadata";
+import { getSiteConfig } from "@/lib/r2Client";
 import { siteConfig } from "@/site.config";
 import { TechBadge } from "@/lib/tech-icons";
 
@@ -17,6 +17,8 @@ export const metadata = buildMetadata({
   description: siteConfig.pages.experience.description,
   path: "/experience",
 });
+
+export const revalidate = 3600;
 
 type Segment = { text: string; bold?: boolean };
 
@@ -37,14 +39,16 @@ function Line({ line }: { line: Segment[] | string }) {
   );
 }
 
-export default function ExperiencePage() {
+export default async function ExperiencePage() {
+  const config = await getSiteConfig();
+  const experiences = config.experiences;
   const companies = groupByCompany(experiences);
 
   return (
     <>
       <PageHeader
-        title={siteConfig.pages.experience.title}
-        description={siteConfig.pages.experience.intro}
+        title={config.pages.experience.title}
+        description={config.pages.experience.intro}
         meta={
           <>
             <span>{companies.length} organizations</span>

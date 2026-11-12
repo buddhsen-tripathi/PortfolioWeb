@@ -1,8 +1,8 @@
 import PageHeader from "@/components/site/page-header";
 import BlogIndex from "./BlogIndex";
 import { getAllBlogPosts } from "./utils";
-import { externalArticles } from "@/constants";
 import { buildMetadata } from "@/lib/metadata";
+import { getSiteConfig } from "@/lib/r2Client";
 import { siteConfig } from "@/site.config";
 
 export const metadata = buildMetadata({
@@ -15,7 +15,8 @@ export const metadata = buildMetadata({
 export const revalidate = 3600;
 
 export default async function BlogsPage() {
-  const allPosts = await getAllBlogPosts();
+  const [allPosts, config] = await Promise.all([getAllBlogPosts(), getSiteConfig()]);
+  const externalArticles = config.writing.external;
 
   const technicalPosts = [
     ...allPosts.filter((post) => post.type !== "personal"),
@@ -27,8 +28,8 @@ export default async function BlogsPage() {
   return (
     <>
       <PageHeader
-        title={siteConfig.pages.blogs.title}
-        description={siteConfig.pages.blogs.intro}
+        title={config.pages.blogs.title}
+        description={config.pages.blogs.intro}
         meta={
           <>
             <span>{technicalPosts.length + personalPosts.length} posts</span>

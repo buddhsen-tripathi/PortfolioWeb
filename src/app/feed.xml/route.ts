@@ -1,7 +1,6 @@
 import RSS from "rss";
 import { getAllBlogPosts } from "@/app/blogs/utils";
-import { externalArticles } from "@/constants";
-import { siteConfig } from "@/site.config";
+import { getSiteConfig } from "@/lib/r2Client";
 
 function parseDate(dateStr: string | undefined) {
   if (!dateStr) return new Date();
@@ -10,10 +9,12 @@ function parseDate(dateStr: string | undefined) {
 }
 
 export async function GET() {
-  const { identity, contact, assets } = siteConfig;
+  const config = await getSiteConfig();
+  const { identity, contact, assets } = config;
+  const externalArticles = config.writing.external;
   const feed = new RSS({
     title: `${identity.name}'s Blog`,
-    description: siteConfig.pages.blogs.description,
+    description: config.pages.blogs.description,
     site_url: contact.url,
     feed_url: `${contact.url}/feed.xml`,
     language: "en",

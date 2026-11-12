@@ -1,17 +1,17 @@
 import Image from "next/image";
-import { experiences } from "@/constants";
 import { formatTenure, groupByCompany, monthsBetween, parseYearRange } from "@/lib/experience";
+import { getSiteConfig } from "@/lib/r2Client";
 import Section from "@/components/site/section";
-import { siteConfig } from "@/site.config";
 
-export default function Experience() {
-  const companies = groupByCompany(experiences);
+export default async function Experience() {
+  const config = await getSiteConfig();
+  const companies = groupByCompany(config.experiences);
   if (!companies.length) return null;
 
   return (
     <Section
       id="experience"
-      title={siteConfig.home.sections.experience.title}
+      title={config.home.sections.experience.title}
       more={{ href: "/experience", label: "Full experience" }}
     >
       {companies.map(({ company, roles }, index) => {

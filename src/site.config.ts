@@ -395,7 +395,7 @@ export const siteConfig = {
     {
       title: "Music Scaling Laws",
       featured: true,
-      category: "Research · Machine Learning",
+      category: "Machine Learning · Scaling Laws",
       description:
         "Scaling-law study of Transformers vs LSTMs on symbolic music: trained 1M to 100M parameter models on Lakh MIDI converted to ABC notation and fit loss against model size. Transformers scale more than twice as steeply (α 0.60 vs 0.27).",
       techstacks: ["Python", "PyTorch", "NumPy", "SciPy", "music21"],
@@ -403,6 +403,28 @@ export const siteConfig = {
       link: "https://github.com/buddhsen-tripathi/music-scaling-laws",
       github: "buddhsen-tripathi/music-scaling-laws",
       preview: "https://cdn.buddhsentripathi.com/assets/projects/music-scaling-laws.webp?v=20261018",
+    },
+    {
+      title: "ResNet-5M",
+      category: "Machine Learning · Computer Vision",
+      description:
+        "Parameter-efficient ResNet for CIFAR-10 trained from scratch under a strict 5M parameter budget. Explored 31 models across 11 rounds of augmentation, 12-teacher knowledge distillation, and contrastive learning to reach 97.70% CIFAR-10 test accuracy (0.901 Kaggle).",
+      techstacks: ["Python", "PyTorch", "NumPy"],
+      status: "research",
+      link: "https://github.com/buddhsen-tripathi/resnet-5m",
+      github: "buddhsen-tripathi/resnet-5m",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/resnet-5m.webp?v=20261112",
+    },
+    {
+      title: "TinyGPT",
+      category: "Machine Learning · Language Models",
+      description:
+        "13.9M-parameter decoder-only Transformer with byte-level BPE trained from scratch on 25M TinyStories target tokens on Apple Silicon MPS, tracking how next-token validation loss (1.81 nats, 6.13 perplexity) turns into coherent storytelling.",
+      techstacks: ["Python", "PyTorch", "NumPy"],
+      status: "research",
+      link: "https://github.com/buddhsen-tripathi/tiny-gpt",
+      github: "buddhsen-tripathi/tiny-gpt",
+      preview: "https://cdn.buddhsentripathi.com/assets/projects/tiny-gpt.webp?v=20261112",
     },
     {
       title: "Bucket0",
