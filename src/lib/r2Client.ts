@@ -1,5 +1,8 @@
 import "server-only";
 import { cache } from "react";
+import { access, readFile } from "node:fs/promises";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { S3Client, GetObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import matter from "gray-matter";
 import { siteConfig, type SiteConfig } from "@/site.config";
@@ -83,29 +86,76 @@ function mergeConfig<T>(base: T, override: unknown): T {
   return (typeof override === typeof base ? override : base) as T;
 }
 
-export const getSiteConfig = cache(async (): Promise<SiteConfig> => {
-  if (!isR2Configured()) return siteConfig;
+function isProductionRuntime() {
+  return process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production";
+}
 
+/** Prefer git-ignored local override (JSON for runtime, TS for editing). */
+async function loadLocalSiteConfig(): Promise<SiteConfig | null> {
+  const jsonPath = path.join(process.cwd(), "src", "site.config.local.json");
   try {
-    const command = new GetObjectCommand({
-      Bucket: BUCKET_NAME,
-      Key: CONFIG_KEY,
-    });
-    const response = await s3Client.send(command);
-    if (response.Body) {
-      const raw = await response.Body.transformToString();
-      const parsed = JSON.parse(raw);
-      return mergeConfig(siteConfig, parsed);
-    }
-  } catch (err: unknown) {
-    const status = (err as { $metadata?: { httpStatusCode?: number }; name?: string })?.$metadata?.httpStatusCode;
-    const name = (err as { name?: string })?.name;
-    if (name !== "NoSuchKey" && name !== "NotFound" && status !== 404) {
-      console.warn("Error fetching site config from R2, falling back to local site.config.ts:", err);
+    const raw = await readFile(jsonPath, "utf8");
+    return mergeConfig(siteConfig, JSON.parse(raw));
+  } catch {
+    // optional
+  }
+
+  const tsPath = path.join(process.cwd(), "src", "site.config.local.ts");
+  try {
+    await access(tsPath);
+    const mod = await import(pathToFileURL(tsPath).href);
+    if (mod?.siteConfig) return mod.siteConfig as SiteConfig;
+  } catch {
+    // optional — missing on CI / fresh clones
+  }
+
+  return null;
+}
+
+/**
+ * Resolution order:
+ *   1. Cloudflare R2 `config/site.config.json` (published source of truth)
+ *   2. git-ignored `src/site.config.local.{json,ts}` (local override)
+ *   3. tracked demo `src/site.config.ts` (forks / zero-setup clone)
+ *
+ * In production, if R2 is configured but unavailable and no local override
+ * exists, fail loudly instead of serving demo identity.
+ */
+export const getSiteConfig = cache(async (): Promise<SiteConfig> => {
+  const local = await loadLocalSiteConfig();
+
+  if (isR2Configured()) {
+    try {
+      const command = new GetObjectCommand({
+        Bucket: BUCKET_NAME,
+        Key: CONFIG_KEY,
+      });
+      const response = await s3Client.send(command);
+      if (response.Body) {
+        const raw = await response.Body.transformToString();
+        const parsed = JSON.parse(raw);
+        // Merge onto the demo schema so new keys get defaults; arrays from R2
+        // replace demo arrays entirely (see mergeConfig).
+        return mergeConfig(siteConfig, parsed);
+      }
+    } catch (err: unknown) {
+      const status = (err as { $metadata?: { httpStatusCode?: number }; name?: string })?.$metadata
+        ?.httpStatusCode;
+      const name = (err as { name?: string })?.name;
+      const missing = name === "NoSuchKey" || name === "NotFound" || status === 404;
+      if (!missing) {
+        console.warn("Error fetching site config from R2:", err);
+      }
+      if (isProductionRuntime()) {
+        if (local) return local;
+        throw new Error(
+          `Site config unavailable from R2 (${CONFIG_KEY})${missing ? " — object not found" : ""}. Refusing to serve demo identity in production.`
+        );
+      }
     }
   }
 
-  return siteConfig;
+  return local ?? siteConfig;
 });
 
 function isR2Configured() {
@@ -166,31 +216,38 @@ export async function getBlogPostFromS3(slug) {
   }
 }
 
+async function getLocalBlogSlugs() {
+  const posts = await getLocalBlogPosts();
+  return posts.map((post) => ({ slug: post.slug }));
+}
+
 export async function getBlogSlugsFromS3() {
-  if (!isR2Configured()) {
-    console.warn("R2 not configured, returning empty slugs");
-    return [];
+  let r2Slugs: Array<{ slug: string }> = [];
+
+  if (isR2Configured()) {
+    try {
+      const command = new ListObjectsV2Command({
+        Bucket: BUCKET_NAME,
+        Prefix: BLOG_PREFIX,
+      });
+
+      const response = await s3Client.send(command);
+
+      if (response.Contents) {
+        r2Slugs = response.Contents
+          .filter((obj) => obj.Key && (obj.Key.endsWith(".md") || obj.Key.endsWith(".mdx")))
+          .map((obj) => ({
+            slug: obj.Key!.replace(BLOG_PREFIX, "").replace(/\.mdx?$/, ""),
+          }));
+      }
+    } catch (error) {
+      console.error("Error fetching blog slugs from R2:", error);
+    }
   }
 
-  try {
-    const command = new ListObjectsV2Command({
-      Bucket: BUCKET_NAME,
-      Prefix: BLOG_PREFIX,
-    });
-
-    const response = await s3Client.send(command);
-
-    if (!response.Contents) return [];
-
-    return response.Contents
-      .filter((obj) => obj.Key && (obj.Key.endsWith(".md") || obj.Key.endsWith(".mdx")))
-      .map((obj) => ({
-        slug: obj.Key.replace(BLOG_PREFIX, "").replace(/\.mdx?$/, ""),
-      }));
-  } catch (error) {
-    console.error("Error fetching blog slugs from R2:", error);
-    return [];
-  }
+  const localSlugs = await getLocalBlogSlugs();
+  const seen = new Set(r2Slugs.map((s) => s.slug));
+  return [...r2Slugs, ...localSlugs.filter((s) => !seen.has(s.slug))];
 }
 
 async function getLocalBlogPosts() {

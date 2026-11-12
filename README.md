@@ -66,7 +66,7 @@ Then open [localhost:3000](http://localhost:3000). The site runs without any key
 
 You can customize it in two ways:
 1. **Static / Fork**: Edit [`src/site.config.ts`](src/site.config.ts) directly.
-2. **Cloudflare R2 + git-ignored local override**: Keep your personal config in `src/site.config.local.ts` (git-ignored) and run `bun run migrate:config` to push `config/site.config.json` to R2 so you can update content without redeploying (or restore it on a new machine with `bun run migrate:config -- --pull`).
+2. **Cloudflare R2 + git-ignored local override**: Keep your personal config in `src/site.config.local.ts` (git-ignored). Run `bun run migrate:config` to push a full `config/site.config.json` to R2 (and mirror it to `src/site.config.local.json` for local runtime). Restore on a new machine with `bun run migrate:config -- --pull`.
 
 | Key | What it controls |
 |---|---|
@@ -138,8 +138,8 @@ The CDN caches missing files for 12 hours, so don't open an image URL before you
 | `bun run lint` | ESLint |
 | `bun run migrate:assets` | Upload new files from `public/` to R2 |
 | `bun run migrate:blogs` | Upload blog posts to R2 |
-| `bun run migrate:config` | Upload `src/site.config.local.ts` (or `src/site.config.ts`) to R2 (`config/site.config.json`) |
-| `bun run migrate:config -- --pull` | Pull `config/site.config.json` from R2 into `src/site.config.local.ts` |
+| `bun run migrate:config` | Upload `src/site.config.local.ts` (or `src/site.config.ts`) to R2 and mirror `src/site.config.local.json` |
+| `bun run migrate:config -- --pull` | Pull R2 config into `src/site.config.local.ts` + `.json` |
 
 ## Environment variables
 
