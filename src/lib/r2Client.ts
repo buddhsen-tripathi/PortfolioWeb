@@ -1,6 +1,8 @@
 import "server-only";
+import { cache } from "react";
 import { S3Client, GetObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import matter from "gray-matter";
+import { siteConfig, type SiteConfig } from "@/site.config";
 
 const MONTH_NAMES = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -58,6 +60,51 @@ const s3Client = new S3Client({
 
 const BUCKET_NAME = process.env.R2_BUCKET_NAME || "your-blog-bucket";
 const BLOG_PREFIX = "blogs/";
+const CONFIG_KEY = process.env.R2_CONFIG_KEY || "config/site.config.json";
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function mergeConfig<T>(base: T, override: unknown): T {
+  if (override === undefined || override === null) return base;
+  if (Array.isArray(base)) {
+    return (Array.isArray(override) ? override : base) as T;
+  }
+  if (isPlainObject(base) && isPlainObject(override)) {
+    const result: Record<string, unknown> = { ...base };
+    for (const key of Object.keys(override)) {
+      result[key] = key in base ? mergeConfig(base[key], override[key]) : override[key];
+    }
+    return result as T;
+  }
+  return (typeof override === typeof base ? override : base) as T;
+}
+
+export const getSiteConfig = cache(async (): Promise<SiteConfig> => {
+  if (!isR2Configured()) return siteConfig;
+
+  try {
+    const command = new GetObjectCommand({
+      Bucket: BUCKET_NAME,
+      Key: CONFIG_KEY,
+    });
+    const response = await s3Client.send(command);
+    if (response.Body) {
+      const raw = await response.Body.transformToString();
+      const parsed = JSON.parse(raw);
+      return mergeConfig(siteConfig, parsed);
+    }
+  } catch (err: unknown) {
+    const status = (err as { $metadata?: { httpStatusCode?: number }; name?: string })?.$metadata?.httpStatusCode;
+    const name = (err as { name?: string })?.name;
+    if (name !== "NoSuchKey" && name !== "NotFound" && status !== 404) {
+      console.warn("Error fetching site config from R2, falling back to local site.config.ts:", err);
+    }
+  }
+
+  return siteConfig;
+});
 
 function isR2Configured() {
   return !!(

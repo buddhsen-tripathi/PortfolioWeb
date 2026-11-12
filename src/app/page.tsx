@@ -9,12 +9,11 @@ import Work from "@/components/home/work";
 import Writing from "@/components/home/writing";
 import SectionIndex from "@/components/site/section-index";
 import { getAllBlogPosts } from "@/app/blogs/utils";
-import { externalArticles } from "@/constants";
 import { fetchGitHubContributions } from "@/lib/github";
 import { getProfilePageSchema } from "@/lib/jsonLd";
 import { buildMetadata } from "@/lib/metadata";
+import { getSiteConfig } from "@/lib/r2Client";
 import { PLATFORMS, socialHandle } from "@/lib/socials";
-import { siteConfig } from "@/site.config";
 
 export const revalidate = 3600;
 
@@ -23,8 +22,10 @@ export const metadata = buildMetadata({ path: "/" });
 const LATEST_POSTS = 3;
 
 export default async function Home() {
-  const { sections } = siteConfig.home;
-  const githubHandle = socialHandle("github");
+  const config = await getSiteConfig();
+  const { sections } = config.home;
+  const externalArticles = config.writing.external;
+  const githubHandle = (config.socials.github ?? "").trim() || socialHandle("github");
   const [{ contributions, lifetimeTotal }, blogPosts] = await Promise.all([
     githubHandle ? fetchGitHubContributions(githubHandle) : { contributions: [], lifetimeTotal: 0 },
     getAllBlogPosts(),
@@ -49,7 +50,7 @@ export default async function Home() {
       {contributions.length > 0 && (
         <Section
           id="activity"
-          title={siteConfig.home.sections.github.title}
+          title={sections.github.title}
           meta={
             <a
               href={PLATFORMS.github.url(githubHandle)}

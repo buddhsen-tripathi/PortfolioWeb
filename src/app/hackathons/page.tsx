@@ -6,6 +6,7 @@ import PageHeader from "@/components/site/page-header";
 import Section from "@/components/site/section";
 import { hackathons } from "@/constants";
 import { buildMetadata } from "@/lib/metadata";
+import { getSiteConfig } from "@/lib/r2Client";
 import { siteConfig } from "@/site.config";
 import { TechBadge } from "@/lib/tech-icons";
 import { cn } from "@/lib/utils";
@@ -15,6 +16,8 @@ export const metadata = buildMetadata({
   description: siteConfig.pages.hackathons.description,
   path: "/hackathons",
 });
+
+export const revalidate = 3600;
 
 type Hackathon = (typeof hackathons)[number];
 type Segment = { text: string; bold?: boolean };
@@ -139,14 +142,16 @@ function Entry({ h }: { h: Hackathon }) {
   );
 }
 
-export default function HackathonsPage() {
+export default async function HackathonsPage() {
+  const config = await getSiteConfig();
+  const hackathons = config.hackathons;
   const wins = hackathons.filter((h) => isWin(h.placement)).length;
 
   return (
     <>
       <PageHeader
-        title={siteConfig.pages.hackathons.title}
-        description={siteConfig.pages.hackathons.intro}
+        title={config.pages.hackathons.title}
+        description={config.pages.hackathons.intro}
         meta={
           <>
             <span>{hackathons.length} podiums</span>

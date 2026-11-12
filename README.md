@@ -134,6 +134,7 @@ The CDN caches missing files for 12 hours, so don't open an image URL before you
 | `bun run lint` | ESLint |
 | `bun run migrate:assets` | Upload new files from `public/` to R2 |
 | `bun run migrate:blogs` | Upload blog posts to R2 |
+| `bun run migrate:config` | Upload `src/site.config.ts` to R2 (`config/site.config.json`) for live updates without redeploying |
 
 ## Environment variables
 

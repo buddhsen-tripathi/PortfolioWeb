@@ -1,12 +1,11 @@
 import { getAllBlogPosts } from "../blogs/utils";
-import { externalArticles } from "@/constants";
 import { toIsoDate } from "@/lib/dates";
-import { siteConfig } from "@/site.config";
+import { getSiteConfig } from "@/lib/r2Client";
 
 export async function GET() {
-  const baseUrl = siteConfig.contact.url;
-
-  const posts = await getAllBlogPosts();
+  const [posts, config] = await Promise.all([getAllBlogPosts(), getSiteConfig()]);
+  const baseUrl = config.contact.url;
+  const externalArticles = config.writing.external;
 
   const externalSlugs = new Set(externalArticles.map((a) => a.slug));
   const ownPosts = posts.filter((post) => !externalSlugs.has(post.slug));
@@ -30,7 +29,7 @@ export async function GET() {
     { path: "/experience", priority: "0.7", changefreq: "monthly" },
     { path: "/hackathons", priority: "0.7", changefreq: "monthly" },
     // /research is gated on having entries — only list it when populated
-    ...(siteConfig.research.length > 0
+    ...(config.research.length > 0
       ? [{ path: "/research", priority: "0.7", changefreq: "monthly" }]
       : []),
     { path: "/newsletter", priority: "0.5", changefreq: "monthly" },

@@ -1,8 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
-import { hackathons } from "@/constants";
+import { getSiteConfig } from "@/lib/r2Client";
 import { cn } from "@/lib/utils";
 import Section from "@/components/site/section";
-import { siteConfig } from "@/site.config";
 
 const SHOWN = 3;
 
@@ -25,16 +24,17 @@ const rank = (placement: string) => {
 
 const isWin = (placement: string) => rank(placement) === 1 || placement.startsWith("Winner");
 
-/* First places lead, then by placement; config order (newest first) breaks ties. */
-const ordered = [...hackathons].sort((a, b) => rank(a.placement) - rank(b.placement));
-
-export default function Hackathons() {
+export default async function Hackathons() {
+  const config = await getSiteConfig();
+  const hackathons = config.hackathons;
+  /* First places lead, then by placement; config order (newest first) breaks ties. */
+  const ordered = [...hackathons].sort((a, b) => rank(a.placement) - rank(b.placement));
   const wins = hackathons.filter((h) => isWin(h.placement)).length;
 
   return (
     <Section
       id="hackathons"
-      title={siteConfig.home.sections.hackathons.title}
+      title={config.home.sections.hackathons.title}
       meta={`${hackathons.length} podiums · ${wins} wins`}
       more={
         hackathons.length > SHOWN
