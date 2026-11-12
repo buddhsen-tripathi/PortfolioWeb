@@ -209,3 +209,25 @@ export const mdxComponents = {
     </em>
   ),
 };
+
+export function createMdxComponents(assetsUrl = siteConfig.assetsUrl) {
+  return {
+    ...mdxComponents,
+    img: ({ src, alt, ...props }: any) => {
+      const resolved =
+        typeof src === "string" && src.startsWith("/blog-images/")
+          ? `${assetsUrl}${src}`
+          : src;
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={resolved}
+          alt={alt || ""}
+          loading="lazy"
+          className="my-8 h-auto max-w-full rounded-lg border border-border"
+          {...props}
+        />
+      );
+    },
+  };
+}

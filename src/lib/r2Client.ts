@@ -67,7 +67,9 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 }
 
 function mergeConfig<T>(base: T, override: unknown): T {
-  if (override === undefined || override === null) return base;
+  if (override === undefined) return base;
+  if (override === null) return (base === null || isPlainObject(base) ? null : base) as T;
+  if (base === null) return override as T;
   if (Array.isArray(base)) {
     return (Array.isArray(override) ? override : base) as T;
   }

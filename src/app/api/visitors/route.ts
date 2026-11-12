@@ -1,11 +1,11 @@
-import { siteConfig } from "@/site.config";
 import { NextResponse } from "next/server";
-
-const BASE = `https://api.counterapi.dev/v1/${siteConfig.integrations.visitorCounter}`;
+import { getSiteConfig } from "@/lib/r2Client";
 
 export async function GET() {
   try {
-    const res = await fetch(`${BASE}/visits/up`, { next: { revalidate: 0 } });
+    const config = await getSiteConfig();
+    const base = `https://api.counterapi.dev/v1/${config.integrations.visitorCounter}`;
+    const res = await fetch(`${base}/visits/up`, { next: { revalidate: 0 } });
     if (!res.ok) throw new Error("counterapi error");
     const data = await res.json();
     return NextResponse.json({ count: data.count ?? null });

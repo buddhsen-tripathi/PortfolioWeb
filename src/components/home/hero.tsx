@@ -1,20 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { GraduationCap, MapPin } from "lucide-react";
 import SeikoWatchModal from "@/components/watch-modal";
-import { siteConfig } from "@/site.config";
-
-const { identity, home } = siteConfig;
-
-const timeFormatter = new Intl.DateTimeFormat("en-US", {
-  timeZone: identity.location.timeZone,
-  hour: "numeric",
-  minute: "2-digit",
-  timeZoneName: "short",
-});
+import { siteConfig, type SiteConfig } from "@/site.config";
 
 const rise = (delay: number) => ({
   initial: { opacity: 0, y: 10 },
@@ -22,15 +13,25 @@ const rise = (delay: number) => ({
   transition: { duration: 0.45, delay, ease: [0.22, 1, 0.36, 1] as const },
 });
 
-function LocalTime() {
+function LocalTime({ timeZone }: { timeZone: string }) {
   const [now, setNow] = useState<string | null>(null);
+  const formatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat("en-US", {
+        timeZone,
+        hour: "numeric",
+        minute: "2-digit",
+        timeZoneName: "short",
+      }),
+    [timeZone]
+  );
 
   useEffect(() => {
-    const tick = () => setNow(timeFormatter.format(new Date()));
+    const tick = () => setNow(formatter.format(new Date()));
     tick();
     const id = window.setInterval(tick, 15_000);
     return () => window.clearInterval(id);
-  }, []);
+  }, [formatter]);
 
   if (!now) return null;
   return (
@@ -65,7 +66,13 @@ function Wave() {
   );
 }
 
-export default function Hero() {
+export default function Hero({
+  identity = siteConfig.identity,
+  home = siteConfig.home,
+}: {
+  identity?: SiteConfig["identity"];
+  home?: SiteConfig["home"];
+}) {
   return (
     <section id="intro" className="scroll-mt-12 px-6 pt-12 pb-2 sm:pt-16">
       {/* Photo comes first so it sits above the text on phones; row-reverse puts it on the right from sm up. */}
@@ -121,7 +128,7 @@ export default function Hero() {
             <span className="flex items-center gap-1.5">
               <MapPin className="size-3.5" />
               {identity.location.label}
-              <LocalTime />
+              <LocalTime timeZone={identity.location.timeZone} />
             </span>
             <span className="flex items-center gap-1.5">
               <GraduationCap className="size-3.5" />
