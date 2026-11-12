@@ -1,10 +1,9 @@
-import { ProjectCard } from "@/components/projects/project-card";
 import PageHeader from "@/components/site/page-header";
-import Section from "@/components/site/section";
-import { projects } from "@/constants";
 import { fetchGitHubStars } from "@/lib/github";
 import { buildMetadata } from "@/lib/metadata";
+import { getSiteConfig } from "@/lib/r2Client";
 import { siteConfig } from "@/site.config";
+import ProjectIndex from "./ProjectIndex";
 
 export const metadata = buildMetadata({
   title: siteConfig.pages.projects.title,
@@ -14,42 +13,24 @@ export const metadata = buildMetadata({
 
 export const revalidate = 3600;
 
-type Project = (typeof projects)[number];
-
-function ProjectGrid({ items, stars }: { items: Project[]; stars: Map<string, number | null> }) {
-  return (
-    <div className="grid sm:grid-cols-2">
-      {items.map((project, i) => (
-        <ProjectCard
-          key={project.title}
-          project={project}
-          stars={stars.get(project.title) ?? null}
-          wide={items.length % 2 === 1 && i === items.length - 1}
-        />
-      ))}
-    </div>
-  );
-}
-
 export default async function ProjectsPage() {
-  const stars = new Map(
-    await Promise.all(
-      projects.map(
-        async (p) =>
-          [p.title, "github" in p && p.github ? await fetchGitHubStars(p.github) : null] as const
-      )
+  const config = await getSiteConfig();
+  const projects = config.projects;
+
+  const starEntries = await Promise.all(
+    projects.map(
+      async (p) =>
+        [p.title, "github" in p && p.github ? await fetchGitHubStars(p.github) : null] as const
     )
   );
-
-  const featured = projects.filter((p) => "featured" in p && p.featured);
-  const rest = projects.filter((p) => !("featured" in p && p.featured));
-  const totalStars = [...stars.values()].reduce<number>((sum, n) => sum + (n ?? 0), 0);
+  const stars = Object.fromEntries(starEntries);
+  const totalStars = starEntries.reduce<number>((sum, [, n]) => sum + (n ?? 0), 0);
 
   return (
     <>
       <PageHeader
-        title={siteConfig.pages.projects.title}
-        description={siteConfig.pages.projects.intro}
+        title={config.pages.projects.title}
+        description={config.pages.projects.intro}
         meta={
           <>
             <span>{projects.length} projects</span>
@@ -58,14 +39,7 @@ export default async function ProjectsPage() {
           </>
         }
       />
-      <Section id="featured" title="Featured" meta={`${featured.length}`}>
-        <ProjectGrid items={featured} stars={stars} />
-      </Section>
-      {rest.length > 0 && (
-        <Section id="more" title="More projects" meta={`${rest.length}`}>
-          <ProjectGrid items={rest} stars={stars} />
-        </Section>
-      )}
+      <ProjectIndex projects={projects} stars={stars} />
     </>
   );
 }
