@@ -1,16 +1,17 @@
 /**
  * ────────────────────────────────────────────────────────────────────────────
- *  SITE CONFIG — single source of truth
+ *  SITE CONFIG — demo template & schema definition
  * ────────────────────────────────────────────────────────────────────────────
- *  Edit this file to make the portfolio your own. Every identity, link,
- *  SEO string, nav entry, and content list is read from here.
+ *  This file defines the `SiteConfig` schema and provides clean demo defaults
+ *  so a freshly cloned repo runs out of the box with zero setup.
  *
- *  After cloning:
- *    1. Update `identity`, `contact`, `assets`, and `socials` below.
- *    2. Edit `seo` defaults and `nav` items.
- *    3. Replace `experiences`, `projects`, `hackathons`, `research`.
- *
- *  Runtime-only values (API keys, etc.) still live in `.env.local`.
+ *  How to customize:
+ *    • Option A (Static / Fork): Edit this file directly.
+ *    • Option B (Cloudflare R2 + git-ignored local override):
+ *        1. Create `src/site.config.local.ts` (git-ignored) or pull from R2
+ *           with `bun run migrate:config -- --pull`.
+ *        2. Push updates to R2 anytime without redeploying via
+ *           `bun run migrate:config`.
  * ────────────────────────────────────────────────────────────────────────────
  */
 
@@ -18,35 +19,179 @@ import type { SocialPlatform } from "@/lib/socials";
 
 export type { SocialPlatform };
 
-export const siteConfig = {
+export type RichTextSegment = { text: string; bold?: boolean };
+
+export type ExperienceEntry = {
+  role: string;
+  year: string;
+  company: string;
+  type: string;
+  location?: string;
+  logo?: string;
+  responsibility: Array<RichTextSegment[] | string>;
+  techstacks: string[];
+};
+
+export type ProjectEntry = {
+  title: string;
+  featured?: boolean;
+  category: string;
+  description: string;
+  techstacks: string[];
+  status: "acquired" | "live" | "building" | "research" | "active" | string;
+  link: string;
+  github?: string;
+  preview?: string;
+  previewDark?: string;
+};
+
+export type HackathonEntry = {
+  title: string;
+  event: string;
+  year: string;
+  placement: string;
+  college?: string;
+  body: RichTextSegment[] | string;
+  techstacks: string[];
+  link: string | string[];
+};
+
+export type ResearchEntry = {
+  title: string;
+  year: string;
+  authors?: string[];
+  venue?: string;
+  link?: string;
+  description?: string;
+};
+
+export type ExternalArticleEntry = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  type: "technical" | "personal" | string;
+  url: string;
+};
+
+export interface SiteConfig {
+  identity: {
+    name: string;
+    alternateName: string;
+    affiliation: { name: string; url: string };
+    title: string;
+    tagline: string;
+    bio: string;
+    location: {
+      label: string;
+      timeZone: string;
+    };
+    photo: {
+      light: string;
+      dark: string;
+    };
+  };
+  home: {
+    greeting: string;
+    headline: string;
+    summary: string;
+    contact: string;
+    sections: {
+      socials: { title: string };
+      work: { title: string };
+      experience: { title: string };
+      hackathons: { title: string };
+      writing: { title: string };
+      github: { title: string; short: string };
+      contact: { title: string; short: string };
+    };
+  };
+  pages: {
+    projects: { title: string; description: string; intro: string };
+    experience: { title: string; description: string; intro: string };
+    hackathons: { title: string; description: string; intro: string };
+    blogs: { title: string; description: string; intro: string };
+    newsletter: {
+      title: string;
+      description: string;
+      intro: string;
+      promises: string[];
+    };
+    research: { title: string; description: string; intro: string };
+    notFound: { eyebrow: string; title: string; intro: string };
+  };
+  writing: {
+    external: ExternalArticleEntry[];
+  };
+  integrations: {
+    visitorCounter: string;
+  };
+  contact: {
+    email: string;
+    url: string;
+    calUrl: string;
+    resumeUrl: string;
+  };
+  repo: string;
+  assetsUrl: string;
+  assets: {
+    ogImage: string;
+    blogOgImage: string;
+    favicon: string;
+    footerQuote: string;
+    footerArt: { light: string; dark: string; width: number; height: number } | null;
+  };
+  socials: Record<SocialPlatform, string>;
+  socialPreviews: {
+    linkedin: {
+      headline: string;
+      location: string;
+      connections: string;
+    };
+  };
+  seo: {
+    titleTemplate: string;
+    defaultTitle: string;
+    defaultDescription: string;
+    keywords: string[];
+    twitterHandle: string;
+    locale: string;
+    themeColor: string;
+  };
+  nav: Array<{ path: string; name: string }>;
+  experiences: ExperienceEntry[];
+  projects: ProjectEntry[];
+  hackathons: HackathonEntry[];
+  research: ResearchEntry[];
+}
+
+export const siteConfig: SiteConfig = {
   // ── Identity ──────────────────────────────────────────────────────────────
   identity: {
-    name: "Buddhsen Tripathi",
-    // What people call you; used in structured data so searches for it match.
-    alternateName: "Sen",
-    // Current school or employer, for structured data.
-    affiliation: { name: "New York University", url: "https://www.nyu.edu" },
-    title: "AI Engineer",
-    tagline: "MS CS @ NYU",
-    bio: "Software engineer in New York building AI agents and products. MS CS student at NYU, previously a software engineer at Amadeus.",
+    name: "Alex Rivera",
+    alternateName: "Alex",
+    affiliation: { name: "Example University", url: "https://example.edu" },
+    title: "Software Engineer",
+    tagline: "AI & Distributed Systems",
+    bio: "Software engineer building developer tools, AI agents, and resilient web systems.",
     location: {
-      label: "New York, NY",
-      timeZone: "America/New_York",
+      label: "San Francisco, CA",
+      timeZone: "America/Los_Angeles",
     },
     photo: {
-      light: "https://cdn.buddhsentripathi.com/assets/profpic2.jpg",
-      dark: "https://cdn.buddhsentripathi.com/assets/profpic.jpg",
+      light: "/favicon.ico",
+      dark: "/favicon.ico",
     },
   },
 
   // ── Home page copy ────────────────────────────────────────────────────────
   home: {
-    greeting: "Hola, I'm Buddhsen (Sen)",
-    headline: "Just figuring things out as I go.",
-    summary: "Mostly AI stuff. I live in New York, love hackathons, and build things that catch my interest.",
+    greeting: "Hey, I'm Alex",
+    headline: "Building thoughtful software and AI systems.",
+    summary:
+      "I design and ship developer tools, machine learning experiments, and full-stack products.",
     contact:
-      "Working on something interesting, hiring, or putting a hackathon team together? I'm happy to talk.",
-    // Heading of each home section. `short` is the label in the side index.
+      "Working on something interesting, hiring, or putting a hackathon team together? Let's chat.",
     sections: {
       socials: { title: "Socials" },
       work: { title: "Work" },
@@ -59,44 +204,40 @@ export const siteConfig = {
   },
 
   // ── Pages ─────────────────────────────────────────────────────────────────
-  //  For each page: `title` (heading and browser tab), `description` (search
-  //  results and link previews) and `intro` (the line under the heading).
   pages: {
     projects: {
       title: "Projects",
-      description:
-        "Products, open source, and research by Buddhsen Tripathi, from an acquired OSINT platform to an AI outreach tool and machine learning experiments.",
-      intro: "Products I've shipped, open source people use, and research I've done along the way.",
+      description: "Products, open-source tools, and machine learning research.",
+      intro: "Products I've shipped, open source people use, and research along the way.",
     },
     experience: {
       title: "Experience",
-      description:
-        "Course assistant at NYU and former software engineer at Amadeus, where I built microservices in Java, Spring Boot, and C++ on Azure.",
-      intro: "Where I've worked and what I did there.",
+      description: "Engineering roles and internships.",
+      intro: "Where I've worked and what I built there.",
     },
     hackathons: {
       title: "Hackathons",
-      description: "Hackathon wins and podiums: what I built, with whom, and how it placed.",
-      intro: "Weekends spent building under pressure, mostly in New York. What I built, and how it placed.",
+      description: "Hackathon wins and podium finishes.",
+      intro: "Weekends spent building under pressure: what we built and how it placed.",
     },
     blogs: {
       title: "Blogs",
-      description:
-        "Posts on AI systems, agents, security, and building products, plus the occasional personal update.",
-      intro: "Writing on AI systems, security and building products, plus the occasional personal post.",
+      description: "Writing on AI systems, distributed infrastructure, and product engineering.",
+      intro: "Notes on AI systems, engineering, and building products.",
     },
     newsletter: {
       title: "Newsletter",
-      description:
-        "New posts on AI systems, security, and building products, sent to your inbox when they go up. No spam, unsubscribe any time.",
-      intro:
-        "New posts on AI systems, security and building products, plus the occasional personal story. Straight to your inbox when they're published.",
-      promises: ["Only when there's a new post", "No spam, no selling your email", "Unsubscribe in one click"],
+      description: "New posts sent straight to your inbox when they go up.",
+      intro: "New posts on engineering and AI systems, sent to your inbox when published.",
+      promises: [
+        "Only when there's a new post",
+        "No spam, no selling your email",
+        "Unsubscribe in one click",
+      ],
     },
     research: {
       title: "Research",
-      description:
-        "Academic research, publications, and experimental projects in software engineering and technology.",
+      description: "Academic research, publications, and experimental studies.",
       intro: "Academic research, publications, and experimental projects.",
     },
     notFound: {
@@ -107,89 +248,50 @@ export const siteConfig = {
   },
 
   // ── Writing hosted elsewhere ──────────────────────────────────────────────
-  //  Posts published on other sites (e.g. X articles). They appear in the blog
-  //  list and the home Writing section, linking out. Blog posts themselves
-  //  live on R2 or in src/app/blogs/posts.
   writing: {
-    external: [
-      {
-        slug: "language-models-prompts-and-the-illusion-of-understanding",
-        title: "Language Models, Prompts, and the Illusion of Understanding",
-        excerpt:
-          "Prompts do not just ask questions. They define constraints. When outputs feel misaligned, the model is not misunderstanding intent. It is resolving ambiguity through probability. The gap is often ours.",
-        date: "20 Feb 2026",
-        type: "technical",
-        url: "https://x.com/senbuilds/status/2024753374772564029",
-      },
-      {
-        slug: "honest-take-on-coding-in-2026",
-        title: "This is my honest take on coding in 2026",
-        excerpt:
-          "An honest reflection on AI-assisted development, the illusion of productivity, fading syntax fluency and what an interview revealed about modern coding.",
-        date: "16 Feb 2026",
-        type: "technical",
-        url: "https://x.com/senbuilds/status/2023280893071179782",
-      },
-    ],
+    external: [],
   },
 
   // ── Integrations ──────────────────────────────────────────────────────────
   integrations: {
-    // Namespace for the footer visitor count on counterapi.dev. Pick any
-    // unique string; a new one starts counting from zero.
-    visitorCounter: "buddhsen-tripathi-portfolio",
+    visitorCounter: "demo-portfolio-counter",
   },
-  
+
   // ── Contact & URL ─────────────────────────────────────────────────────────
   contact: {
-    email: "bt2609@nyu.edu",
-    // Primary domain (Vercel serves www; the bare domain redirects here).
-    url: "https://www.buddhsentripathi.com",
-    calUrl: "https://cal.com/buddhsen",
-    resumeUrl: "https://cdn.buddhsentripathi.com/assets/Resume.pdf",
+    email: "hello@example.com",
+    url: "https://example.com",
+    calUrl: "https://cal.com",
+    resumeUrl: "/Resume.pdf",
   },
 
-  // Source of this site, shown with its star count in the header.
   repo: "buddhsen-tripathi/PortfolioWeb",
 
-  // ── Assets (R2-backed CDN at cdn.buddhsentripathi.com/assets) ─────────────
-  // Tiny site-chrome files (favicon, manifest, robots) stay in /public;
-  // everything else is uploaded via scripts/migrate-assets-to-r2.mjs.
-  assetsUrl: "https://cdn.buddhsentripathi.com/assets",
+  // ── Assets ────────────────────────────────────────────────────────────────
+  assetsUrl: "/assets",
   assets: {
-    ogImage: "https://cdn.buddhsentripathi.com/assets/default-image.webp",
-    blogOgImage: "https://cdn.buddhsentripathi.com/assets/default-image-blogs.webp",
+    ogImage: "/favicon.ico",
+    blogOgImage: "/favicon.ico",
     favicon: "/favicon.ico",
-    // Wide illustration strip shown at the bottom of every page. Null hides it.
-    // Sign-off line shown above the footer illustration. "" hides it.
     footerQuote: "See you on the other side of the internet.",
-    footerArt: {
-      light: "https://cdn.buddhsentripathi.com/assets/footer/footer-nyc-day.webp?v=20261018",
-      dark: "https://cdn.buddhsentripathi.com/assets/footer/footer-nyc-night.webp?v=20261018",
-      width: 1568,
-      height: 672,
-    } as { light: string; dark: string; width: number; height: number } | null,
+    footerArt: null,
   },
 
   // ── Socials ───────────────────────────────────────────────────────────────
-  //  One handle per platform; leave it blank ("") to hide that platform
-  //  everywhere. A full profile URL works too (handy for Mastodon instances
-  //  or Stack Overflow's numeric profile links). Order here is display order.
-  //  Icons, colors and URL patterns live in src/lib/socials.tsx.
   socials: {
-    twitter: "senbuilds",
-    github: "buddhsen-tripathi",
-    linkedin: "buddhsen-tripathi",
-    leetcode: "buddhsen",
-    tryhackme: "btripathi",
-    codeforces: "Buddhsen",
+    twitter: "example",
+    github: "octocat",
+    linkedin: "example",
+    leetcode: "",
+    tryhackme: "",
+    codeforces: "",
     instagram: "",
     youtube: "",
     threads: "",
     bluesky: "",
     mastodon: "",
     reddit: "",
-    discord: "btr1pathi",
+    discord: "",
     telegram: "",
     facebook: "",
     tiktok: "",
@@ -200,7 +302,7 @@ export const siteConfig = {
     substack: "",
     gitlab: "",
     stackoverflow: "",
-    huggingface: "Buddhsen",
+    huggingface: "",
     kaggle: "",
     npm: "",
     producthunt: "",
@@ -211,36 +313,24 @@ export const siteConfig = {
     hackerrank: "",
     geeksforgeeks: "",
     hackthebox: "",
-  } satisfies Record<SocialPlatform, string>,
+  },
 
-  // Hover-card details for platforms without a public profile API.
   socialPreviews: {
     linkedin: {
-      headline: "MSCS @ NYU’27 | ex-Amadeus | Building DeepFind.Me, Bucket0.com | AI × Infra",
-      location: "Brooklyn, New York, United States",
+      headline: "Software Engineer | AI & Systems",
+      location: "San Francisco, CA",
       connections: "500+",
     },
   },
 
   // ── SEO defaults ──────────────────────────────────────────────────────────
   seo: {
-    titleTemplate: "%s | Buddhsen Tripathi",
-    defaultTitle: "Buddhsen Tripathi, software engineer in New York",
+    titleTemplate: "%s | Alex Rivera",
+    defaultTitle: "Alex Rivera — Software Engineer",
     defaultDescription:
-      "Software engineer in New York building AI agents and products. MS CS at NYU, previously at Amadeus. Projects, hackathon wins, and writing.",
-    keywords: [
-      "Buddhsen Tripathi",
-      "Full Stack Developer",
-      "React",
-      "Next.js",
-      "JavaScript",
-      "TypeScript",
-      "Node.js",
-      "Web Development",
-      "Portfolio",
-      "Software Engineer",
-    ],
-    twitterHandle: "@senbuilds",
+      "Software engineer building AI systems, developer tools, and full-stack products.",
+    keywords: ["Software Engineer", "Portfolio", "Next.js", "TypeScript", "AI Engineer"],
+    twitterHandle: "@example",
     locale: "en_US",
     themeColor: "#0B0D0E",
   },
@@ -257,407 +347,75 @@ export const siteConfig = {
   // ── Content: Experiences ──────────────────────────────────────────────────
   experiences: [
     {
-      role: "Course Assistant",
-      year: "Sep 2026 - Present",
-      company: "New York University",
-      type: "Part-time",
-      location: "Brooklyn, On-Site",
-      logo: "https://cdn.buddhsentripathi.com/assets/company/nyu.jpg?v=20261018",
-      responsibility: [
-        [
-          { text: "Course Assistant for " },
-          { text: "Software Engineering I (CS-GY-6063)", bold: true },
-          { text: " at NYU Tandon School of Engineering." },
-        ],
-      ],
-      techstacks: [] as string[],
-    },
-    {
-      role: "Software Development Intern",
-      year: "Jan 2023 - Jun 2023",
-      company: "Amadeus",
-      type: "Internship",
-      location: "Bengaluru, On-Site",
-      logo: "https://cdn.buddhsentripathi.com/assets/company/amadeus.jpg",
-      responsibility: [
-        [
-          { text: "Contributed to " },
-          { text: "Java / Spring Boot", bold: true },
-          { text: " services backing internal travel-industry tooling." },
-        ],
-        [
-          { text: "Built " },
-          { text: "Angular", bold: true },
-          { text: " UI features against " },
-          { text: "REST APIs", bold: true },
-          { text: " over a " },
-          { text: "MySQL", bold: true },
-          { text: " data layer." },
-        ],
-      ],
-      techstacks: ["Java", "Spring Boot", "Angular", "MySQL", "REST APIs"],
-    },
-    {
-      role: "Software Development Engineer 1",
-      year: "Jul 2023 - Aug 2025",
-      company: "Amadeus",
+      role: "Senior Software Engineer",
+      year: "Jan 2025 - Present",
+      company: "Acme Corp",
       type: "Full-Time",
-      location: "Bengaluru, Hybrid",
-      logo: "https://cdn.buddhsentripathi.com/assets/company/amadeus.jpg",
+      location: "San Francisco, Hybrid",
       responsibility: [
         [
-          { text: "Built and maintained " },
-          { text: "microservices", bold: true },
-          { text: " in " },
-          { text: "Java, Spring Boot, and C++", bold: true },
-          { text: " backing travel-industry platforms." },
-        ],
-        [
-          { text: "Shipped " },
-          { text: "Angular", bold: true },
-          { text: " UIs wired to " },
-          { text: "REST APIs", bold: true },
-          { text: " with " },
-          { text: "MySQL and MongoDB", bold: true },
-          { text: " data layers." },
-        ],
-        [
-          { text: "Deployed services on " },
-          { text: "Azure", bold: true },
-          { text: " using " },
-          { text: "Docker", bold: true },
-          { text: " with end-to-end " },
-          { text: "CI/CD", bold: true },
-          { text: " pipelines." },
-        ],
-        [
-          { text: "Hardened the codebase with " },
-          { text: "application security tooling", bold: true },
-          { text: " including " },
-          { text: "Fortify and Black Duck", bold: true },
-          { text: " to catch vulnerabilities pre-release." },
+          { text: "Architected " },
+          { text: "distributed inference services", bold: true },
+          { text: " in TypeScript, Python, and Go." },
         ],
       ],
-      techstacks: [
-        "Java",
-        "Spring Boot",
-        "C++",
-        "Angular",
-        "REST APIs",
-        "MySQL",
-        "MongoDB",
-        "Docker",
-        "Azure",
-        "Microservices",
-        "CI/CD",
-      ],
+      techstacks: ["TypeScript", "Python", "Next.js", "PostgreSQL", "Docker"],
     },
   ],
 
   // ── Content: Projects ─────────────────────────────────────────────────────
   projects: [
     {
-      title: "DeepFind.Me",
+      title: "Acme Cloud",
       featured: true,
-      category: "SaaS · OSINT Platform",
+      category: "SaaS · Developer Tools",
       description:
-        "Educational OSINT platform offering tools and resources to help users understand and manage their digital footprint.",
-      techstacks: ["Next.js", "NestJS", "FastAPI", "PostgreSQL", "Docker", "AWS", "OpenAI API"],
-      status: "acquired",
-      link: "https://deepfind.me",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/deepfindme.png",
-    },
-    {
-      title: "Nimu",
-      featured: true,
-      category: "SaaS · AI Outreach",
-      description:
-        "AI outreach platform with automated domain authentication, multi-step campaigns, mailbox warm-up, and real-time deliverability monitoring.",
-      techstacks: ["TanStack Start", "Hono", "Drizzle ORM", "Supabase", "Cloudflare Queues", "Better Auth", "AWS", "Docker"],
+        "Zero-config deployment and observability platform for edge microservices.",
+      techstacks: ["Next.js", "TypeScript", "PostgreSQL", "Docker"],
       status: "live",
-      link: "https://nimu.app",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/nimu-light.png?v=20260729",
-      previewDark: "https://cdn.buddhsentripathi.com/assets/projects/nimu-dark.png?v=20260729",
+      link: "https://example.com",
     },
     {
-      title: "OSINT Kit",
+      title: "NanoTransformer",
       featured: true,
-      category: "Open Source · Security",
-      description:
-        "Curated directory of OSINT tools for researchers and security folks, from breach search and metadata analysis to geolocation and social media intelligence.",
-      techstacks: ["Astro", "TypeScript"],
-      status: "live",
-      link: "https://buddhsen-tripathi.github.io/OSINT-Kit/",
-      github: "buddhsen-tripathi/OSINT-Kit",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/osint-kit-light.webp?v=20261018",
-      previewDark: "https://cdn.buddhsentripathi.com/assets/projects/osint-kit-dark.webp?v=20261018",
-    },
-    {
-      title: "Music Scaling Laws",
-      featured: true,
-      category: "Machine Learning · Scaling Laws",
-      description:
-        "Scaling-law study of Transformers vs LSTMs on symbolic music: trained 1M to 100M parameter models on Lakh MIDI converted to ABC notation and fit loss against model size. Transformers scale more than twice as steeply (α 0.60 vs 0.27).",
-      techstacks: ["Python", "PyTorch", "NumPy", "SciPy", "music21"],
-      status: "research",
-      link: "https://github.com/buddhsen-tripathi/music-scaling-laws",
-      github: "buddhsen-tripathi/music-scaling-laws",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/music-scaling-laws.webp?v=20261018",
-    },
-    {
-      title: "ResNet-5M",
-      category: "Machine Learning · Computer Vision",
-      description:
-        "Parameter-efficient ResNet for CIFAR-10 trained from scratch under a strict 5M parameter budget. Explored 31 models across 11 rounds of augmentation, 12-teacher knowledge distillation, and contrastive learning to reach 97.70% CIFAR-10 test accuracy (0.901 Kaggle).",
-      techstacks: ["Python", "PyTorch", "NumPy"],
-      status: "research",
-      link: "https://github.com/buddhsen-tripathi/resnet-5m",
-      github: "buddhsen-tripathi/resnet-5m",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/resnet-5m.webp?v=20261112",
-    },
-    {
-      title: "TinyGPT",
       category: "Machine Learning · Language Models",
       description:
-        "13.9M-parameter decoder-only Transformer with byte-level BPE trained from scratch on 25M TinyStories target tokens on Apple Silicon MPS, tracking how next-token validation loss (1.81 nats, 6.13 perplexity) turns into coherent storytelling.",
+        "Minimalist decoder-only Transformer trained from scratch with byte-level BPE.",
       techstacks: ["Python", "PyTorch", "NumPy"],
       status: "research",
-      link: "https://github.com/buddhsen-tripathi/tiny-gpt",
-      github: "buddhsen-tripathi/tiny-gpt",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/tiny-gpt.webp?v=20261112",
+      link: "https://github.com/octocat/Hello-World",
+      github: "octocat/Hello-World",
     },
     {
-      title: "Bucket0",
-      category: "SaaS · Storage",
+      title: "SchemaKit",
+      category: "Open Source · CLI",
       description:
-        "Platform to store files and manage all your S3-compatible buckets in a single, powerful interface - now with a native mobile app.",
-      techstacks: ["Next.js", "TypeScript", "PostgreSQL", "S3 API", "Expo"],
-      status: "live",
-      link: "https://bucket0.com",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/bucket0-light.png",
-      previewDark: "https://cdn.buddhsentripathi.com/assets/projects/bucket0-dark.png",
-    },
-    {
-      title: "OpenVScan",
-      category: "Open Source · Security",
-      description:
-        "Web-based vulnerability scanner that integrates open-source tools with AI to deliver smarter, faster and more reliable pre-production security testing.",
-      techstacks: ["TanStack Start", "Drizzle ORM", "Cloudflare Workers", "Cloudflare D1", "Cloudflare R2", "Cloudflare Queues"],
-      status: "live",
-      link: "https://www.openvscan.com",
-      github: "buddhsen-tripathi/openvscan",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/openvscan-light.png",
-      previewDark: "https://cdn.buddhsentripathi.com/assets/projects/openvscan-dark.png",
-    },
-    {
-      title: "openai-api-helper",
-      category: "Open Source · npm Package",
-      description:
-        "Straightforward npm package designed to simplify making calls to the OpenAI API for various text-based prompts and responses.",
-      techstacks: ["JavaScript", "TypeScript"],
+        "Type-safe database migration and schema diffing toolkit for modern TypeScript teams.",
+      techstacks: ["TypeScript", "Node.js"],
       status: "active",
-      link: "https://www.npmjs.com/package/openai-api-helper",
-      github: "buddhsen-tripathi/openai-api-helper",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/npm.png",
-    },
-    {
-      title: "SmartText Enhancer",
-      category: "Chrome Extension · AI",
-      description:
-        "Productivity-focused Chrome extension that uses AI to summarize content and check spelling and grammar.",
-      techstacks: ["JavaScript", "HTML", "CSS", "Express", "OpenAI API"],
-      status: "active",
-      link: "https://chromewebstore.google.com/detail/smarttext-enhancer/chmpfoicecijpgmgcpnfhakmeaofmipm",
-      preview: "https://cdn.buddhsentripathi.com/assets/projects/sme.png",
+      link: "https://github.com/octocat/Hello-World",
+      github: "octocat/Hello-World",
     },
   ],
 
   // ── Content: Hackathons ───────────────────────────────────────────────────
   hackathons: [
     {
-      title: "Iris",
-      event: "Hacktoberfest 2026 NYC × Tech@NYU",
+      title: "PulseAgent",
+      event: "SF Systems Hackathon",
       year: "Oct 2026",
-      placement: "Winner",
-      college: "Soma Capital, NYC",
-      body: [
-        { text: "Won " },
-        { text: "Best use of the True Markets Gateway API", bold: true },
-        { text: " with " },
-        { text: "Iris", bold: true },
-        { text: ", a trading desk and research lab on True Markets data. Live charts, order flow, and news sentiment sit next to a company relationship graph and a short-form creator feed. " },
-        { text: "Point & Ask", bold: true },
-        { text: " explains any chart, headline, or stat in place, and an AI analyst answers from the data on screen with " },
-        { text: "cited research", bold: true },
-        { text: "." },
-      ],
-      techstacks: ["React", "Vite", "TypeScript", "FastAPI", "Python", "OpenRouter", "Neon Postgres"],
-      link: [
-        "https://github.com/buddhsen-tripathi/iris",
-        "https://www.mlh.com/events/hacktoberfest-2026-new-york-city/submissions/01a16f67-89c9-bf40-28f4-3808e9a486e1",
-        "https://youtu.be/K9DvMTDimSA",
-      ],
-    },
-    {
-      title: "Live Futures Ranking",
-      event: "Everesteer Hedge Fund Hackathon",
-      year: "Sep 2026",
-      placement: "2nd Place",
-      college: "Monk HQ, NYC",
-      body: [
-        { text: "Placed 2nd in a " },
-        { text: "live money-on-the-line prediction tournament", bold: true },
-        { text: ", turning " },
-        { text: "50 into ~86 USDC (+72%)", bold: true },
-        { text: " across " },
-        { text: "4 live rounds", bold: true },
-        { text: ". Ranked ~90 anonymized futures by 20-day returns and ran the full pipeline: walk-forward tests, model training, staking scripts, and live execution. Gains came from " },
-        { text: "targets, not algorithms", bold: true },
-        { text: ": a 3-variant LightGBM blend with the benchmark, an Azurki auxiliary-target hedge, plus a distill and MLP for diversity. Cut live underperformers and moved stake onto the core models once they beat the benchmark." },
-      ],
-      techstacks: ["Python", "LightGBM", "XGBoost", "CatBoost", "Pandas"],
-      link: [
-        "https://luma.com/sdnfy9kp",
-        "https://www.linkedin.com/feed/update/urn:li:activity:7509037352930033664/",
-      ],
-    },
-    {
-      title: "AI Security Analyst",
-      event: "AI × Finance Hackathon — Money Talks",
-      year: "Sep 2026",
-      placement: "2nd Place",
-      college: "New York, NY",
-      body: [
-        { text: "Built " },
-        { text: "AI Security Analyst", bold: true },
-        { text: ", an " },
-        { text: "evidence-first vendor-security questionnaire agent", bold: true },
-        { text: " for the Regodit track. It parsed policies, SOC 2 reports, and access reviews into sourced claims, filled a " },
-        { text: "66-question buyer workbook", bold: true },
-        { text: " without inventing answers, then applied the " },
-        { text: "buyer's own risk tables", bold: true },
-        { text: " so the vendor sees predicted rating, escalations, and a fix-first list before sending." },
-      ],
-      techstacks: ["React", "Vite", "Tailwind CSS", "FastAPI", "Python", "OpenRouter", "Neon Postgres", "PRISM"],
-      link: [
-        "https://github.com/Alred-79/AI-x-Finance-Wall-street-Hackathon",
-        "https://builderbase.com/event/ai-x-finance-hackathon-money-talks-bjl2",
-      ],
-    },
-    {
-      title: "ClaimAid",
-      event: "Pulse Foundry AI NYC × ABI Frameworks",
-      year: "Jun 2026",
-      placement: "2nd Place",
-      college: "Soma Capital, NYC",
-      body: [
-        { text: "Built " },
-        { text: "ClaimAid", bold: true },
-        { text: ", an " },
-        { text: "AI-powered wound-care billing triage", bold: true },
-        { text: " tool for post-acute care facilities. Ingested " },
-        { text: "300 synthetic patients", bold: true },
-        { text: " from a rate-limited PointClickCare API, extracted wound fields from SOAP, prose, multi-wound, and narrative notes, then routed each case through a " },
-        { text: "three-gate triage engine", bold: true },
-        { text: " into auto-accept, flag-for-review, or reject, cutting the biller queue by " },
-        { text: "66%", bold: true },
-        { text: "." },
-      ],
-      techstacks: ["Next.js", "React", "TypeScript", "Tailwind CSS", "FastAPI", "Python", "PostgreSQL", "Pandas"],
-      link: [
-        "https://github.com/buddhsen-tripathi/ab1-hackathon",
-        "https://pulsefoundry.ai/hackathons/6a2622ee4bf99f7110ff33eb/projects/6a4185ef4da84c75d82607e4",
-      ],
-    },
-    {
-      title: "FRTC",
-      event: "vibeFORWARD: M2 - Agents",
-      year: "Jun 2026",
       placement: "1st Place",
-      college: "Fordham Gabelli School of Business",
+      college: "San Francisco, CA",
       body: [
-        { text: "Built " },
-        { text: "FRTC", bold: true },
-        { text: ", an " },
-        { text: "autonomous fraud-ring investigator", bold: true },
-        { text: " for bank analysts. It analyzes " },
-        { text: "90 days of transactions", bold: true },
-        { text: ", coordinates six specialist agents plus a Skeptic through a shared Cognee memory graph, and streams the investigation live to a graph UI." }
+        { text: "Built an " },
+        { text: "autonomous incident triage agent", bold: true },
+        { text: " that correlates traces, logs, and recent deploys in real time." },
       ],
-      techstacks: ["Next.js", "FastAPI", "Gemini", "Cognee", "Kuzu", "React", "TypeScript", "Python"],
-      link: ["https://github.com/ht-epistolist/67hack", "https://devpost.com/software/frtc-g2izs8?ref_content=my-projects-tab&ref_feature=my_projects"],
-    },
-    {
-      title: "Denial Rescue: RossMD",
-      event: "Agentic Engineering Hack",
-      year: "May 2026",
-      placement: "2nd Place",
-      college: "Datadog HQ, NYC",
-      body: [
-        { text: "Built " },
-        { text: "Denial Rescue: RossMD", bold: true },
-        { text: ", a " },
-        { text: "seven-agent healthcare-regulatory legal team", bold: true },
-        { text: " in software. Feed it a payer denial, a HIPAA breach, or an OIG subpoena and it issue-spots the exposure, researches it against a " },
-        { text: "~1,900-authority corpus", bold: true },
-        { text: " of federal health law, war-games the opposing side, and drafts cited attorney work product — supervised and streamed live in " },
-        { text: "~90 seconds", bold: true },
-        { text: "." },
-      ],
-      techstacks: ["Next.js", "FastAPI", "OpenRouter", "Gemini", "ClickHouse", "Datadog"],
-      link: ["https://github.com/buddhsen-tripathi/rossMD", "https://devpost.com/software/denial-rescue-rossmd"],
-    },
-    {
-      title: "AI Blox",
-      event: "vibeFORWARD Hackathon",
-      year: "Apr 2026",
-      placement: "1st Place",
-      college: "Fordham Gabelli School of Business",
-      body: [
-        { text: "Built " },
-        { text: "AI Blox", bold: true },
-        {
-          text: ", a visual, drag-and-drop AI engineering tool inspired by Scratch. Snap together ",
-        },
-        { text: "500+ building blocks", bold: true },
-        { text: " for " },
-        { text: "LoRA fine-tuning, RAG pipelines, and multi-agent orchestration", bold: true },
-        { text: ", then generate production-ready code instantly." },
-      ],
-      techstacks: ["Next.js", "FastAPI", "Langchain", "Docker", "TypeScript", "Python"],
-      link: "https://devpost.com/software/ai-blox",
-    },
-    {
-      title: "NYU Pal",
-      event: "LLUS NYU x Pulse NYC Hackathon",
-      year: "Apr 2026",
-      placement: "3rd Place",
-      college: "NYU Kimmel Center",
-      body: [
-        { text: "Built " },
-        { text: "NYU Pal", bold: true },
-        { text: ", an " },
-        { text: "agentic AI platform", bold: true },
-        { text: " unifying a dozen scattered NYU student tools around three primitives — " },
-        { text: "Space, Items, and Knowledge", bold: true },
-        { text: ". Ships eight features in one MVP: study-space finder, marketplace exchange, peer mentoring with resume matching, live printer tracker, activity-partner matcher, community notes, sublet listings, and an AI professor lookup — all routed through " },
-        { text: "Claude Sonnet 4.6 with tool calling", bold: true },
-        { text: "." },
-      ],
-      techstacks: ["Next.js", "TypeScript", "Tailwind CSS", "Drizzle ORM", "Neon Postgres", "Claude API", "Vercel AI SDK", "Leaflet"],
-      link: "https://github.com/buddhsen-tripathi/nyu-maxxxxing",
+      techstacks: ["Next.js", "TypeScript", "FastAPI", "Python"],
+      link: "https://github.com/octocat/Hello-World",
     },
   ],
 
   // ── Content: Research ─────────────────────────────────────────────────────
-  research: [] as Array<{
-    title: string;
-    year: string;
-    authors?: string[];
-    venue?: string;
-    link?: string;
-    description?: string;
-  }>,
+  research: [],
 };
-
-export type SiteConfig = typeof siteConfig;

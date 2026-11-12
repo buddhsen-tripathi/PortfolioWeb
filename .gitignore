@@ -41,3 +41,8 @@ yarn-error.log*
 # Blog diagram PNGs are rendered here locally, then uploaded to R2
 # with `bun run migrate:assets`; posts load them from the CDN.
 /public/blog-images/
+
+# Personal site config override (synced to Cloudflare R2 via `bun run migrate:config`)
+/src/site.config.local.ts
+/src/site.config.local.json
+
