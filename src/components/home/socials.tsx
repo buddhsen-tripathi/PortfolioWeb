@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type MouseEvent } from "react";
+import { useMemo, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
 import { ArrowUpRight, Check, Copy } from "lucide-react";
 import { toast } from "sonner";
@@ -11,8 +11,6 @@ import { getSocials, type SocialLink, type SocialPlatform } from "@/lib/socials"
 import { cn } from "@/lib/utils";
 import Section from "@/components/site/section";
 import { siteConfig } from "@/site.config";
-
-const socials = getSocials();
 
 /* Platforms /api/socials returns profile data for; others get no hover card. */
 const PREVIEWABLE = new Set<SocialPlatform>(["github", "twitter", "linkedin", "leetcode", "tryhackme", "codeforces"]);
@@ -27,7 +25,15 @@ type Profile = {
   stats?: { label: string; value: string | number }[];
 };
 
-function ProfileCard({ data, loading }: { data?: Profile; loading: boolean }) {
+function ProfileCard({
+  data,
+  loading,
+  fallbackAvatar,
+}: {
+  data?: Profile;
+  loading: boolean;
+  fallbackAvatar: string;
+}) {
   if (loading) {
     return (
       <div className="flex animate-pulse items-center gap-3">
@@ -52,7 +58,7 @@ function ProfileCard({ data, loading }: { data?: Profile; loading: boolean }) {
       <div className={`relative flex gap-3 ${data.banner ? "-mt-10 flex-col items-start" : "items-center"}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={data.avatar || siteConfig.identity.photo.dark}
+          src={data.avatar || fallbackAvatar}
           alt=""
           className={`rounded-full bg-background object-cover ${data.banner ? "size-16 border-[3px] border-popover" : "size-12 border border-border"}`}
         />
@@ -85,11 +91,13 @@ function SocialCell({
   social,
   data,
   loading,
+  fallbackAvatar,
   wide = false,
 }: {
   social: SocialLink;
   data?: Profile;
   loading: boolean;
+  fallbackAvatar: string;
   /** Spans both columns, so an odd last cell leaves no gap. */
   wide?: boolean;
 }) {
@@ -163,7 +171,7 @@ function SocialCell({
             style={{ position: "fixed", left: sx, top: sy, zIndex: 60 }}
             className="pointer-events-none hidden w-80 overflow-hidden rounded-xl border border-border bg-popover/90 p-4 shadow-2xl backdrop-blur-xl md:block"
           >
-            <ProfileCard data={data} loading={loading} />
+            <ProfileCard data={data} loading={loading} fallbackAvatar={fallbackAvatar} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -181,7 +189,16 @@ function SocialCell({
   );
 }
 
-export default function Socials() {
+export default function Socials({
+  socialsMap = siteConfig.socials,
+  title = siteConfig.home.sections.socials.title,
+  fallbackAvatar = siteConfig.identity.photo.dark,
+}: {
+  socialsMap?: Record<SocialPlatform, string>;
+  title?: string;
+  fallbackAvatar?: string;
+}) {
+  const socials = useMemo(() => getSocials("size-4", socialsMap), [socialsMap]);
   const [profiles, setProfiles] = useState<Partial<Record<SocialPlatform, Profile>>>({});
   const [loading, setLoading] = useState(false);
   const [fetched, setFetched] = useState(false);
@@ -205,7 +222,7 @@ export default function Socials() {
   if (!socials.length) return null;
 
   return (
-    <Section id="socials" title={siteConfig.home.sections.socials.title}>
+    <Section id="socials" title={title}>
       <div className="grid sm:grid-cols-2" onMouseEnter={ensureProfiles} onFocus={ensureProfiles}>
         {socials.map((social, i) => (
           <SocialCell
@@ -213,6 +230,7 @@ export default function Socials() {
             social={social}
             data={profiles[social.platform]}
             loading={loading}
+            fallbackAvatar={fallbackAvatar}
             wide={socials.length % 2 === 1 && i === socials.length - 1}
           />
         ))}

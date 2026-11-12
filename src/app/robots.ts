@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/site.config";
+import { getSiteConfig } from "@/lib/r2Client";
 
 /* Search engines and AI crawlers are welcome to everything except the API. */
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const config = await getSiteConfig();
   return {
     rules: { userAgent: "*", allow: "/", disallow: "/api/" },
-    sitemap: `${siteConfig.contact.url}/sitemap.xml`,
+    sitemap: `${config.contact.url}/sitemap.xml`,
   };
 }

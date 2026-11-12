@@ -11,13 +11,21 @@ export type PostSummary = {
   url?: string;
 };
 
-export default function Writing({ posts, total }: { posts: PostSummary[]; total: number }) {
+export default function Writing({
+  posts,
+  total,
+  title = siteConfig.home.sections.writing.title,
+}: {
+  posts: PostSummary[];
+  total: number;
+  title?: string;
+}) {
   if (!posts.length) return null;
 
   return (
     <Section
       id="writing"
-      title={siteConfig.home.sections.writing.title}
+      title={title}
       meta={`${total} posts`}
       more={{ href: "/blogs", label: "Read all posts" }}
     >

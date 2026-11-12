@@ -3,14 +3,17 @@ import BlogIndex from "./BlogIndex";
 import { getAllBlogPosts } from "./utils";
 import { buildMetadata } from "@/lib/metadata";
 import { getSiteConfig } from "@/lib/r2Client";
-import { siteConfig } from "@/site.config";
 
-export const metadata = buildMetadata({
-  title: siteConfig.pages.blogs.title,
-  description: siteConfig.pages.blogs.description,
-  path: "/blogs",
-  image: siteConfig.assets.blogOgImage,
-});
+export async function generateMetadata() {
+  const config = await getSiteConfig();
+  return buildMetadata({
+    title: config.pages.blogs.title,
+    description: config.pages.blogs.description,
+    path: "/blogs",
+    image: config.assets.blogOgImage,
+    config,
+  });
+}
 
 export const revalidate = 3600;
 

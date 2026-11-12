@@ -9,14 +9,17 @@ import {
 } from "@/lib/experience";
 import { buildMetadata } from "@/lib/metadata";
 import { getSiteConfig } from "@/lib/r2Client";
-import { siteConfig } from "@/site.config";
 import { TechBadge } from "@/lib/tech-icons";
 
-export const metadata = buildMetadata({
-  title: siteConfig.pages.experience.title,
-  description: siteConfig.pages.experience.description,
-  path: "/experience",
-});
+export async function generateMetadata() {
+  const config = await getSiteConfig();
+  return buildMetadata({
+    title: config.pages.experience.title,
+    description: config.pages.experience.description,
+    path: "/experience",
+    config,
+  });
+}
 
 export const revalidate = 3600;
 

@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { ArrowUpRight, Star } from "lucide-react";
-import { projects } from "@/constants";
+import type { ProjectEntry } from "@/site.config";
 import { TechBadge } from "@/lib/tech-icons";
 import { cn } from "@/lib/utils";
 
-export type Project = (typeof projects)[number];
+export type Project = ProjectEntry;
 
 const status: Record<string, { label: string; className: string }> = {
   acquired: {

@@ -1,24 +1,26 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/site.config";
+import { siteConfig, type SiteConfig } from "@/site.config";
 
 interface BuildMetadataInput {
   title?: string;
   description?: string;
   path?: string;
   image?: string;
+  config?: SiteConfig;
 }
 
 /**
  * Builds a Next.js Metadata object for a page, inheriting site defaults.
- * Pass only what differs per page; everything else falls back to siteConfig.seo.
+ * Pass only what differs per page; everything else falls back to config.seo.
  */
 export function buildMetadata({
   title,
   description,
   path = "",
   image,
+  config = siteConfig,
 }: BuildMetadataInput = {}): Metadata {
-  const { contact, seo, assets, identity } = siteConfig;
+  const { contact, seo, assets, identity } = config;
   const url = `${contact.url}${path}`;
   const pageTitle = title ?? seo.defaultTitle;
   const fullTitle = title ? `${title} - ${identity.name}` : seo.defaultTitle;

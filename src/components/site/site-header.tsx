@@ -12,9 +12,8 @@ import SunIcon from "@/components/icons/sun";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { vibrateLight } from "@/lib/haptics";
 import { cn } from "@/lib/utils";
-import { siteConfig } from "@/site.config";
+import { siteConfig, type SiteConfig } from "@/site.config";
 
-const links = siteConfig.nav;
 const ease = [0.22, 1, 0.36, 1] as const;
 
 function ThemeToggle() {
@@ -62,12 +61,12 @@ function MenuIcon({ open }: { open: boolean }) {
 }
 
 /* Link to this site's source, so visitors can star it or fork it for their own portfolio. */
-function RepoButton({ stars }: { stars: number | null }) {
+function RepoButton({ repo, stars }: { repo: string; stars: number | null }) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <a
-          href={`https://github.com/${siteConfig.repo}`}
+          href={`https://github.com/${repo}`}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Source on GitHub${stars !== null ? `, ${stars} stars` : ""}`}
@@ -92,7 +91,15 @@ function RepoButton({ stars }: { stars: number | null }) {
   );
 }
 
-export default function SiteHeader({ repoStars = null }: { repoStars?: number | null }) {
+export default function SiteHeader({
+  repoStars = null,
+  links = siteConfig.nav,
+  repo = siteConfig.repo,
+}: {
+  repoStars?: number | null;
+  links?: SiteConfig["nav"];
+  repo?: string;
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -155,7 +162,7 @@ export default function SiteHeader({ repoStars = null }: { repoStars?: number | 
         </button>
 
         <div className="flex items-center gap-1.5">
-          <RepoButton stars={repoStars} />
+          <RepoButton repo={repo} stars={repoStars} />
           <ThemeToggle />
         </div>
       </div>
