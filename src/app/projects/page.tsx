@@ -2,14 +2,17 @@ import PageHeader from "@/components/site/page-header";
 import { fetchGitHubStars } from "@/lib/github";
 import { buildMetadata } from "@/lib/metadata";
 import { getSiteConfig } from "@/lib/r2Client";
-import { siteConfig } from "@/site.config";
 import ProjectIndex from "./ProjectIndex";
 
-export const metadata = buildMetadata({
-  title: siteConfig.pages.projects.title,
-  description: siteConfig.pages.projects.description,
-  path: "/projects",
-});
+export async function generateMetadata() {
+  const config = await getSiteConfig();
+  return buildMetadata({
+    title: config.pages.projects.title,
+    description: config.pages.projects.description,
+    path: "/projects",
+    config,
+  });
+}
 
 export const revalidate = 3600;
 

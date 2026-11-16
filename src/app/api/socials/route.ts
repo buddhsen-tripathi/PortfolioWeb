@@ -1,24 +1,6 @@
 import { NextResponse } from "next/server";
+import { getSiteConfig } from "@/lib/r2Client";
 import { socialHandle, type SocialPlatform } from "@/lib/socials";
-import { siteConfig } from "@/site.config";
-
-// Identity + handles are sourced from site.config.ts so a fork only edits that
-// file. LinkedIn has no public API, so its card reads socialPreviews in the config.
-// Platforms left blank in the config are never fetched and never returned.
-const { identity } = siteConfig;
-const linkedinPreview = siteConfig.socialPreviews.linkedin;
-const handles = {
-  github: socialHandle("github"),
-  twitter: socialHandle("twitter"),
-  linkedin: socialHandle("linkedin"),
-  leetcode: socialHandle("leetcode"),
-  tryhackme: socialHandle("tryhackme"),
-  codeforces: socialHandle("codeforces"),
-} satisfies Partial<Record<SocialPlatform, string>>;
-const FALLBACK_AVATAR = handles.github ? `https://github.com/${handles.github}.png` : identity.photo.dark;
-const DEFAULT_LOCATION = identity.location.label;
-const DEFAULT_BIO = `${identity.title} • ${identity.tagline}`;
-const NAME = identity.name;
 
 const REVALIDATE = { next: { revalidate: 3600 } } as const;
 const UA = { headers: { "User-Agent": "Mozilla/5.0" } };
@@ -37,6 +19,22 @@ const ifSet = (handle: string, request: (h: string) => Promise<any>) =>
 
 export async function GET() {
   try {
+    const config = await getSiteConfig();
+    const { identity, socials } = config;
+    const linkedinPreview = config.socialPreviews.linkedin;
+    const handles = {
+      github: socialHandle("github", socials),
+      twitter: socialHandle("twitter", socials),
+      linkedin: socialHandle("linkedin", socials),
+      leetcode: socialHandle("leetcode", socials),
+      tryhackme: socialHandle("tryhackme", socials),
+      codeforces: socialHandle("codeforces", socials),
+    } satisfies Partial<Record<SocialPlatform, string>>;
+    const FALLBACK_AVATAR = handles.github ? `https://github.com/${handles.github}.png` : identity.photo.dark;
+    const DEFAULT_LOCATION = identity.location.label;
+    const DEFAULT_BIO = `${identity.title} • ${identity.tagline}`;
+    const NAME = identity.name;
+
     const [githubRes, twitterRes, codeforcesRes, leetcodeProfileRes, leetcodeSolvedRes, tryhackmeRes] =
       await Promise.allSettled([
         ifSet(handles.github, (h) => fetch(`https://api.github.com/users/${h}`, REVALIDATE).then((r) => r.json())),

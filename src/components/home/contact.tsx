@@ -5,7 +5,7 @@ import { ArrowUpRight, CalendarDays, Check, Copy, FileText, Mail } from "lucide-
 import { toast } from "sonner";
 import { copyText } from "@/lib/copy";
 import { vibrateLight } from "@/lib/haptics";
-import { siteConfig } from "@/site.config";
+import { siteConfig, type SiteConfig } from "@/site.config";
 import Section from "@/components/site/section";
 
 const cell =
@@ -15,9 +15,17 @@ const iconBox =
 const hatch =
   "hatch pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100";
 
-export default function Contact() {
+export default function Contact({
+  contact = siteConfig.contact,
+  title = siteConfig.home.sections.contact.title,
+  copy = siteConfig.home.contact,
+}: {
+  contact?: SiteConfig["contact"];
+  title?: string;
+  copy?: string;
+}) {
   const [copied, setCopied] = useState(false);
-  const { email, calUrl, resumeUrl } = siteConfig.contact;
+  const { email, calUrl, resumeUrl } = contact;
 
   const copyEmail = async () => {
     vibrateLight();
@@ -32,9 +40,9 @@ export default function Contact() {
   };
 
   return (
-    <Section id="contact" title={siteConfig.home.sections.contact.title}>
+    <Section id="contact" title={title}>
       <p className="px-6 pb-4 pt-5 text-[15px] leading-relaxed text-muted-foreground">
-        {siteConfig.home.contact}
+        {copy}
       </p>
       <div className="grid border-t border-dashed border-border sm:grid-cols-3">
         <a href={calUrl} target="_blank" rel="noopener noreferrer" className={cell}>

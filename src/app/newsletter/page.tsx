@@ -2,25 +2,33 @@ import NewsletterSubscription from "@/components/common/newsletter-subscription"
 import PageHeader from "@/components/site/page-header";
 import Section from "@/components/site/section";
 import { buildMetadata } from "@/lib/metadata";
-import { siteConfig } from "@/site.config";
+import { getSiteConfig } from "@/lib/r2Client";
 
-export const metadata = buildMetadata({
-  title: siteConfig.pages.newsletter.title,
-  description: siteConfig.pages.newsletter.description,
-  path: "/newsletter",
-});
+export const revalidate = 3600;
 
-export default function NewsletterPage() {
+export async function generateMetadata() {
+  const config = await getSiteConfig();
+  return buildMetadata({
+    title: config.pages.newsletter.title,
+    description: config.pages.newsletter.description,
+    path: "/newsletter",
+    config,
+  });
+}
+
+export default async function NewsletterPage() {
+  const config = await getSiteConfig();
+
   return (
     <>
       <PageHeader
-        title={siteConfig.pages.newsletter.title}
-        description={siteConfig.pages.newsletter.intro}
+        title={config.pages.newsletter.title}
+        description={config.pages.newsletter.intro}
       />
       <Section id="subscribe" title="Subscribe" className="px-6 pb-2 pt-6">
         <NewsletterSubscription />
         <ul className="mt-4 space-y-1.5 font-mono text-[11px] text-muted-foreground">
-          {siteConfig.pages.newsletter.promises.map((promise) => (
+          {config.pages.newsletter.promises.map((promise) => (
             <li key={promise}>{`· ${promise}`}</li>
           ))}
         </ul>

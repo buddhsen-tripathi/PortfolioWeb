@@ -4,23 +4,26 @@ import GithubIcon from "@/components/icons/github";
 import LinkedinIcon from "@/components/icons/linkedin";
 import PageHeader from "@/components/site/page-header";
 import Section from "@/components/site/section";
-import { hackathons } from "@/constants";
 import { buildMetadata } from "@/lib/metadata";
 import { getSiteConfig } from "@/lib/r2Client";
-import { siteConfig } from "@/site.config";
+import type { HackathonEntry, RichTextSegment } from "@/site.config";
 import { TechBadge } from "@/lib/tech-icons";
 import { cn } from "@/lib/utils";
 
-export const metadata = buildMetadata({
-  title: siteConfig.pages.hackathons.title,
-  description: siteConfig.pages.hackathons.description,
-  path: "/hackathons",
-});
+export async function generateMetadata() {
+  const config = await getSiteConfig();
+  return buildMetadata({
+    title: config.pages.hackathons.title,
+    description: config.pages.hackathons.description,
+    path: "/hackathons",
+    config,
+  });
+}
 
 export const revalidate = 3600;
 
-type Hackathon = (typeof hackathons)[number];
-type Segment = { text: string; bold?: boolean };
+type Hackathon = HackathonEntry;
+type Segment = RichTextSegment;
 
 /* 1.5 keeps a track prize beside the firsts in sorted lists. The page groups it on its own. */
 const rank = (placement: string) => {

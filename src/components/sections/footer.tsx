@@ -4,11 +4,19 @@ import { useEffect } from "react";
 import Image from "next/image";
 import IconTelescopeTripod from "@/components/icons/telescope-tripod";
 import { useViews } from "@/components/blog/views-context";
-import { siteConfig } from "@/site.config";
+import { siteConfig, type SiteConfig } from "@/site.config";
 
 const SITE_VISITORS_SLUG = "_site_visitors";
 
-const Footer = () => {
+const Footer = ({
+  name = siteConfig.identity.name,
+  footerQuote = siteConfig.assets.footerQuote,
+  footerArt = siteConfig.assets.footerArt,
+}: {
+  name?: string;
+  footerQuote?: string;
+  footerArt?: SiteConfig["assets"]["footerArt"];
+}) => {
   const { getViews, incrementViews } = useViews();
   const visitorCount = getViews(SITE_VISITORS_SLUG);
 
@@ -16,7 +24,7 @@ const Footer = () => {
     incrementViews(SITE_VISITORS_SLUG);
   }, [incrementViews]);
 
-  const art = siteConfig.assets.footerArt;
+  const art = footerArt;
 
   return (
     // -mt-px lets the top line sit on the previous section's bottom border
@@ -28,13 +36,13 @@ const Footer = () => {
           {visitorCount !== null ? `${visitorCount.toLocaleString()} visitors` : "— visitors"}
         </span>
         <span>
-          &copy; {new Date().getFullYear()} {siteConfig.identity.name}
+          &copy; {new Date().getFullYear()} {name}
         </span>
       </div>
 
-      {siteConfig.assets.footerQuote && (
+      {footerQuote && (
         <p className="text-muted-foreground px-6 pt-12 pb-8 text-center text-[15px] italic">
-          {siteConfig.assets.footerQuote}
+          {footerQuote}
         </p>
       )}
 

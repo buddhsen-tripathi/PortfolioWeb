@@ -1,23 +1,20 @@
 import { toIsoDate } from "@/lib/dates";
 import { getSocials } from "@/lib/socials";
-import { siteConfig } from "@/site.config";
-
-const PERSON_ID = `${siteConfig.contact.url}/#person`;
-const WEBSITE_ID = `${siteConfig.contact.url}/#website`;
+import { siteConfig, type SiteConfig } from "@/site.config";
 
 /* Short reference to the Person, for records that name an author or owner. */
-const personRef = () => ({
+const personRef = (config: SiteConfig) => ({
   "@type": "Person",
-  "@id": PERSON_ID,
-  name: siteConfig.identity.name,
-  url: siteConfig.contact.url,
+  "@id": `${config.contact.url}/#person`,
+  name: config.identity.name,
+  url: config.contact.url,
 });
 
-export function getPersonSchema() {
-  const { identity, contact } = siteConfig;
+export function getPersonSchema(config: SiteConfig = siteConfig) {
+  const { identity, contact, socials } = config;
   return {
     "@type": "Person",
-    "@id": PERSON_ID,
+    "@id": `${contact.url}/#person`,
     name: identity.name,
     alternateName: identity.alternateName,
     url: contact.url,
@@ -30,21 +27,21 @@ export function getPersonSchema() {
       url: identity.affiliation.url,
     },
     homeLocation: { "@type": "Place", name: identity.location.label },
-    sameAs: getSocials().flatMap((s) => (s.url ? [s.url] : [])),
+    sameAs: getSocials("size-4", socials).flatMap((s) => (s.url ? [s.url] : [])),
   };
 }
 
-export function getWebsiteSchema() {
-  const { identity, contact, seo } = siteConfig;
+export function getWebsiteSchema(config: SiteConfig = siteConfig) {
+  const { identity, contact, seo } = config;
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": WEBSITE_ID,
+    "@id": `${contact.url}/#website`,
     name: identity.name,
     url: contact.url,
     description: seo.defaultDescription,
     inLanguage: "en",
-    author: personRef(),
+    author: personRef(config),
   };
 }
 
@@ -59,8 +56,8 @@ interface BlogPostInput {
   image?: string;
 }
 
-export function getBlogPostingSchema(post: BlogPostInput) {
-  const { contact, assets } = siteConfig;
+export function getBlogPostingSchema(post: BlogPostInput, config: SiteConfig = siteConfig) {
+  const { contact, assets } = config;
   const url = `${contact.url}/blogs/${post.slug}`;
   const published = toIsoDate(post.date);
   return {
@@ -70,26 +67,26 @@ export function getBlogPostingSchema(post: BlogPostInput) {
     description: post.excerpt,
     datePublished: published,
     dateModified: toIsoDate(post.updated) ?? published,
-    author: personRef(),
-    publisher: personRef(),
+    author: personRef(config),
+    publisher: personRef(config),
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     url,
     image: post.image || assets.blogOgImage,
     inLanguage: "en",
-    isPartOf: { "@id": WEBSITE_ID },
+    isPartOf: { "@id": `${contact.url}/#website` },
   };
 }
 
 /* Home page only: says the page is about the Person. */
-export function getProfilePageSchema() {
-  const { identity, contact } = siteConfig;
+export function getProfilePageSchema(config: SiteConfig = siteConfig) {
+  const { identity, contact } = config;
   return {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
     name: identity.name,
     url: contact.url,
-    mainEntity: { "@id": PERSON_ID },
-    isPartOf: { "@id": WEBSITE_ID },
+    mainEntity: { "@id": `${contact.url}/#person` },
+    isPartOf: { "@id": `${contact.url}/#website` },
   };
 }
 

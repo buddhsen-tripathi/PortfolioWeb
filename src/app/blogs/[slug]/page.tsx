@@ -3,18 +3,17 @@ import remarkGfm from "remark-gfm";
 import remarkFrontmatter from "remark-frontmatter";
 import PageHeader from "@/components/site/page-header";
 import Section from "@/components/site/section";
-import { mdxComponents } from "@/components/blog/mdx-components";
+import { createMdxComponents } from "@/components/blog/mdx-components";
 import TableOfContents from "@/components/blog/table-of-contents";
 import ViewCounter from "@/components/blog/view-counter";
 import ReadingProgress from "@/components/blog/reading-progress";
 import RelatedPosts from "@/components/blog/related-posts";
 import NewsletterSubscription from "@/components/common/newsletter-subscription";
-import { getBlogPostFromS3, getBlogSlugsFromS3 } from "@/lib/r2Client";
+import { getBlogPostFromS3, getBlogSlugsFromS3, getSiteConfig } from "@/lib/r2Client";
 import { getReadingTime } from "../utils";
 import { getBlogPostingSchema, getBreadcrumbSchema } from "@/lib/jsonLd";
 import { toIsoDate } from "@/lib/dates";
 import { buildMetadata } from "@/lib/metadata";
-import { siteConfig } from "@/site.config";
 
 export const revalidate = 3600;
 
@@ -25,13 +24,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const { data } = await getBlogPostFromS3(slug);
+  const [{ data }, config] = await Promise.all([getBlogPostFromS3(slug), getSiteConfig()]);
 
   const meta = buildMetadata({
     title: data.title,
     description: data.excerpt,
     path: `/blogs/${data.slug}`,
-    image: siteConfig.assets.blogOgImage,
+    image: config.assets.blogOgImage,
+    config,
   });
 
   return {
@@ -40,29 +40,32 @@ export async function generateMetadata({ params }) {
       ...meta.openGraph,
       type: "article",
       publishedTime: toIsoDate(data.date),
-      authors: [siteConfig.identity.name],
+      authors: [config.identity.name],
     },
   };
 }
 
 export default async function BlogPost({ params }) {
   const { slug } = await params;
-  const { content, data } = await getBlogPostFromS3(slug);
+  const [{ content, data }, config] = await Promise.all([getBlogPostFromS3(slug), getSiteConfig()]);
 
-  const blogPostJsonLd = getBlogPostingSchema({
-    title: data.title,
-    excerpt: data.excerpt,
-    date: data.date,
-    updated: (data as { updated?: string }).updated,
-    slug: data.slug,
-  });
+  const blogPostJsonLd = getBlogPostingSchema(
+    {
+      title: data.title,
+      excerpt: data.excerpt,
+      date: data.date,
+      updated: (data as { updated?: string }).updated,
+      slug: data.slug,
+    },
+    config
+  );
 
   const breadcrumbJsonLd = getBreadcrumbSchema([
-    { name: "Home", url: siteConfig.contact.url },
-    { name: "Blogs", url: `${siteConfig.contact.url}/blogs` },
+    { name: "Home", url: config.contact.url },
+    { name: "Blogs", url: `${config.contact.url}/blogs` },
     {
       name: data.title,
-      url: `${siteConfig.contact.url}/blogs/${data.slug}`,
+      url: `${config.contact.url}/blogs/${data.slug}`,
     },
   ]);
 
@@ -106,7 +109,7 @@ export default async function BlogPost({ params }) {
                 remarkPlugins: [remarkGfm, remarkFrontmatter],
               },
             }}
-            components={mdxComponents}
+            components={createMdxComponents(config.assetsUrl)}
           />
         </div>
       </article>

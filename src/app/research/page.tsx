@@ -3,13 +3,16 @@ import PageHeader from "@/components/site/page-header";
 import ResearchList from "@/components/sections/research-list";
 import { buildMetadata } from "@/lib/metadata";
 import { getSiteConfig } from "@/lib/r2Client";
-import { siteConfig } from "@/site.config";
 
-export const metadata = buildMetadata({
-  title: siteConfig.pages.research.title,
-  description: siteConfig.pages.research.description,
-  path: "/research",
-});
+export async function generateMetadata() {
+  const config = await getSiteConfig();
+  return buildMetadata({
+    title: config.pages.research.title,
+    description: config.pages.research.description,
+    path: "/research",
+    config,
+  });
+}
 
 export const revalidate = 3600;
 

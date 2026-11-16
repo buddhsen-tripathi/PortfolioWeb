@@ -9,6 +9,7 @@ import Work from "@/components/home/work";
 import Writing from "@/components/home/writing";
 import SectionIndex from "@/components/site/section-index";
 import { getAllBlogPosts } from "@/app/blogs/utils";
+import { toIsoDate } from "@/lib/dates";
 import { fetchGitHubContributions } from "@/lib/github";
 import { getProfilePageSchema } from "@/lib/jsonLd";
 import { buildMetadata } from "@/lib/metadata";
@@ -17,7 +18,10 @@ import { PLATFORMS, socialHandle } from "@/lib/socials";
 
 export const revalidate = 3600;
 
-export const metadata = buildMetadata({ path: "/" });
+export async function generateMetadata() {
+  const config = await getSiteConfig();
+  return buildMetadata({ path: "/", config });
+}
 
 const LATEST_POSTS = 3;
 
@@ -25,28 +29,38 @@ export default async function Home() {
   const config = await getSiteConfig();
   const { sections } = config.home;
   const externalArticles = config.writing.external;
-  const githubHandle = (config.socials.github ?? "").trim() || socialHandle("github");
+  const githubHandle = socialHandle("github", config.socials);
   const [{ contributions, lifetimeTotal }, blogPosts] = await Promise.all([
     githubHandle ? fetchGitHubContributions(githubHandle) : { contributions: [], lifetimeTotal: 0 },
     getAllBlogPosts(),
   ]);
 
-  const posts = [...blogPosts, ...externalArticles].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  const posts = [...blogPosts, ...externalArticles].sort((a, b) => {
+    const aIso = toIsoDate(a.date) ?? "";
+    const bIso = toIsoDate(b.date) ?? "";
+    return bIso.localeCompare(aIso);
+  });
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(getProfilePageSchema()) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getProfilePageSchema(config)) }}
       />
-      <Hero />
-      <Socials />
+      <Hero identity={config.identity} home={config.home} />
+      <Socials
+        socialsMap={config.socials}
+        title={sections.socials.title}
+        fallbackAvatar={config.identity.photo.dark}
+      />
       <Work />
       <Experience />
       <Hackathons />
-      <Writing posts={posts.slice(0, LATEST_POSTS)} total={posts.length} />
+      <Writing
+        posts={posts.slice(0, LATEST_POSTS)}
+        total={posts.length}
+        title={sections.writing.title}
+      />
       {contributions.length > 0 && (
         <Section
           id="activity"
@@ -66,7 +80,11 @@ export default async function Home() {
           <GitHubContributionGraph data={contributions} lifetimeTotal={lifetimeTotal} />
         </Section>
       )}
-      <Contact />
+      <Contact
+        contact={config.contact}
+        title={sections.contact.title}
+        copy={config.home.contact}
+      />
       <SectionIndex
         items={[
           { id: "intro", label: "Intro" },

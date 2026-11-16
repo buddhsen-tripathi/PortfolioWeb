@@ -152,14 +152,20 @@ const handleFromUrl = (value: string) => {
 };
 
 /** The handle configured for a platform, or "" when it's hidden. */
-export function socialHandle(platform: SocialPlatform): string {
-  return (siteConfig.socials[platform] ?? "").trim();
+export function socialHandle(
+  platform: SocialPlatform,
+  socialsMap: Record<SocialPlatform, string> = siteConfig.socials
+): string {
+  return (socialsMap[platform] ?? "").trim();
 }
 
 /** Platforms with a handle filled in, in config order. Blank ones are left out. */
-export function getSocials(iconClassName = "size-4"): SocialLink[] {
-  return (Object.keys(siteConfig.socials) as SocialPlatform[]).flatMap((platform) => {
-    const value = socialHandle(platform);
+export function getSocials(
+  iconClassName = "size-4",
+  socialsMap: Record<SocialPlatform, string> = siteConfig.socials
+): SocialLink[] {
+  return (Object.keys(socialsMap) as SocialPlatform[]).flatMap((platform) => {
+    const value = socialHandle(platform, socialsMap);
     const meta: Platform | undefined = PLATFORMS[platform];
     if (!value || !meta) return [];
 

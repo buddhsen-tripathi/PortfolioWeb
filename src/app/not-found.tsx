@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Section from "@/components/site/section";
-import { siteConfig } from "@/site.config";
+import { getSiteConfig } from "@/lib/r2Client";
 
 /* "404" drawn on a 7-row grid, like a week column of the GitHub activity graph. */
 const GLYPHS: Record<string, string[]> = {
@@ -35,7 +35,9 @@ const links = [
   { href: "/blogs", label: "Blogs", hint: "Writing and notes" },
 ];
 
-export default function NotFound() {
+export default async function NotFound() {
+  const config = await getSiteConfig();
+
   return (
     <>
       <header className="px-6 pb-2 pt-12 sm:pt-16">
@@ -51,13 +53,13 @@ export default function NotFound() {
           )}
         </div>
         <p className="mt-6 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-          {siteConfig.pages.notFound.eyebrow}
+          {config.pages.notFound.eyebrow}
         </p>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-[28px]">
-          {siteConfig.pages.notFound.title}
+          {config.pages.notFound.title}
         </h1>
         <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
-          {siteConfig.pages.notFound.intro}
+          {config.pages.notFound.intro}
         </p>
       </header>
 

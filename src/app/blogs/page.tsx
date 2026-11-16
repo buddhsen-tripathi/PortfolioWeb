@@ -1,16 +1,20 @@
 import PageHeader from "@/components/site/page-header";
 import BlogIndex from "./BlogIndex";
 import { getAllBlogPosts } from "./utils";
+import { toIsoDate } from "@/lib/dates";
 import { buildMetadata } from "@/lib/metadata";
 import { getSiteConfig } from "@/lib/r2Client";
-import { siteConfig } from "@/site.config";
 
-export const metadata = buildMetadata({
-  title: siteConfig.pages.blogs.title,
-  description: siteConfig.pages.blogs.description,
-  path: "/blogs",
-  image: siteConfig.assets.blogOgImage,
-});
+export async function generateMetadata() {
+  const config = await getSiteConfig();
+  return buildMetadata({
+    title: config.pages.blogs.title,
+    description: config.pages.blogs.description,
+    path: "/blogs",
+    image: config.assets.blogOgImage,
+    config,
+  });
+}
 
 export const revalidate = 3600;
 
@@ -21,7 +25,11 @@ export default async function BlogsPage() {
   const technicalPosts = [
     ...allPosts.filter((post) => post.type !== "personal"),
     ...externalArticles,
-  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  ].sort((a, b) => {
+    const aIso = toIsoDate(a.date) ?? "";
+    const bIso = toIsoDate(b.date) ?? "";
+    return bIso.localeCompare(aIso);
+  });
 
   const personalPosts = allPosts.filter((post) => post.type === "personal");
 

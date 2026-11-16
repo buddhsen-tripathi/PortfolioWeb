@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/site.config";
+import { getSiteConfig } from "@/lib/r2Client";
 
-export default function manifest(): MetadataRoute.Manifest {
-  const { identity, seo, assets } = siteConfig;
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const { identity, seo, assets } = await getSiteConfig();
   return {
     name: identity.name,
     short_name: identity.name.split(" ")[0],

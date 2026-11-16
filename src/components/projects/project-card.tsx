@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { ArrowUpRight, Star } from "lucide-react";
-import { projects } from "@/constants";
+import type { ProjectEntry } from "@/site.config";
 import { TechBadge } from "@/lib/tech-icons";
 import { cn } from "@/lib/utils";
 
-export type Project = (typeof projects)[number];
+export type Project = ProjectEntry;
 
 const status: Record<string, { label: string; className: string }> = {
   acquired: {
@@ -25,6 +25,11 @@ const status: Record<string, { label: string; className: string }> = {
   active: {
     label: "Active",
     className: "text-sky-600 dark:text-sky-400 border-sky-500/30 bg-sky-500/10",
+  },
+  inactive: {
+    label: "Inactive",
+    className:
+      "text-muted-foreground border-border bg-muted/40",
   },
 };
 
