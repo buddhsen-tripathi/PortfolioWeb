@@ -26,6 +26,11 @@ const status: Record<string, { label: string; className: string }> = {
     label: "Active",
     className: "text-sky-600 dark:text-sky-400 border-sky-500/30 bg-sky-500/10",
   },
+  inactive: {
+    label: "Inactive",
+    className:
+      "text-muted-foreground border-border bg-muted/40",
+  },
 };
 
 /* `wide` spans both columns, image beside the text, so an odd last card leaves no gap. */

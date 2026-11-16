@@ -21,7 +21,12 @@ const GROUPS: GroupMeta[] = [
 
 function classifyProject(project: Project): GroupId {
   const prefix = project.category.split(" · ")[0].toLowerCase();
-  if (prefix.includes("machine learning") || prefix.includes("research") || project.status === "research") {
+  if (
+    prefix.includes("ml") ||
+    prefix.includes("machine learning") ||
+    prefix.includes("research") ||
+    project.status === "research"
+  ) {
     return "ml";
   }
   if (prefix.includes("saas") || prefix.includes("product")) {

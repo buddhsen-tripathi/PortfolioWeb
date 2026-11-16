@@ -103,7 +103,7 @@ Icons, brand colors, and URL patterns are in [`src/lib/socials.tsx`](src/lib/soc
 
 ### Projects
 
-Set `featured: true` on the projects you want on the home page; the rest show on `/projects`. `status` is one of `acquired`, `live`, `building`, `research`, or `active`, and each gets its own badge. Add a `github` repo and the card shows its star count.
+Set `featured: true` on the projects you want on the home page; the rest show on `/projects`. `status` is one of `acquired`, `live`, `building`, `research`, `active`, or `inactive`, and each gets its own badge. Category prefixes like `ML & Research · …` drive the `/projects` filter tabs. Add a `github` repo and the card shows its star count.
 
 ### Adding a page
 

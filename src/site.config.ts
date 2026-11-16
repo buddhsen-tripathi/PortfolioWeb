@@ -38,7 +38,7 @@ export type ProjectEntry = {
   category: string;
   description: string;
   techstacks: string[];
-  status: "acquired" | "live" | "building" | "research" | "active" | string;
+  status: "acquired" | "live" | "building" | "research" | "active" | "inactive" | string;
   link: string;
   github?: string;
   preview?: string;
@@ -378,7 +378,7 @@ export const siteConfig: SiteConfig = {
     {
       title: "NanoTransformer",
       featured: true,
-      category: "Machine Learning · Language Models",
+      category: "ML & Research · Language Models",
       description:
         "Minimalist decoder-only Transformer trained from scratch with byte-level BPE.",
       techstacks: ["Python", "PyTorch", "NumPy"],
