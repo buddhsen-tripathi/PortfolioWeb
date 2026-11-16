@@ -71,7 +71,13 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 
 function mergeConfig<T>(base: T, override: unknown): T {
   if (override === undefined) return base;
-  if (override === null) return (base === null || isPlainObject(base) ? null : base) as T;
+  // Never wipe nested objects/arrays with null — corrupt JSON would otherwise
+  // turn e.g. identity into null and crash on identity.name.
+  if (override === null) {
+    if (base === null) return null as T;
+    if (isPlainObject(base) || Array.isArray(base)) return base;
+    return null as T;
+  }
   if (base === null) return override as T;
   if (Array.isArray(base)) {
     return (Array.isArray(override) ? override : base) as T;
@@ -86,8 +92,35 @@ function mergeConfig<T>(base: T, override: unknown): T {
   return (typeof override === typeof base ? override : base) as T;
 }
 
+/** True only for the live production deployment — not Vercel preview builds. */
 function isProductionRuntime() {
-  return process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production";
+  if (process.env.VERCEL_ENV) return process.env.VERCEL_ENV === "production";
+  return process.env.NODE_ENV === "production";
+}
+
+/** Require identity + contact in the published payload itself (before merge). */
+function assertPublishedConfig(parsed: unknown): asserts parsed is Record<string, unknown> {
+  if (!isPlainObject(parsed)) {
+    throw new Error("Site config must be a JSON object");
+  }
+  const identity = parsed.identity;
+  const contact = parsed.contact;
+  if (!isPlainObject(identity) || typeof identity.name !== "string" || !identity.name.trim()) {
+    throw new Error("Site config missing identity.name");
+  }
+  if (!isPlainObject(contact) || typeof contact.url !== "string" || !contact.url.trim()) {
+    throw new Error("Site config missing contact.url");
+  }
+}
+
+function failClosedOrFallback(local: SiteConfig | null, reason: string): SiteConfig {
+  if (local) return local;
+  if (isProductionRuntime()) {
+    throw new Error(
+      `Site config unavailable (${reason}). Refusing to serve demo identity in production.`
+    );
+  }
+  return siteConfig;
 }
 
 /** Prefer git-ignored local override (JSON for runtime, TS for editing). */
@@ -104,7 +137,7 @@ async function loadLocalSiteConfig(): Promise<SiteConfig | null> {
   try {
     await access(tsPath);
     const mod = await import(pathToFileURL(tsPath).href);
-    if (mod?.siteConfig) return mod.siteConfig as SiteConfig;
+    if (mod?.siteConfig) return mergeConfig(siteConfig, mod.siteConfig);
   } catch {
     // optional — missing on CI / fresh clones
   }
@@ -131,27 +164,28 @@ export const getSiteConfig = cache(async (): Promise<SiteConfig> => {
         Key: CONFIG_KEY,
       });
       const response = await s3Client.send(command);
-      if (response.Body) {
-        const raw = await response.Body.transformToString();
-        const parsed = JSON.parse(raw);
-        // Merge onto the demo schema so new keys get defaults; arrays from R2
-        // replace demo arrays entirely (see mergeConfig).
-        return mergeConfig(siteConfig, parsed);
+      if (!response.Body) {
+        return failClosedOrFallback(local, `${CONFIG_KEY} returned an empty body`);
       }
+      const raw = await response.Body.transformToString();
+      const parsed = JSON.parse(raw);
+      assertPublishedConfig(parsed);
+      // Merge onto the demo schema so new keys get defaults; arrays from R2
+      // replace demo arrays entirely (see mergeConfig).
+      return mergeConfig(siteConfig, parsed);
     } catch (err: unknown) {
       const status = (err as { $metadata?: { httpStatusCode?: number }; name?: string })?.$metadata
         ?.httpStatusCode;
       const name = (err as { name?: string })?.name;
       const missing = name === "NoSuchKey" || name === "NotFound" || status === 404;
+      const message = err instanceof Error ? err.message : String(err);
       if (!missing) {
         console.warn("Error fetching site config from R2:", err);
       }
-      if (isProductionRuntime()) {
-        if (local) return local;
-        throw new Error(
-          `Site config unavailable from R2 (${CONFIG_KEY})${missing ? " — object not found" : ""}. Refusing to serve demo identity in production.`
-        );
-      }
+      return failClosedOrFallback(
+        local,
+        missing ? `${CONFIG_KEY} not found` : message
+      );
     }
   }
 

@@ -9,6 +9,7 @@ import Work from "@/components/home/work";
 import Writing from "@/components/home/writing";
 import SectionIndex from "@/components/site/section-index";
 import { getAllBlogPosts } from "@/app/blogs/utils";
+import { toIsoDate } from "@/lib/dates";
 import { fetchGitHubContributions } from "@/lib/github";
 import { getProfilePageSchema } from "@/lib/jsonLd";
 import { buildMetadata } from "@/lib/metadata";
@@ -34,9 +35,11 @@ export default async function Home() {
     getAllBlogPosts(),
   ]);
 
-  const posts = [...blogPosts, ...externalArticles].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  const posts = [...blogPosts, ...externalArticles].sort((a, b) => {
+    const aIso = toIsoDate(a.date) ?? "";
+    const bIso = toIsoDate(b.date) ?? "";
+    return bIso.localeCompare(aIso);
+  });
 
   return (
     <>

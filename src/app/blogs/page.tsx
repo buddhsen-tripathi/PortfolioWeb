@@ -1,6 +1,7 @@
 import PageHeader from "@/components/site/page-header";
 import BlogIndex from "./BlogIndex";
 import { getAllBlogPosts } from "./utils";
+import { toIsoDate } from "@/lib/dates";
 import { buildMetadata } from "@/lib/metadata";
 import { getSiteConfig } from "@/lib/r2Client";
 
@@ -24,7 +25,11 @@ export default async function BlogsPage() {
   const technicalPosts = [
     ...allPosts.filter((post) => post.type !== "personal"),
     ...externalArticles,
-  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  ].sort((a, b) => {
+    const aIso = toIsoDate(a.date) ?? "";
+    const bIso = toIsoDate(b.date) ?? "";
+    return bIso.localeCompare(aIso);
+  });
 
   const personalPosts = allPosts.filter((post) => post.type === "personal");
 

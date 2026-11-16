@@ -8,7 +8,7 @@
 
 import { config } from "dotenv";
 import { S3Client, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
-import { access, writeFile } from "node:fs/promises";
+import { access, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -97,18 +97,33 @@ async function pullFromR2() {
   await writeLocalOverride(parsed);
 }
 
-async function pushToR2() {
-  const useLocal = await fileExists(LOCAL_TS_PATH);
-  const sourcePath = useLocal ? LOCAL_TS_PATH : DEFAULT_CONFIG_PATH;
-  const sourceLabel = useLocal ? "src/site.config.local.ts" : "src/site.config.ts";
-
-  const mod = await import(pathToFileURL(sourcePath).href);
-  const siteConfig = mod.siteConfig;
-  if (!siteConfig) {
-    console.error(`Failed to load siteConfig from ${sourceLabel}`);
-    process.exit(1);
+async function loadConfigForPush() {
+  // Prefer the editable .ts override (script runs via Bun). Fall back to the
+  // runtime JSON mirror, then the tracked demo template.
+  if (await fileExists(LOCAL_TS_PATH)) {
+    const mod = await import(pathToFileURL(LOCAL_TS_PATH).href);
+    if (!mod.siteConfig) {
+      console.error("Failed to load siteConfig from src/site.config.local.ts");
+      process.exit(1);
+    }
+    return { siteConfig: mod.siteConfig, sourceLabel: "src/site.config.local.ts" };
   }
 
+  if (await fileExists(LOCAL_JSON_PATH)) {
+    const raw = await readFile(LOCAL_JSON_PATH, "utf8");
+    return { siteConfig: JSON.parse(raw), sourceLabel: "src/site.config.local.json" };
+  }
+
+  const mod = await import(pathToFileURL(DEFAULT_CONFIG_PATH).href);
+  if (!mod.siteConfig) {
+    console.error("Failed to load siteConfig from src/site.config.ts");
+    process.exit(1);
+  }
+  return { siteConfig: mod.siteConfig, sourceLabel: "src/site.config.ts" };
+}
+
+async function pushToR2() {
+  const { siteConfig, sourceLabel } = await loadConfigForPush();
   const body = JSON.stringify(siteConfig, null, 2) + "\n";
 
   if (DRY) {
